@@ -84,15 +84,15 @@ class Query
     return "false,0:true," + (["false,"]*num).join("") + word_syllables_str + ",false,false"
   end
 
-  def any_onsets_rhyme_match_string
+  def weak_rhyme_match_string
     num = @word.last_stressed_syllable
     num = ((@word.syllables.length - num) > 3) ? (@word.syllables.length - 3) : num
     word_syllables = @word.syllables[num..-1]
     word_syllables_str = word_syllables.each_with_index.map { |s,i|
       if i == 0
-        "#{s.onset.label};false:#{s.nucleus.label}#{s.stress};true:#{s.coda.label};true" 
+        "#{s.onset.label};false:#{s.nucleus.label};true:#{s.coda.label};true" 
       else
-        "*;true:#{s.nucleus.label}#{s.stress};true:#{s.coda.label};true" 
+        "*;true:#{s.nucleus.label};true:#{s.coda.label};true" 
       end
     }.join(",")
     return "false,0:true," + (["false,"]*num).join("") + word_syllables_str + ",false,false"
