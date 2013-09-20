@@ -15,11 +15,13 @@ test: &test
   username: giftrapped
 
 production:
-  adapter: sqlite3
-  database: giftrapped_production
+  adapter: postgresql
+  database: giftrapped_psql_db
   pool: 5
-  username: giftrapped
-  password: sdfherifhioen
+  url: <%= ENV['DATABASE_URL'] %>
+  host: <%= ENV['AWS_DB_HOST'] %>
+  username: <%= ENV['AWS_DB_USERNAME'] %>
+  password: <%= ENV['AWS_DB_PASSWORD'] %>
 
 cucumber:
   <<: *test
