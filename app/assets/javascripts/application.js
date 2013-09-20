@@ -6,5 +6,4 @@
 //
 //= require jquery-1.9.1
 //= require jquery-ui-1.10.3.custom.min
-//= require_tree .
 //= require jquery.tokeninput
