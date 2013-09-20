@@ -3,7 +3,7 @@ class Word < ActiveRecord::Base
   belongs_to :pronunciation
   has_many :word_lexemes
   has_many :lexemes, :through => :word_lexemes
-  has_many :syllables, :through => :pronunciation
+  has_many :syllables, :through => :pronunciation, :order => 'position ASC'
 
   def name
   	spelling.label
