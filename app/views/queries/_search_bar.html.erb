@@ -34,9 +34,7 @@
     <% else %>
       <% syllables = @query.word.try(&:syllables) || [] %>
     <% end %>
-    <% if @query.reversed_mode %>
-      <% syllables = syllables.reverse %>
-    <% end %>
+    <% syllables = syllables.reverse unless @query.reversed_mode %>
     <% syllables.each_with_index do |ph,j| %>
       <div class="spacer <%= @query.reversed_tag %>"><%= " . " unless j == 0 %></div>
       <div class="single_syllable <%= @query.reversed_tag %>"> <%= ph.label.gsub("-"," ") %> </div>

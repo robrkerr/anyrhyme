@@ -80,7 +80,7 @@
 		<div class="syllable_divider"></div> 
 	</div>
 	<% syllables = @query.word.try(&:syllables) || [] %>
-	<% syllables.reverse.each_with_index do |syllable,i| %>
+	<% syllables.each_with_index do |syllable,i| %>
 	<div id="syllable<%=i+1%>" class="word_syllable syllable_container <%= @query.syllable_diagram_object_presence(i+2)%>"> 
 		<div class="chunk_container"> 
 			<div class="chunk hidden"><%=syllable.onset.label%></div>

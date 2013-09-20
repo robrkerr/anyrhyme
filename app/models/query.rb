@@ -73,7 +73,7 @@ class Query
   def perfect_rhyme_match_string
     num = @word.last_stressed_syllable
     num = ((@word.syllables.length - num) > 3) ? (@word.syllables.length - 3) : num
-    word_syllables = @word.syllables.reverse[num..-1]
+    word_syllables = @word.syllables[num..-1]
     word_syllables_str = word_syllables.each_with_index.map { |s,i|
       if i == 0
         "#{s.onset.label};false:#{s.nucleus.label}#{s.stress};true:#{s.coda.label};true" 
@@ -87,7 +87,7 @@ class Query
   def vowels_only_match_string
     num = @word.last_stressed_syllable
     num = ((@word.syllables.length - num) > 3) ? (@word.syllables.length - 3) : num
-    word_syllables = @word.syllables.reverse[num..-1]
+    word_syllables = @word.syllables[num..-1]
     word_syllables_str = word_syllables.each_with_index.map { |s,i|
       if i == 0
         "#{s.onset.label};false:#{s.nucleus.label}#{s.stress};true:*;true" 
@@ -100,7 +100,7 @@ class Query
 
   def portmanteau1_match_string
     num = @word.syllables.length - 1
-    word_syllables = @word.syllables.reverse[-1..-1]
+    word_syllables = @word.syllables[-1..-1]
     word_syllables_str = word_syllables.map { |s|
       "#{s.onset.label};true:#{s.nucleus.label}#{s.stress};true:#{s.coda.label};true" 
     }.join(",")
@@ -109,7 +109,7 @@ class Query
 
   def portmanteau2_match_string
     num = @word.syllables.length - 1
-    word_syllables = @word.syllables.reverse[0..0]
+    word_syllables = @word.syllables[0..0]
     word_syllables_str = word_syllables.map { |s|
       "#{s.onset.label};true:#{s.nucleus.label}#{s.stress};true:#{s.coda.label};true" 
     }.join(",")

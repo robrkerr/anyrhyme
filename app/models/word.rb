@@ -14,7 +14,7 @@ class Word < ActiveRecord::Base
   end
 
   def last_stressed_syllable
-    syllables.reverse.rindex { |s| s.stress > 0 }
+    syllables.rindex { |s| s.stress > 0 }
   end
 
 end
