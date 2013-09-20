@@ -162,6 +162,12 @@
 <%= form_for @query, :url => query_path do |q| %>
   <%= q.text_field :id, :type => :hidden, :value => (@query.id || "") %>
   <%= q.text_field :word_type, :type => :hidden, :value => @query.word_type %>
+  <%= q.text_field :match_string, :type => :hidden, :value => @query.any_onsets_rhyme_match_string %>
+  <%= q.submit "Weak Rhyme", :class => 'preset button' %>
+<% end %>
+<%= form_for @query, :url => query_path do |q| %>
+  <%= q.text_field :id, :type => :hidden, :value => (@query.id || "") %>
+  <%= q.text_field :word_type, :type => :hidden, :value => @query.word_type %>
   <%= q.text_field :match_string, :type => :hidden, :value => @query.portmanteau1_match_string %>
   <%= q.submit "Portmanteau 1", :class => 'preset button' %>
 <% end %>
