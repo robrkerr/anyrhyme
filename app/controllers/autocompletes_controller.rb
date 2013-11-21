@@ -1,7 +1,7 @@
 class AutocompletesController < ApplicationController
   
   def show
-  	words = auto_complete(params[:term],5)
+  	words = auto_complete(params[:term],params[:limit])
     respond_to do |format|
       format.json { render :json => words.to_json }
     end
