@@ -1,6 +1,15 @@
 Giftrapped::Application.routes.draw do
-  resource :query, :path => '', :only => [:create,:show]
-  resources :words, :path => 'words', :except => [:index,:show]
+  resource :query, :path => 'match/:direction/with/:front_syllable/and/:exactly/:num/syllables/and/:syllable1', :only => :show
+  resource :query, :path => 'match/:direction/with/:front_syllable/and/:exactly/:num/syllables/and/:syllable1/:syllable2', :only => :show
+  resource :query, :path => 'match/:direction/with/:front_syllable/and/:exactly/:num/syllables/and/:syllable1/:syllable2/:syllable3', :only => :show
+  resource :query, :path => 'match/:direction/with/:front_syllable/and/:exactly/:num/syllables/and/:syllable1/:syllable2/:syllable3/:syllable4', :only => :show
+  resource :query, :path => 'match/:direction/with/:front_syllable/and/:exactly/:num/syllables/and/:syllable1/:syllable2/:syllable3/:syllable4/:syllable5', :only => :show
+  resource :query, :path => 'match/:direction/with/:exactly/:num/syllables/and/:syllable1', :only => :show
+  resource :query, :path => 'match/:direction/with/:exactly/:num/syllables/and/:syllable1/:syllable2', :only => :show
+  resource :query, :path => 'match/:direction/with/:exactly/:num/syllables/and/:syllable1/:syllable2/:syllable3', :only => :show
+  resource :query, :path => 'match/:direction/with/:exactly/:num/syllables/and/:syllable1/:syllable2/:syllable3/:syllable4', :only => :show
+  resource :query, :path => 'match/:direction/with/:exactly/:num/syllables/and/:syllable1/:syllable2/:syllable3/:syllable4/:syllable5', :only => :show
+  resource :autocomplete, :path => 'autocomplete/:term', :only => :show
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

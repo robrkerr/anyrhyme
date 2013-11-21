@@ -4,6 +4,4 @@
 // It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
 // the compiled file.
 //
-//= require jquery-1.9.1
-//= require jquery-ui-1.10.3.custom.min
-//= require jquery.tokeninput
+
