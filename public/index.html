@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<title> GiftRAPPED API</title>
+  </head>
+  <body>
+  	<h1> GiftRAPPED API </h1>
+  	GiftRAPPED is a rhyming dictionary that...
+
+  	<h2> API Methods </h2>
+
+  	<h3> Autocomplete </h3>
+  	<p>/autocomplete/<em>string</em>.json?limit=<em>number</em></p>
+  	<p>Example: /autocomplete/examp.json?limit=1
+
+  	<h3> Match </h3>
+  	<p>/match/<em>direction</em>/with/<em>exact</em>/<em>num_syllables</em>/syllables/and/<em>syllable1</em>.json?limit=<em>number</em></p>
+  	<p>/match/<em>direction</em>/with/<em>exact</em>/<em>num_syllables</em>/syllables/and/<em>syllable1</em>/<em>syllable2</em>/<em>syllable3</em>.json?limit=<em>number</em></p>
+
+  	<p>Syllables have the format: <em>onset</em>,<em>nucleus</em>,<em>coda</em></p>
+  	<p>Onsets and codas have the format: <em>phoneme1</em>-<em>phoneme2</em></p>
+  	<p>Nuclei have the format: <em>vowel</em>-<em>stress</em></p>
+  	<p>Wildcards: *</p>
+  	<p>Anti-match: ~</p>
+
+
+  	<p>Example: /match/beginning/with/at-least/1/syllables/and/*,~aa1,*/s,ah0,m.json?limit=1 </p>
+  </body>
+</html>
