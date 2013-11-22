@@ -24,11 +24,14 @@ class Query
   end
 
   def parse_syllable_string string
-    string.split(",").map { |chunk| 
+    string.split(",").each_with_index.map { |chunk,i| 
+      if i == 1
+        chunk = chunk.gsub("-","")
+      end
       if chunk[0]=="~" 
-        [chunk[1..-1],false]
+        [chunk[1..-1].downcase,false]
       else
-        [chunk,true]
+        [chunk.downcase,true]
       end  
     }
   end
