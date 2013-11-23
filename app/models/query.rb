@@ -82,7 +82,10 @@ class Query
       words_sorted = words.keys.map { |id| 
         lexemes = words[id].each_with_index.map { |word_lexeme,j|
           if word_lexeme["word_class"] && word_lexeme["gloss"]
-            "#{j+1}: (" + word_lexeme["word_class"] + ") " + word_lexeme["gloss"] + "."
+            {
+              word_class: word_lexeme["word_class"],
+              word_gloss: word_lexeme["gloss"]
+            }
           else 
             nil
           end

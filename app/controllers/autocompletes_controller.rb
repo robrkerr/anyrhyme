@@ -16,6 +16,8 @@ class AutocompletesController < ApplicationController
     words.map { |w| {
         :label => w.name, 
         :phonetic_label => w.pronunciation.label,
+        :syllables => w.syllables,
+        :lexemes => w.lexemes,
         :num_syllables => w.num_syllables,
         :id => w.id
       }
