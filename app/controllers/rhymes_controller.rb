@@ -4,11 +4,15 @@ class RhymesController < ApplicationController
     if params["word"][/\d/]
       word = Word.find(params["word"].to_i)
     else
-      word = Spelling.where("label LIKE ?", "#{params["word"]}").first.words.first
+      spellings = Spelling.where("label LIKE ?", "#{params["word"]}")
+      word = spellings.first.words.first if spellings.length > 0
     end
-    p word
     respond_to do |format|
-      format.json { redirect_to match_route(word) }
+      if word 
+        format.json { redirect_to match_route(word) }
+      else
+        format.json { render :json => [].to_json }
+      end
     end
   end
 
