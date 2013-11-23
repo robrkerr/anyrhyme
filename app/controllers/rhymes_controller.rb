@@ -6,6 +6,7 @@ class RhymesController < ApplicationController
     else
       word = Spelling.where("label LIKE ?", "#{params["word"]}").first.words.first
     end
+    p word
     respond_to do |format|
       format.json { redirect_to match_route(word) }
     end
@@ -14,7 +15,7 @@ class RhymesController < ApplicationController
   private
 
   def match_route word
-    num = word.last_stressed_syllable
+    num = word.last_stressed_syllable || 0
     num = ((word.syllables.length - num) > 3) ? (word.syllables.length - 3) : num
     word_syllables = word.syllables[num..-1]
     syllables_str = word_syllables.each_with_index.map { |s,i|
