@@ -10,6 +10,7 @@ Giftrapped::Application.routes.draw do
   resource :query, :path => 'match/:direction/with/:exactly/:num/syllables/and/:syllable1/:syllable2/:syllable3/:syllable4', :only => :show
   resource :query, :path => 'match/:direction/with/:exactly/:num/syllables/and/:syllable1/:syllable2/:syllable3/:syllable4/:syllable5', :only => :show
   resource :autocomplete, :path => 'search/:term', :only => :show
+  resource :rhyme, :path => 'rhyme/:word', :only => :show
 
   root :to => 'application#index'
   

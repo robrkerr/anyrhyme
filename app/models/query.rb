@@ -28,7 +28,8 @@ class Query
   end
 
   def parse_syllable_string string
-    string.split(",").each_with_index.map { |chunk,i| 
+    syllable = string.gsub(",","&,&").split(",").each_with_index.map { |chunk,i| 
+      chunk = chunk.gsub("&","")
       if i == 1
         chunk = chunk.gsub("-","")
       end
@@ -38,6 +39,9 @@ class Query
         [chunk.downcase,true]
       end  
     }
+    p string.split(",")
+    p syllable
+    syllable
   end
 
   def persisted?
