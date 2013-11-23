@@ -9,7 +9,9 @@ Giftrapped::Application.routes.draw do
   resource :query, :path => 'match/:direction/with/:exactly/:num/syllables/and/:syllable1/:syllable2/:syllable3', :only => :show
   resource :query, :path => 'match/:direction/with/:exactly/:num/syllables/and/:syllable1/:syllable2/:syllable3/:syllable4', :only => :show
   resource :query, :path => 'match/:direction/with/:exactly/:num/syllables/and/:syllable1/:syllable2/:syllable3/:syllable4/:syllable5', :only => :show
-  resource :autocomplete, :path => 'autocomplete/:term', :only => :show
+  resource :autocomplete, :path => 'search/:term', :only => :show
+
+  root :to => 'application#index'
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

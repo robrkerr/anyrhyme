@@ -5,7 +5,12 @@ class Query
   include ActiveModel::Conversion
   extend  ActiveModel::Naming
 
-  attr_accessor :text, :match_details
+  attr_accessor :exactly, :direction, :num_syllables
+  validates :exactly, inclusion: { in: ["exactly", "at-least"],
+    message: "must be either 'exactly' or 'at-least', not '%{value}'." }
+  validates :direction, inclusion: { in: ["beginning", "ending"],
+    message: "must be either 'beginning' or 'ending', not '%{value}'." }
+  validates :num_syllables, numericality: { greater_than_or_equal_to: 0 }
 
   def initialize params = {}
     @number_of_results = params["limit"] ? params["limit"].to_i : 13
@@ -14,12 +19,11 @@ class Query
       string = params["syllable#{i}"]
       @syllables << parse_syllable_string(string) if string
     }
-    @num_syllables = params["num"].to_i + @syllables.length
-    @exactly = params["exactly"]=="exactly"
-    @direction = params["direction"]!="beginning"
+    @num_syllables = params["num"].to_i
+    @exactly = params["exactly"]
+    @direction = params["direction"]
     if params["front_syllable"]
       @front_syllable = parse_syllable_string(params["front_syllable"])
-      @num_syllables += 1
     end
   end
 
@@ -44,12 +48,24 @@ class Query
     @words_to_show_cached ||= run_query
   end
 
+  def total_num_syllables
+    @num_syllables + @syllables.length + (@front_syllable ? 1 : 0)
+  end
+
+  def match_at_least_num
+    @exactly=="at-least"
+  end
+
+  def match_direction_reversed
+    @direction=="ending"
+  end
+
   def run_query
     pronunciations = WordMatcher.find_words(@syllables, 
-                                            @num_syllables, 
-                                            !@exactly, 
+                                            total_num_syllables, 
+                                            match_at_least_num, 
                                             @front_syllable, 
-                                            @direction, 
+                                            match_direction_reversed, 
                                             @number_of_results)
     pron_ids = pronunciations.map { |pron| pron.id }
     linked_results = Word.select("pronunciation_id, words.id, spellings.label, lexemes.word_class, lexemes.gloss")
