@@ -13,7 +13,7 @@ class Query
   validates :num_syllables, numericality: { greater_than_or_equal_to: 0 }
 
   def initialize params = {}
-    @number_of_results = params["limit"] ? params["limit"].to_i : 13
+    @number_of_results = params["limit"] ? params["limit"].to_i : false
     @syllables = []
     1.upto(5) { |i|
       string = params["syllable#{i}"]

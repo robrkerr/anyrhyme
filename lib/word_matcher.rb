@@ -39,12 +39,20 @@ class WordMatcher
 				sql_string += self.sql_string_for_syllable(end_syllable_to_match) + ")"
 			end
 		end
-		results = Syllable.where(sql_string)
-									 		.select(:pronunciation_id)
-				  				 		.group(:pronunciation_id)
-				  				 		.having("count(1) = #{number_to_match}")
-				  				 		.order("pronunciation_id ASC")
-				  				 		.limit(num)
+		if num==false
+			results = Syllable.where(sql_string)
+										 		.select(:pronunciation_id)
+					  				 		.group(:pronunciation_id)
+					  				 		.having("count(1) = #{number_to_match}")
+					  				 		.order("pronunciation_id ASC")
+		else
+			results = Syllable.where(sql_string)
+										 		.select(:pronunciation_id)
+					  				 		.group(:pronunciation_id)
+					  				 		.having("count(1) = #{number_to_match}")
+					  				 		.order("pronunciation_id ASC")
+					  				 		.limit(num)
+		end
 		pron_ids = results.map { |r| r.pronunciation_id }
 		pronunciations = Pronunciation.find(pron_ids).group_by(&:id)
 		pron_ids.map { |id| pronunciations[id].first }
