@@ -10,11 +10,17 @@
     <h1>GiftRAPPED</h1>
   </div>
   <div class="main-banner-tagline">
-    <h2>Type in a {{word}} and find others that rhyme.</h2>
+    <h2>Type in <input ng-model="word" ng-blur="refresh_results()">...</h2>
+    <h2>and find {{results.length}} words that rhyme with {{word}}:</h2>
   </div>
 </section>
 
-<section class="battle-list">
+<!-- <section class="word-input">
 
+</section> -->
 
+<section class="results-list">
+	<div ng-repeat="result in results">
+		<h2>{{result.primary_word.name}}</h2>
+	</div>
 </section>

@@ -1,0 +1,11 @@
+body {
+  font: normal 16px Helvetica;
+
+  .breakpoint-mobile & {
+    font: normal 12px Helvetica;
+  }
+  .breakpoint-tablet & {
+    font: normal 14px Helvetica;
+  }
+}
+

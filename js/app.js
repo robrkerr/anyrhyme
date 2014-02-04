@@ -12,7 +12,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
   });
 });
 
-app.controller("HomeController", function($scope) {
+app.controller("HomeController", function($scope, $http) {
+  $scope.refresh_results = function() {
+    return $http.get($scope.url + "rhyme/" + $scope.word + ".json?limit=100").then(function(response) {
+      return $scope.results = response.data;
+    });
+  };
+  $scope.url = "http://api.gift-rapped.com/";
+  $scope.results = [];
   $scope.word = "bird";
-  return console.log($scope.word);
+  return $scope.refresh_results();
 });
