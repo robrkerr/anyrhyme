@@ -1,11 +1,17 @@
+* {
+  box-sizing:           border-box;
+  padding:              0px;
+  margin:               0px;
+}
+
 body {
   font: normal 16px Helvetica;
 
   .breakpoint-mobile & {
-    font: normal 12px Helvetica;
+    font: normal 8px Helvetica;
   }
   .breakpoint-tablet & {
-    font: normal 14px Helvetica;
+    font: normal 10px Helvetica;
   }
 }
 

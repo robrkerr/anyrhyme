@@ -3,47 +3,34 @@
 }
 
 .main-banner-headline {
-  background: $sky_blue;
-  color: $light_grey;
+  background: $green-medium;
   overflow: hidden;
-  padding-top: 2em;
+  padding-bottom: 0.4em;
 
   h1 {
-    font-size: 3em;
+    font-size: 4em;
+    padding: 0.8em;
   }
-}
-
-.main-banner-donut {
-  max-width: 80%;
-  position: relative;
-  z-index: 0;
-}
-
-.main-banner-background {
-  background: url('http://i.imgur.com/1mUWw6f.png') 50% 0% no-repeat;
-  background-size: cover;
-  width: 100%;
-  height: 334px;
-  margin-top: -90px;
-
-  .breakpoint-desktop &,
-  .breakpoint-wide & {
-    padding-top: 40%;
-    height: 0;
-  }
-
 }
 
 .main-banner-tagline {
-  padding: 2em;
+  padding: 1.0em;
+  background-color: $green-medium;
 
-  background-color: $canyon_orange;
-  h2 {
-    font-size: 2.5em;
-    font-weight: lighter;
+  div {
+    padding: 1.0em;
+  }
+
+  input {
+    background-color: $green-lightest;
   }
 }
 
-.main-banner-tagline-reddit-logo {
-  height: 1.26em;
+.main-word-input {
+  font-size: 2.5em;
+}
+
+.main-word-input-pronunciation {
+  font-size: 1.5em;
+  font-style: italic;
 }

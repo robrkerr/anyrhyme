@@ -10,17 +10,32 @@
     <h1>GiftRAPPED</h1>
   </div>
   <div class="main-banner-tagline">
-    <h2>Type in <input ng-model="word" ng-blur="refresh_results()">...</h2>
-    <h2>and find {{results.length}} words that rhyme with {{word}}:</h2>
+    <div>
+    	<span class="main-word-input">Type in a word: </span>
+    </div>
+    <div>
+    	<input type ="text" ng-model="word" ng-blur="refresh_results()" style="font-size: 2.5em; padding: 0.3em; width: 6em; background-color: #B6FFDA"><span class="main-word-input-pronunciation">({{full_word.phonetic_label}})</span>
+    </div>
+    <div>
+    	<span class="main-word-input">...and find {{results.length}} rhyming words:</span>
+    </div>
   </div>
 </section>
 
-<!-- <section class="word-input">
-
-</section> -->
+<!-- <section class="word-input"></section> -->
 
 <section class="results-list">
-	<div ng-repeat="result in results">
-		<h2>{{result.primary_word.name}}</h2>
+	<div ng-repeat="result in results" ng-click="expand(result)">
+		<div class="result-row-{{result.even_tag}}">
+			<span class="result-word-name">{{result.primary_word.name}}</span>
+			<span class="result-word-pronunciation">({{result.pronunciation_label}})</span>
+			<span class="result-expander-arrow-{{result.even_tag}}" ng-if="not_expanded(result)">▼</span>
+			<span class="result-expander-arrow-{{result.even_tag}}" ng-if="expanded(result)">▲</span>
+		</div>
+		<div class="result-row-{{result.even_tag}}" ng-if="expanded(result)">
+			<div class="result-word-lexemes" ng-repeat="lexeme in result.primary_word.lexemes">
+				<div class="result-word-single-lexeme">({{lexeme.word_class}}) {{lexeme.word_gloss}}</div>
+			</div>
+		</div>
 	</div>
 </section>

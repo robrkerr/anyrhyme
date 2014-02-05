@@ -2,3 +2,43 @@
   text-align: center;
 }
 
+.result-row-even {
+  background-color: $green-darker;
+  padding: 1.5em;
+}
+
+.result-row-odd {
+  background-color: $green-medium; 
+  padding: 1.5em;
+}
+
+.result-word-name {
+  font-size: 2.5em;
+}
+
+.result-word-pronunciation {
+  font-size: 1.5em; 
+  font-style: italic;
+}
+
+.result-expander-arrow-even {
+  font-size: 2.5em; 
+  color: $green-medium;
+  float: right;
+}
+
+.result-expander-arrow-odd {
+  font-size: 2.5em; 
+  color: $green-darker;
+  float: right;
+}
+
+.result-word-lexemes {
+  text-align: left; 
+  font-size: 1.5em; 
+  padding: 0em 2em;
+}
+
+.result-word-single-lexeme {
+  padding: 0.4em 0em;
+}
