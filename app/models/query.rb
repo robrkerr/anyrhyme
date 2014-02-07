@@ -39,8 +39,6 @@ class Query
         [chunk.downcase,true]
       end  
     }
-    p string.split(",")
-    p syllable
     syllable
   end
 
@@ -99,9 +97,11 @@ class Query
       }.sort_by { |word| -word[:lexemes].length }
       { primary_word: words_sorted.first, 
         other_words: words_sorted[1..-1], 
-        even_tag: (i%2==0) ? "even" : "odd",
+        even_tag: (i%2==1) ? "even" : "odd",
         pronunciation_label: pronunciations[i].label, 
-        syllables: syllables.reverse }
+        pronunciation_label: pronunciations[i].label, 
+        :pronunciation_label_with_syllable_breaks => pronunciations[i].label_with_syllable_breaks,
+        syllables: syllables.reverse.map { |s| s.detailed_syllable } }
     }
   end
 end

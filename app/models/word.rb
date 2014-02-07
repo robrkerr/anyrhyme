@@ -17,4 +17,10 @@ class Word < ActiveRecord::Base
     syllables.rindex { |s| s.stress > 0 }
   end
 
+  def detailed_syllables
+    syllables.map { |s|
+      s.detailed_syllable
+    }
+  end
+
 end

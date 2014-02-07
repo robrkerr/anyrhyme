@@ -15,10 +15,12 @@ class AutocompletesController < ApplicationController
     words = Spelling.where("label LIKE ?", "#{term}%").limit(number).map { |sp| sp.words }.flatten
     words.map { |w| {
         :label => w.name, 
-        :phonetic_label => w.pronunciation.label,
-        :syllables => w.syllables,
+        :pronunciation_label => w.pronunciation.label,
+        :pronunciation_label_with_syllable_breaks => w.pronunciation.label_with_syllable_breaks,
+        :syllables => w.detailed_syllables,
         :lexemes => w.lexemes,
         :num_syllables => w.num_syllables,
+        :last_stressed_syllable => w.last_stressed_syllable,
         :id => w.id
       }
     }
