@@ -43,7 +43,15 @@ app.controller("HomeController", function($scope, $http, $filter) {
   };
   $scope.query = function(word) {
     var length_option, num, s, syllables_str, syllables_str_arr, word_syllables;
-    if (($scope.options_level === 0) || ($scope.query_options.match_type === "rhyme")) {
+    if (($scope.options_level === 1) && ($scope.query_options.match_type === "port1")) {
+      s = word.syllables[word.syllables.length - 1];
+      syllables_str = s.onset.label + "," + s.nucleus.label + "," + s.coda.label;
+      return "match/ending/with/at-least/1/syllables/and/" + syllables_str + ".json";
+    } else if (($scope.options_level === 1) && ($scope.query_options.match_type === "port2")) {
+      s = word.syllables[0];
+      syllables_str = s.onset.label + "," + s.nucleus.label + "," + s.coda.label;
+      return "match/beginning/with/at-least/1/syllables/and/" + syllables_str + ".json";
+    } else {
       num = word.num_syllables - word.last_stressed_syllable;
       if (num > 3) {
         num = 3;
@@ -65,21 +73,14 @@ app.controller("HomeController", function($scope, $http, $filter) {
         length_option = "at-least/0/";
       }
       return "match/beginning/with/" + length_option + "syllables/and/" + syllables_str + ".json";
-    } else if (($scope.options_level === 1) && ($scope.query_options.match_type === "port1")) {
-      s = word.syllables[word.syllables.length - 1];
-      syllables_str = s.onset.label + "," + s.nucleus.label + "," + s.coda.label;
-      return "match/ending/with/at-least/1/syllables/and/" + syllables_str + ".json";
-    } else if (($scope.options_level === 1) && ($scope.query_options.match_type === "port2")) {
-      s = word.syllables[0];
-      syllables_str = s.onset.label + "," + s.nucleus.label + "," + s.coda.label;
-      return "match/beginning/with/at-least/1/syllables/and/" + syllables_str + ".json";
     }
   };
   $scope.rhyming_option = function() {
     return $scope.query_options.match_type === "rhyme";
   };
   $scope.set_options_level = function(value) {
-    return $scope.options_level = value;
+    $scope.options_level = value;
+    return $scope.refresh_results();
   };
   $scope.url = "http://api.gift-rapped.com/";
   $scope.results = [];
