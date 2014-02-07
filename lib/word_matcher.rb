@@ -40,19 +40,14 @@ class WordMatcher
 			end
 		end
 		if num==false
-			results = Syllable.where(sql_string)
-										 		.select(:pronunciation_id)
-					  				 		.group(:pronunciation_id)
-					  				 		.having("count(1) = #{number_to_match}")
-					  				 		.order("pronunciation_id ASC")
-		else
-			results = Syllable.where(sql_string)
-										 		.select(:pronunciation_id)
-					  				 		.group(:pronunciation_id)
-					  				 		.having("count(1) = #{number_to_match}")
-					  				 		.order("pronunciation_id ASC")
-					  				 		.limit(num)
+			num = 100
 		end
+		results = Syllable.where(sql_string)
+									 		.select(:pronunciation_id)
+				  				 		.group(:pronunciation_id)
+				  				 		.having("count(1) = #{number_to_match}")
+				  				 		.order("pronunciation_id ASC")
+				  				 		.limit(num)
 		pron_ids = results.map { |r| r.pronunciation_id }
 		pronunciations = Pronunciation.find(pron_ids).group_by(&:id)
 		pron_ids.map { |id| pronunciations[id].first }
