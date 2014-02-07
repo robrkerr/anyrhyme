@@ -14,12 +14,8 @@
 }
 
 .main-banner-tagline {
-  padding: 1.0em;
+  padding: 1em 0em;
   background-color: $green-medium;
-
-  div {
-    padding: 1.0em;
-  }
 
   input {
     background-color: $green-lightest;
@@ -33,4 +29,34 @@
 .main-word-input-pronunciation {
   font-size: 1.5em;
   font-style: italic;
+}
+
+.main-word-input-arrows {
+  font-size: 2.5em; 
+  color: $green-darker;
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.main-more-options {
+  font-size: 1.5em; 
+  font-style: italic;
+}
+
+.main-options-area-input {
+  background-color: $green-darker;
+  padding: 1em 0em;
+}
+
+.main-options-area {
+  background-color: $green-darker;
+  padding: 0em 0em 1em;
+}
+
+.main-lead-in {
+  padding: 0em 0em 1em;
+}
+
+.main-final {
+  padding: 1em 0em 3em;
 }

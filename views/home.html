@@ -10,25 +10,45 @@
     <h1>GiftRAPPED</h1>
   </div>
   <div class="main-banner-tagline">
-    <div>
+    <div class="main-lead-in">
     	<span class="main-word-input">Type in a word: </span>
     </div>
-    <div>
-    	<input type ="text" ng-model="word" ng-blur="refresh_results()" style="font-size: 2.5em; padding: 0.3em; width: 6em; background-color: #B6FFDA"><span class="main-word-input-pronunciation">({{full_word.phonetic_label}})</span>
+    <div class="main-options-area-input">
+    	<input type ="text" ng-model="word" ng-blur="refresh_results()" style="font-size: 2.5em; padding: 0.3em; width: 9em; background-color: #B6FFDA">
+    	<!-- <span class="main-word-input-arrows">▶</span> -->
     </div>
-    <div>
+    <div class="main-options-area">
+    	<span class="main-word-input-pronunciation">({{full_word.pronunciation_label_with_syllable_breaks}})</span>
+    </div>
+    <div class="main-options-area" ng-if="options == 1">
+    	<span class="main-word-input">OPTIONS!!</span>
+    </div>
+    <div class="main-options-area" ng-if="options == 2">
+    	<span class="main-word-input">MORE OPTIONS!!</span>
+    </div>
+    <div class="main-options-area" ng-if="options == 0">
+    	<a class="main-more-options" ng-click="set_options_level(1)">click for options</a>
+    </div>
+    <div class="main-options-area" ng-if="options == 1">
+    	<a class="main-more-options" ng-click="set_options_level(2)">click for more options</a>
+    </div>
+    <div class="main-options-area" ng-if="options == 2">
+    	<a class="main-more-options" ng-click="set_options_level(1)">click for fewer options</a>
+    </div>
+    <div class="main-options-area" ng-if="options > 0">
+    	<a class="main-more-options" ng-click="set_options_level(0)">remove options</a>
+    </div>
+    <div class="main-final">
     	<span class="main-word-input">...and find {{results.length}} rhyming words:</span>
     </div>
   </div>
 </section>
 
-<!-- <section class="word-input"></section> -->
-
 <section class="results-list">
 	<div ng-repeat="result in results" ng-click="expand(result)">
 		<div class="result-row-{{result.even_tag}}">
 			<span class="result-word-name">{{result.primary_word.name}}</span>
-			<span class="result-word-pronunciation">({{result.pronunciation_label}})</span>
+			<span class="result-word-pronunciation">({{result.pronunciation_label_with_syllable_breaks}})</span>
 			<span class="result-expander-arrow-{{result.even_tag}}" ng-if="not_expanded(result)">▼</span>
 			<span class="result-expander-arrow-{{result.even_tag}}" ng-if="expanded(result)">▲</span>
 		</div>

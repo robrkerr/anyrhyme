@@ -7,7 +7,7 @@ var concat = require('gulp-concat');
 var coffee = require('gulp-coffee');
 
 gulp.task('sass', function () {
-  gulp.src('./css/**/*.scss')
+  gulp.src('./css/main.scss')
 	  .pipe(sass({ 
       noCache: true,
       style: "expanded",
@@ -25,7 +25,7 @@ gulp.task('js', function() {
 });
 
 gulp.task('watch', function() {
-  gulp.watch('./css/*.scss', function() {
+  gulp.watch('./css/**/*.scss', function() {
     gulp.run('sass');
   });
   gulp.watch('./js/**/*.coffee', function() {

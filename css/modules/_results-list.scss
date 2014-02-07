@@ -3,12 +3,12 @@
 }
 
 .result-row-even {
-  background-color: $green-darker;
+  background-color: $green-medium;
   padding: 1.5em;
 }
 
 .result-row-odd {
-  background-color: $green-medium; 
+  background-color: $green-darker; 
   padding: 1.5em;
 }
 
@@ -23,13 +23,13 @@
 
 .result-expander-arrow-even {
   font-size: 2.5em; 
-  color: $green-medium;
+  color: $green-darker;
   float: right;
 }
 
 .result-expander-arrow-odd {
   font-size: 2.5em; 
-  color: $green-darker;
+  color: $green-medium;
   float: right;
 }
 
