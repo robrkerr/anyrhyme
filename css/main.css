@@ -99,6 +99,12 @@ body {
   padding: 1em 0em 3.5em;
 }
 
+/* line 64, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+.main-option-box {
+  font-size: 2em;
+  padding: 0.5em;
+}
+
 /* line 1, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_results-list.scss */
 .results-list {
   text-align: center;

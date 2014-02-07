@@ -22,9 +22,18 @@
     	<span class="main-word-input-pronunciation">({{full_word.pronunciation_label_with_syllable_breaks}})</span>
     </div>
     <div class="main-options-area" ng-if="options_level == 1">
-    	<span class="main-word-input">OPTIONS!!</span><br>
-    	<input type="checkbox" style="width: 30px; height: 30px" ng-model="query_options.match_length" ng-change="refresh_results()"></input>
-    	<span class="main-word-input">Include only same length</span>
+    	<span class="main-word-input">OPTIONS!!</span>
+    	<div class="main-option-box">
+	    	<select name="select" ng-model="query_options.match_type" ng-change="refresh_results()" style="font-size: 1em">
+				  <option value="rhyme">Rhyme</option> 
+				  <option value="port1" selected>Portmanteau from</option>
+				  <option value="port2">Portmanteau onto</option>
+				</select>
+			</div>
+    	<div ng-if="rhyming_option()" class="main-option-box">
+    		<input type="checkbox" style="width: 2.8em; height: 2.8em" ng-model="query_options.match_length" ng-change="refresh_results()"></input>
+    		Include only same length
+    	</div>
     </div>
     <div class="main-options-area" ng-if="options_level == 2">
     	<span class="main-word-input">MORE OPTIONS!!</span>

@@ -42,29 +42,41 @@ app.controller("HomeController", function($scope, $http, $filter) {
     }
   };
   $scope.query = function(word) {
-    var length_option, num, syllables_str, syllables_str_arr, word_syllables;
-    num = word.num_syllables - word.last_stressed_syllable;
-    if (num > 3) {
-      num = 3;
-    }
-    word_syllables = word.syllables.slice(word.syllables.length - num, +word.syllables.length + 1 || 9e9);
-    syllables_str_arr = word_syllables.map(function(s) {
-      var stress;
-      if (s.stress > 0) {
-        stress = 3;
-      } else {
-        stress = 0;
+    var length_option, num, s, syllables_str, syllables_str_arr, word_syllables;
+    if (($scope.options_level === 0) || ($scope.query_options.match_type === "rhyme")) {
+      num = word.num_syllables - word.last_stressed_syllable;
+      if (num > 3) {
+        num = 3;
       }
-      return s.onset.label + "," + s.nucleus.label + stress + "," + s.coda.label;
-    });
-    syllables_str = "~" + syllables_str_arr.join('/');
-    console.log($scope.query_options.match_length);
-    if (($scope.options_level === 1) && ($scope.query_options.match_length === true)) {
-      length_option = "exactly/" + (word.num_syllables - num) + "/";
-    } else {
-      length_option = "at-least/0/";
+      word_syllables = word.syllables.slice(word.syllables.length - num, +word.syllables.length + 1 || 9e9);
+      syllables_str_arr = word_syllables.map(function(s) {
+        var stress;
+        if (s.stress > 0) {
+          stress = 3;
+        } else {
+          stress = 0;
+        }
+        return s.onset.label + "," + s.nucleus.label + stress + "," + s.coda.label;
+      });
+      syllables_str = "~" + syllables_str_arr.join('/');
+      if (($scope.options_level === 1) && ($scope.query_options.match_length === true)) {
+        length_option = "exactly/" + (word.num_syllables - num) + "/";
+      } else {
+        length_option = "at-least/0/";
+      }
+      return "match/beginning/with/" + length_option + "syllables/and/" + syllables_str + ".json";
+    } else if (($scope.options_level === 1) && ($scope.query_options.match_type === "port1")) {
+      s = word.syllables[word.syllables.length - 1];
+      syllables_str = s.onset.label + "," + s.nucleus.label + "," + s.coda.label;
+      return "match/ending/with/at-least/1/syllables/and/" + syllables_str + ".json";
+    } else if (($scope.options_level === 1) && ($scope.query_options.match_type === "port2")) {
+      s = word.syllables[0];
+      syllables_str = s.onset.label + "," + s.nucleus.label + "," + s.coda.label;
+      return "match/beginning/with/at-least/1/syllables/and/" + syllables_str + ".json";
     }
-    return "match/beginning/with/" + length_option + "syllables/and/" + syllables_str + ".json";
+  };
+  $scope.rhyming_option = function() {
+    return $scope.query_options.match_type === "rhyme";
   };
   $scope.set_options_level = function(value) {
     return $scope.options_level = value;
@@ -73,6 +85,7 @@ app.controller("HomeController", function($scope, $http, $filter) {
   $scope.results = [];
   $scope.query_options = {};
   $scope.query_options.match_length = false;
+  $scope.query_options.match_type = "rhyme";
   $scope.word = "bird";
   $scope.options_level = 0;
   return $scope.refresh_results();
