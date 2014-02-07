@@ -14,28 +14,31 @@
     	<span class="main-word-input">Type in a word: </span>
     </div>
     <div class="main-options-area-input">
-    	<input type ="text" ng-model="word" ng-blur="refresh_results()" style="font-size: 2.5em; padding: 0.3em; width: 9em; background-color: #B6FFDA">
-    	<!-- <span class="main-word-input-arrows">▶</span> -->
+    	<form novalidate ng-submit="refresh_results()">
+    		<input type ="text" ng-model="word" ng-blur="refresh_results()"style="font-size: 2.5em; padding: 0.3em; width: 95%; max-width: 500px; background-color: #B6FFDA">
+      </form>
     </div>
     <div class="main-options-area">
     	<span class="main-word-input-pronunciation">({{full_word.pronunciation_label_with_syllable_breaks}})</span>
     </div>
-    <div class="main-options-area" ng-if="options == 1">
-    	<span class="main-word-input">OPTIONS!!</span>
+    <div class="main-options-area" ng-if="options_level == 1">
+    	<span class="main-word-input">OPTIONS!!</span><br>
+    	<input type="checkbox" style="width: 30px; height: 30px" ng-model="query_options.match_length" ng-change="refresh_results()"></input>
+    	<span class="main-word-input">Include only same length</span>
     </div>
-    <div class="main-options-area" ng-if="options == 2">
+    <div class="main-options-area" ng-if="options_level == 2">
     	<span class="main-word-input">MORE OPTIONS!!</span>
     </div>
-    <div class="main-options-area" ng-if="options == 0">
+    <div class="main-options-area" ng-if="options_level == 0">
     	<a class="main-more-options" ng-click="set_options_level(1)">click for options</a>
     </div>
-    <div class="main-options-area" ng-if="options == 1">
+    <div class="main-options-area" ng-if="options_level == 1">
     	<a class="main-more-options" ng-click="set_options_level(2)">click for more options</a>
     </div>
-    <div class="main-options-area" ng-if="options == 2">
+    <div class="main-options-area" ng-if="options_level == 2">
     	<a class="main-more-options" ng-click="set_options_level(1)">click for fewer options</a>
     </div>
-    <div class="main-options-area" ng-if="options > 0">
+    <div class="main-options-area" ng-if="options_level > 0">
     	<a class="main-more-options" ng-click="set_options_level(0)">remove options</a>
     </div>
     <div class="main-final">
@@ -47,14 +50,17 @@
 <section class="results-list">
 	<div ng-repeat="result in results" ng-click="expand(result)">
 		<div class="result-row-{{result.even_tag}}">
-			<span class="result-word-name">{{result.primary_word.name}}</span>
-			<span class="result-word-pronunciation">({{result.pronunciation_label_with_syllable_breaks}})</span>
-			<span class="result-expander-arrow-{{result.even_tag}}" ng-if="not_expanded(result)">▼</span>
-			<span class="result-expander-arrow-{{result.even_tag}}" ng-if="expanded(result)">▲</span>
-		</div>
-		<div class="result-row-{{result.even_tag}}" ng-if="expanded(result)">
-			<div class="result-word-lexemes" ng-repeat="lexeme in result.primary_word.lexemes">
-				<div class="result-word-single-lexeme">({{lexeme.word_class}}) {{lexeme.word_gloss}}</div>
+			<div class="result-word-name">{{result.primary_word.name}}</div>
+			<!-- <span class="result-word-pronunciation">({{result.pronunciation_label_with_syllable_breaks}})</span> -->
+			<div class="result-expander-arrow-{{result.even_tag}}" ng-if="not_expanded(result)">▼</div>
+			<div class="result-expander-arrow-{{result.even_tag}}" ng-if="expanded(result)">▲</div>
+			<div class="result-word-pronunciation" ng-if="expanded(result)">
+				({{result.pronunciation_label_with_syllable_breaks}})
+			</div>
+			<div ng-if="expanded(result)">
+				<div class="result-word-lexeme" ng-repeat="lexeme in result.primary_word.lexemes">
+					({{lexeme.word_class}}) {{lexeme.word_gloss}}
+				</div>
 			</div>
 		</div>
 	</div>

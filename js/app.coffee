@@ -31,10 +31,10 @@ app.controller "HomeController", ($scope,$http,$filter) ->
 		else
 			result.expanded = true
 	$scope.query = (word) ->
-		num = word.num_syllables - 1 - word.last_stressed_syllable
+		num = word.num_syllables - word.last_stressed_syllable
 		if num > 3
 			num = 3
-		word_syllables = word.syllables[(word.syllables.length-1-num)..word.syllables.length]
+		word_syllables = word.syllables[(word.syllables.length-num)..word.syllables.length]
 		syllables_str_arr = word_syllables.map (s) -> 
 			if s.stress > 0
 				stress = 3
@@ -42,13 +42,20 @@ app.controller "HomeController", ($scope,$http,$filter) ->
 				stress = 0
 			s.onset.label + "," + s.nucleus.label + stress + "," + s.coda.label
 		syllables_str = "~" + syllables_str_arr.join('/')
-		"match/beginning/with/at-least/0/syllables/and/" + syllables_str + ".json"
+		console.log($scope.query_options.match_length)
+		if ($scope.options_level == 1) && ($scope.query_options.match_length == true)
+			length_option = "exactly/" + (word.num_syllables - num) + "/"
+		else
+			length_option = "at-least/0/"
+		"match/beginning/with/" + length_option + "syllables/and/" + syllables_str + ".json"
 	$scope.set_options_level = (value) ->
-		$scope.options = value
+		$scope.options_level = value
 	$scope.url = "http://api.gift-rapped.com/"
 	$scope.results = []
+	$scope.query_options = {}
+	$scope.query_options.match_length = false
 	$scope.word = "bird"
-	$scope.options = 0
+	$scope.options_level = 0
 	$scope.refresh_results()
 
 	

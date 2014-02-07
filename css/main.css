@@ -39,7 +39,7 @@ body {
 /* line 10, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
 .main-banner-headline h1 {
   font-size: 4em;
-  padding: 0.8em;
+  padding: 0.7em;
 }
 
 /* line 16, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
@@ -59,7 +59,7 @@ body {
 
 /* line 29, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
 .main-word-input-pronunciation {
-  font-size: 1.5em;
+  font-size: 2em;
   font-style: italic;
 }
 
@@ -96,7 +96,7 @@ body {
 
 /* line 60, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
 .main-final {
-  padding: 1em 0em 3em;
+  padding: 1em 0em 3.5em;
 }
 
 /* line 1, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_results-list.scss */
@@ -108,47 +108,52 @@ body {
 .result-row-even {
   background-color: #79ffbb;
   padding: 1.5em;
+  position: relative;
 }
 
-/* line 10, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_results-list.scss */
+/* line 11, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_results-list.scss */
 .result-row-odd {
   background-color: #57d595;
   padding: 1.5em;
+  position: relative;
 }
 
-/* line 15, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_results-list.scss */
+/* line 17, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_results-list.scss */
 .result-word-name {
   font-size: 2.5em;
+  width: 100%;
 }
 
-/* line 19, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_results-list.scss */
+/* line 22, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_results-list.scss */
 .result-word-pronunciation {
-  font-size: 1.5em;
+  font-size: 2em;
   font-style: italic;
+  padding: 0.6em 0em;
 }
 
-/* line 24, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_results-list.scss */
+/* line 28, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_results-list.scss */
 .result-expander-arrow-even {
   font-size: 2.5em;
   color: #57d595;
-  float: right;
+  position: absolute;
+  top: 0;
+  right: 0.4em;
+  padding: 0.6em;
 }
 
-/* line 30, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_results-list.scss */
+/* line 37, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_results-list.scss */
 .result-expander-arrow-odd {
   font-size: 2.5em;
   color: #79ffbb;
-  float: right;
+  position: absolute;
+  top: 0;
+  right: 0.4em;
+  padding: 0.6em;
 }
 
-/* line 36, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_results-list.scss */
-.result-word-lexemes {
+/* line 46, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_results-list.scss */
+.result-word-lexeme {
   text-align: left;
   font-size: 1.5em;
-  padding: 0em 2em;
-}
-
-/* line 42, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_results-list.scss */
-.result-word-single-lexeme {
-  padding: 0.4em 0em;
+  padding: 0.4em 2em;
 }

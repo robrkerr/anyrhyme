@@ -42,12 +42,12 @@ app.controller("HomeController", function($scope, $http, $filter) {
     }
   };
   $scope.query = function(word) {
-    var num, syllables_str, syllables_str_arr, word_syllables;
-    num = word.num_syllables - 1 - word.last_stressed_syllable;
+    var length_option, num, syllables_str, syllables_str_arr, word_syllables;
+    num = word.num_syllables - word.last_stressed_syllable;
     if (num > 3) {
       num = 3;
     }
-    word_syllables = word.syllables.slice(word.syllables.length - 1 - num, +word.syllables.length + 1 || 9e9);
+    word_syllables = word.syllables.slice(word.syllables.length - num, +word.syllables.length + 1 || 9e9);
     syllables_str_arr = word_syllables.map(function(s) {
       var stress;
       if (s.stress > 0) {
@@ -58,14 +58,22 @@ app.controller("HomeController", function($scope, $http, $filter) {
       return s.onset.label + "," + s.nucleus.label + stress + "," + s.coda.label;
     });
     syllables_str = "~" + syllables_str_arr.join('/');
-    return "match/beginning/with/at-least/0/syllables/and/" + syllables_str + ".json";
+    console.log($scope.query_options.match_length);
+    if (($scope.options_level === 1) && ($scope.query_options.match_length === true)) {
+      length_option = "exactly/" + (word.num_syllables - num) + "/";
+    } else {
+      length_option = "at-least/0/";
+    }
+    return "match/beginning/with/" + length_option + "syllables/and/" + syllables_str + ".json";
   };
   $scope.set_options_level = function(value) {
-    return $scope.options = value;
+    return $scope.options_level = value;
   };
   $scope.url = "http://api.gift-rapped.com/";
   $scope.results = [];
+  $scope.query_options = {};
+  $scope.query_options.match_length = false;
   $scope.word = "bird";
-  $scope.options = 0;
+  $scope.options_level = 0;
   return $scope.refresh_results();
 });
