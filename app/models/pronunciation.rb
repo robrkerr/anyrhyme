@@ -5,7 +5,7 @@ class Pronunciation < ActiveRecord::Base
   validates :label, :presence => true
 
   def label_with_syllable_breaks
-  	syllables.map { |s| s.label }.join("|")
+  	syllables.map { |s| s.label }.join(" . ")
   end
   
 end
