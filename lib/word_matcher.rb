@@ -56,7 +56,15 @@ class WordMatcher
 	def self.sql_string_for_syllable syllable
 		string = ""
 		string += " AND onset_id #{syllable[0][1] ? "=" : "!="} #{syllable[0][0]}" unless syllable[0][0]=="*"
-		if syllable[3]
+		if syllable[3] == 3
+			if syllable[1][1]
+				string += " AND nucleus_id = #{syllable[1][0]}"
+				string += " AND stress > 0"
+			else
+				string += " AND (nucleus_id != #{syllable[1][0]}"
+				string += " OR stress = 0)"
+			end
+		elsif syllable[3]
 			if syllable[1][1]
 				string += " AND nucleus_id = #{syllable[1][0]}"
 				string += " AND stress = #{syllable[3]}"
