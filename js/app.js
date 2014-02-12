@@ -80,9 +80,9 @@ app.controller("HomeController", function($scope, $http, $filter) {
   };
   $scope.filtered_results = function() {
     var fr;
-    if (($scope.options_level === 1) && ($scope.query_options.match_type === "rhyme")) {
+    if ($scope.options_level === 1) {
       fr = $scope.results;
-      if ($scope.query_options.match_length === true) {
+      if (($scope.query_options.match_length === true) && ($scope.query_options.match_type === "rhyme")) {
         fr = $filter('filter')(fr, {
           num_syllables: $scope.full_word.num_syllables
         }, true);

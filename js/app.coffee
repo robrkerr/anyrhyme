@@ -58,9 +58,9 @@ app.controller "HomeController", ($scope,$http,$filter) ->
 		$scope.options_level = value
 		$scope.refresh_results()
 	$scope.filtered_results = () ->
-		if ($scope.options_level == 1) && ($scope.query_options.match_type == "rhyme")
+		if ($scope.options_level == 1)
 			fr = $scope.results
-			if $scope.query_options.match_length == true
+			if ($scope.query_options.match_length == true) && ($scope.query_options.match_type == "rhyme")
 				fr = $filter('filter')(fr,{num_syllables:$scope.full_word.num_syllables},true)
 			if $scope.query_options.must_contain_lexemes == true
 				fr = $filter('filter')(fr,{any_lexemes:true},true)
