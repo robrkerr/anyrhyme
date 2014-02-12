@@ -92,16 +92,18 @@ class Query
             nil
           end
         }.compact
-        { name: words[id].first["label"], num_syllables: syllables.length, 
-                        lexemes: lexemes, word_id: id}
+        { name: words[id].first["label"], lexemes: lexemes, word_id: id}
       }.sort_by { |word| -word[:lexemes].length }
-      { primary_word: words_sorted.first, 
+      { 
+        primary_word: words_sorted.first, 
         other_words: words_sorted[1..-1], 
         even_tag: (i%2==1) ? "even" : "odd",
         pronunciation_label: pronunciations[i].label, 
         pronunciation_label: pronunciations[i].label, 
-        :pronunciation_label_with_syllable_breaks => pronunciations[i].label_with_syllable_breaks,
-        syllables: syllables.reverse.map { |s| s.detailed_syllable } }
+        pronunciation_label_with_syllable_breaks: pronunciations[i].label_with_syllable_breaks,
+        syllables: syllables.reverse.map { |s| s.detailed_syllable },
+        num_syllables: syllables.length 
+      }
     }
   end
 end
