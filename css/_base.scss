@@ -6,6 +6,7 @@
 
 body {
   font: normal 16px Helvetica;
+  background: $green-medium;
 
   .breakpoint-mobile & {
     font: normal 8px Helvetica;
@@ -15,3 +16,10 @@ body {
   }
 }
 
+.outer-container {
+  .breakpoint-desktop &,
+  .breakpoint-wide & {
+    width: 1024px;
+    margin: 0 auto;
+  }
+}

@@ -20,11 +20,12 @@ app.controller("HomeController", function($scope, $http, $filter) {
     return $http.get(search_url).then(function(response) {
       var match_url;
       $scope.full_word = response.data[0];
-      console.log($scope.full_word);
       match_url = $scope.url + $scope.query($scope.full_word);
-      console.log(match_url);
       return $http.get(match_url).then(function(response) {
-        return $scope.results = response.data;
+        return $scope.results = response.data.map(function(r) {
+          r.any_lexemes = r.primary_word.lexemes.length > 0;
+          return r;
+        });
       });
     });
   };
@@ -42,7 +43,7 @@ app.controller("HomeController", function($scope, $http, $filter) {
     }
   };
   $scope.query = function(word) {
-    var length_option, num, s, syllables_str, syllables_str_arr, word_syllables;
+    var num, s, syllables_str, syllables_str_arr, word_syllables;
     if (($scope.options_level === 1) && ($scope.query_options.match_type === "port1")) {
       s = word.syllables[word.syllables.length - 1];
       syllables_str = s.onset.label + "," + s.nucleus.label + "," + s.coda.label;
@@ -67,12 +68,7 @@ app.controller("HomeController", function($scope, $http, $filter) {
         return s.onset.label + "," + s.nucleus.label + stress + "," + s.coda.label;
       });
       syllables_str = "~" + syllables_str_arr.join('/');
-      if (($scope.options_level === 1) && ($scope.query_options.match_length === true)) {
-        length_option = "exactly/" + (word.num_syllables - num) + "/";
-      } else {
-        length_option = "at-least/0/";
-      }
-      return "match/beginning/with/" + length_option + "syllables/and/" + syllables_str + ".json";
+      return "match/beginning/with/at-least/0/syllables/and/" + syllables_str + ".json";
     }
   };
   $scope.rhyming_option = function() {
@@ -82,10 +78,37 @@ app.controller("HomeController", function($scope, $http, $filter) {
     $scope.options_level = value;
     return $scope.refresh_results();
   };
+  $scope.filtered_results = function() {
+    var fr;
+    if (($scope.options_level === 1) && ($scope.query_options.match_type === "rhyme")) {
+      fr = $scope.results;
+      if ($scope.query_options.match_length === true) {
+        fr = $filter('filter')(fr, {
+          num_syllables: $scope.full_word.num_syllables
+        }, true);
+      }
+      if ($scope.query_options.must_contain_lexemes === true) {
+        fr = $filter('filter')(fr, {
+          any_lexemes: true
+        }, true);
+      }
+      return fr;
+    } else {
+      return $scope.results;
+    }
+  };
+  $scope.even_tag = function(i) {
+    if ((i % 2) === 0) {
+      return 'odd';
+    } else {
+      return 'even';
+    }
+  };
   $scope.url = "http://api.gift-rapped.com/";
   $scope.results = [];
   $scope.query_options = {};
   $scope.query_options.match_length = false;
+  $scope.query_options.must_contain_lexemes = false;
   $scope.query_options.match_type = "rhyme";
   $scope.word = "bird";
   $scope.options_level = 0;

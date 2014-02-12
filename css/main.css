@@ -8,14 +8,21 @@
 /* line 7, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/_base.scss */
 body {
   font: normal 16px Helvetica;
+  background: #79ffbb;
 }
-/* line 10, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/_base.scss */
+/* line 11, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/_base.scss */
 .breakpoint-mobile body {
   font: normal 8px Helvetica;
 }
-/* line 13, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/_base.scss */
+/* line 14, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/_base.scss */
 .breakpoint-tablet body {
   font: normal 10px Helvetica;
+}
+
+/* line 21, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/_base.scss */
+.breakpoint-desktop .outer-container, .breakpoint-wide .outer-container {
+  width: 1024px;
+  margin: 0 auto;
 }
 
 /* line 1, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_header.scss */
@@ -85,21 +92,26 @@ body {
 
 /* line 51, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
 .main-options-area {
-  background-color: #57d595;
   padding: 0em 0em 1em;
 }
 
-/* line 56, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 55, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+.main-options-container {
+  background-color: #57d595;
+  padding: 0em;
+}
+
+/* line 60, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
 .main-lead-in {
   padding: 0em 0em 1em;
 }
 
-/* line 60, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 64, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
 .main-final {
   padding: 1em 0em 3.5em;
 }
 
-/* line 64, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 68, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
 .main-option-box {
   font-size: 2em;
   padding: 0.5em;

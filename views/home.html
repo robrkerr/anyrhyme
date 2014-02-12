@@ -5,72 +5,78 @@
   &copy; 2014
 </header>
 
-<section class="main-banner">
-  <div class="main-banner-headline">
-    <h1>GiftRAPPED</h1>
-  </div>
-  <div class="main-banner-tagline">
-    <div class="main-lead-in">
-    	<span class="main-word-input">Type in a word: </span>
-    </div>
-    <div class="main-options-area-input">
-    	<form novalidate ng-submit="refresh_results()">
-    		<input type ="text" ng-model="word" ng-blur="refresh_results()"style="font-size: 2.5em; padding: 0.3em; width: 95%; max-width: 500px; background-color: #B6FFDA">
-      </form>
-    </div>
-    <div class="main-options-area">
-    	<span class="main-word-input-pronunciation">({{full_word.pronunciation_label_with_syllable_breaks}})</span>
-    </div>
-    <div class="main-options-area" ng-if="options_level == 1">
-    	<span class="main-word-input">OPTIONS!!</span>
-    	<div class="main-option-box">
-	    	<select name="select" ng-model="query_options.match_type" ng-change="refresh_results()" style="font-size: 1em">
-				  <option value="rhyme">Rhyme</option> 
-				  <option value="port1" selected>Portmanteau from</option>
-				  <option value="port2">Portmanteau onto</option>
-				</select>
-			</div>
-    	<div ng-if="rhyming_option()" class="main-option-box">
-    		<input type="checkbox" style="width: 2.8em; height: 2.8em" ng-model="query_options.match_length" ng-change="refresh_results()"></input>
-    		Include only same length
-    	</div>
-    </div>
-    <div class="main-options-area" ng-if="options_level == 2">
-    	<span class="main-word-input">MORE OPTIONS!!</span>
-    </div>
-    <div class="main-options-area" ng-if="options_level == 0">
-    	<a class="main-more-options" ng-click="set_options_level(1)">click for options</a>
-    </div>
-    <div class="main-options-area" ng-if="options_level == 1">
-    	<a class="main-more-options" ng-click="set_options_level(2)">click for more options</a>
-    </div>
-    <div class="main-options-area" ng-if="options_level == 2">
-    	<a class="main-more-options" ng-click="set_options_level(1)">click for fewer options</a>
-    </div>
-    <div class="main-options-area" ng-if="options_level > 0">
-    	<a class="main-more-options" ng-click="set_options_level(0)">remove options</a>
-    </div>
-    <div class="main-final">
-    	<span class="main-word-input">...and find {{results.length}} rhyming words:</span>
-    </div>
-  </div>
-</section>
+<div class="outer-container">
+	<section class="main-banner">
+	  <div class="main-banner-headline">
+	    <h1>GiftRAPPED</h1>
+	  </div>
+	  <div class="main-banner-tagline">
+	    <div class="main-lead-in">
+	    	<span class="main-word-input">Type in a word: </span>
+	    </div>
+	    <div class="main-options-container">
+		    <div class="main-options-area-input">
+		    	<form novalidate ng-submit="refresh_results()">
+		    		<input type ="text" ng-model="word" ng-blur="refresh_results()"style="font-size: 2.5em; padding: 0.3em; width: 95%; max-width: 500px; background-color: #B6FFDA">
+		      </form>
+		    </div>
+		    <div class="main-options-area">
+		    	<span class="main-word-input-pronunciation">({{full_word.pronunciation_label_with_syllable_breaks}})</span>
+		    </div>
+		    <div class="main-options-area" ng-if="options_level == 1">
+		    	<div class="main-option-box">
+		    		Match type: 
+			    	<select name="select" ng-model="query_options.match_type" ng-change="refresh_results()" style="font-size: 1em">
+						  <option value="rhyme">Rhyme</option> 
+						  <option value="port1">Portmanteau from</option>
+						  <option value="port2">Portmanteau onto</option>
+						</select>
+					</div>
+		    	<div ng-show="rhyming_option()" class="main-option-box">
+		    		<input type="checkbox" style="width: 2.8em; height: 2.8em" ng-model="query_options.match_length"></input>
+		    		Include only same length<br>
+		    		<input type="checkbox" style="width: 2.8em; height: 2.8em" ng-model="query_options.must_contain_lexemes"></input>
+		    		Include only with lexemes
+		    	</div>
+		    </div>
+		    <div class="main-options-area" ng-if="options_level == 2">
+		    	<span class="main-word-input">MORE OPTIONS!!</span>
+		    </div>
+		    <div class="main-options-area" ng-if="options_level == 0">
+		    	<a class="main-more-options" ng-click="set_options_level(1)">click for options</a>
+		    </div>
+		    <div class="main-options-area" ng-if="options_level == 1">
+		    	<a class="main-more-options" ng-click="set_options_level(2)">click for more options</a>
+		    </div>
+		    <div class="main-options-area" ng-if="options_level == 2">
+		    	<a class="main-more-options" ng-click="set_options_level(1)">click for fewer options</a>
+		    </div>
+		    <div class="main-options-area" ng-if="options_level > 0">
+		    	<a class="main-more-options" ng-click="set_options_level(0)">remove options</a>
+		    </div>
+		  </div>
+	    <div class="main-final">
+	    	<span class="main-word-input">...and find {{filtered_results().length}} rhyming words:</span>
+	    </div>
+	  </div>
+	</section>
 
-<section class="results-list">
-	<div ng-repeat="result in results" ng-click="expand(result)">
-		<div class="result-row-{{result.even_tag}}">
-			<div class="result-word-name">{{result.primary_word.name}}</div>
-			<!-- <span class="result-word-pronunciation">({{result.pronunciation_label_with_syllable_breaks}})</span> -->
-			<div class="result-expander-arrow-{{result.even_tag}}" ng-if="not_expanded(result)">▼</div>
-			<div class="result-expander-arrow-{{result.even_tag}}" ng-if="expanded(result)">▲</div>
-			<div class="result-word-pronunciation" ng-if="expanded(result)">
-				({{result.pronunciation_label_with_syllable_breaks}})
-			</div>
-			<div ng-if="expanded(result)">
-				<div class="result-word-lexeme" ng-repeat="lexeme in result.primary_word.lexemes">
-					({{lexeme.word_class}}) {{lexeme.word_gloss}}
+	<section class="results-list">
+		<div ng-repeat="result in filtered_results()" ng-click="expand(result)">
+			<div class="result-row-{{even_tag($index)}}">
+				<div class="result-word-name">{{result.primary_word.name}}</div>
+				<!-- <span class="result-word-pronunciation">({{result.pronunciation_label_with_syllable_breaks}})</span> -->
+				<div class="result-expander-arrow-{{even_tag($index)}}" ng-if="not_expanded(result)">▼</div>
+				<div class="result-expander-arrow-{{even_tag($index)}}" ng-if="expanded(result)">▲</div>
+				<div class="result-word-pronunciation" ng-if="expanded(result)">
+					({{result.pronunciation_label_with_syllable_breaks}})
+				</div>
+				<div ng-if="expanded(result)">
+					<div class="result-word-lexeme" ng-repeat="lexeme in result.primary_word.lexemes">
+						({{lexeme.word_class}}) {{lexeme.word_gloss}}
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-</section>
+	</section>
+</div>

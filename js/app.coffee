@@ -16,11 +16,11 @@ app.controller "HomeController", ($scope,$http,$filter) ->
 		search_url = $scope.url + "search/" + word + ".json" 
 		$http.get(search_url).then (response) -> 
 			$scope.full_word = response.data[0]
-			console.log($scope.full_word)
 			match_url = $scope.url + $scope.query($scope.full_word)
-			console.log(match_url)
 			$http.get(match_url).then (response) -> 
-				$scope.results = response.data
+				$scope.results = response.data.map (r) ->
+					r.any_lexemes = r.primary_word.lexemes.length > 0
+					r
 	$scope.expanded = (result) ->
 		result.expanded == true
 	$scope.not_expanded = (result) ->
@@ -51,23 +51,33 @@ app.controller "HomeController", ($scope,$http,$filter) ->
 					stress = 0
 				s.onset.label + "," + s.nucleus.label + stress + "," + s.coda.label
 			syllables_str = "~" + syllables_str_arr.join('/')
-			if ($scope.options_level == 1) && ($scope.query_options.match_length == true)
-				length_option = "exactly/" + (word.num_syllables - num) + "/"
-			else
-				length_option = "at-least/0/"
-			"match/beginning/with/" + length_option + "syllables/and/" + syllables_str + ".json"
+			"match/beginning/with/at-least/0/syllables/and/" + syllables_str + ".json"
 	$scope.rhyming_option = () ->
 		$scope.query_options.match_type == "rhyme"
 	$scope.set_options_level = (value) ->
 		$scope.options_level = value
 		$scope.refresh_results()
+	$scope.filtered_results = () ->
+		if ($scope.options_level == 1) && ($scope.query_options.match_type == "rhyme")
+			fr = $scope.results
+			if $scope.query_options.match_length == true
+				fr = $filter('filter')(fr,{num_syllables:$scope.full_word.num_syllables},true)
+			if $scope.query_options.must_contain_lexemes == true
+				fr = $filter('filter')(fr,{any_lexemes:true},true)
+			fr
+		else
+			$scope.results
+	$scope.even_tag = (i) ->
+		if (i%2)==0
+			'odd'
+		else
+			'even'
 	$scope.url = "http://api.gift-rapped.com/"
 	$scope.results = []
 	$scope.query_options = {}
 	$scope.query_options.match_length = false
+	$scope.query_options.must_contain_lexemes = false
 	$scope.query_options.match_type = "rhyme"
 	$scope.word = "bird"
 	$scope.options_level = 0
 	$scope.refresh_results()
-
-	
