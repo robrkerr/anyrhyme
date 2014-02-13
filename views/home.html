@@ -16,33 +16,66 @@
 	    </div>
 	    <div class="main-options-container">
 		    <div class="main-options-area-input">
-		    	<form novalidate ng-submit="refresh_results()">
-		    		<input type ="text" ng-model="word" ng-blur="refresh_results()"style="font-size: 2.5em; padding: 0.3em; width: 95%; max-width: 500px; background-color: #B6FFDA">
-		      </form>
+		    	<autocomplete placeholder="" click-activation="true" data="autocomplete_words" on-type="autocompleteType" on-select="autocompleteSelect" on-submit="autocompleteSubmit"></autocomplete>
 		    </div>
 		    <div class="main-options-area">
 		    	<span class="main-word-input-pronunciation">({{full_word.pronunciation_label_with_syllable_breaks}})</span>
 		    </div>
-		    <div class="main-options-area" ng-if="options_level == 1">
-		    	<div class="main-option-box">
+		    <div class="main-options-area">
+		    	<div class="main-option-box" ng-if="options_level == 1">
 		    		Match type: 
-			    	<select name="select" ng-model="query_options.match_type" ng-change="refresh_results()" style="font-size: 1em">
+			    	<select name="select" ng-model="query_options.match_type" ng-change="run_query()" style="font-size: 1em">
 						  <option value="rhyme">Rhyme</option> 
 						  <option value="port1">Portmanteau from</option>
 						  <option value="port2">Portmanteau onto</option>
 						</select>
 					</div>
-		    	<div ng-show="rhyming_option()" class="main-option-box">
+		    	<div class="main-option-box" ng-if="(options_level == 1) && rhyming_option()">
 		    		<input type="checkbox" style="width: 2.8em; height: 2.8em" ng-model="query_options.match_length"></input>
 		    		Include only same length
 		    	</div>
-		    	<div class="main-option-box">
+		    	<div class="main-option-box" ng-if="options_level == 2">
+		    		Find words whose 
+		    		<select name="select" ng-model="query_options.match_end" style="font-size: 1em">
+						  <option value="final">final</option> 
+						  <option value="first">first</option>
+						</select>
+						<select name="select" ng-model="query_options.match_num_syllables" style="font-size: 1em">
+						  <option value="1">1</option> 
+						  <option value="2">2</option>
+						  <option value="3">3</option>
+						</select>
+						syllable(s) match:
+		    	</div>
+		    	<div class="main-option-box" ng-if="options_level == 2">
+		    		MATCHING DIAGRAM
+		    	</div>
+		    	<div class="main-option-box" ng-if="options_level == 2">
+		    		Include words with 
+		    		<select name="select" ng-model="query_options.filter_num_syllables_type" style="font-size: 1em">
+						  <option value="at-least">at least</option> 
+						  <option value="exactly">exactly</option>
+						</select>
+						<select name="select" ng-model="query_options.filter_num_syllables" style="font-size: 1em">
+						  <option value="1">1</option> 
+						  <option value="2">2</option>
+						  <option value="3">3</option>
+						  <option value="4">4</option>
+						  <option value="5">5</option>
+						  <option value="6">6</option>
+						  <option value="7">7</option>
+						  <option value="8">8</option>
+						  <option value="9">9</option>
+						  <option value="10">10</option>
+						  <option value="11">11</option>
+						  <option value="12">12</option>
+						</select>
+						syllable(s)
+		    	</div>
+		    	<div class="main-option-box" ng-if="options_level > 0">
 		    		<input type="checkbox" style="width: 2.8em; height: 2.8em" ng-model="query_options.must_contain_lexemes"></input>
 		    		Include only with lexemes
 		    	</div>
-		    </div>
-		    <div class="main-options-area" ng-if="options_level == 2">
-		    	<span class="main-word-input">MORE OPTIONS!!</span>
 		    </div>
 		    <div class="main-options-area" ng-if="options_level == 0">
 		    	<a class="main-more-options" ng-click="set_options_level(1)">click for options</a>

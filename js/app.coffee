@@ -1,6 +1,6 @@
 'use strict'
 
-app = angular.module 'giftrappedApp', ['ui.router']
+app = angular.module 'giftrappedApp', ['ui.router','autocomplete']
 
 app.config ($stateProvider, $urlRouterProvider) ->
 	$urlRouterProvider.otherwise '/'
@@ -11,16 +11,30 @@ app.config ($stateProvider, $urlRouterProvider) ->
 			controller: 'HomeController'
 
 app.controller "HomeController", ($scope,$http,$filter) ->
-	$scope.refresh_results = () ->
-		word = $filter('lowercase')($scope.word)
-		search_url = $scope.url + "search/" + word + ".json" 
-		$http.get(search_url).then (response) -> 
-			$scope.full_word = response.data[0]
-			match_url = $scope.url + $scope.query($scope.full_word)
-			$http.get(match_url).then (response) -> 
-				$scope.results = response.data.map (r) ->
-					r.any_lexemes = r.primary_word.lexemes.length > 0
-					r
+	$scope.autocompleteType = (typed) ->
+		$scope.word = typed
+		if typed
+			search_url = $scope.url + "search/" + typed + ".json" 
+			$http.get(search_url).then (response) -> 
+				$scope.autocomplete_words = response.data
+	$scope.autocompleteSelect = (word) ->
+		console.log(word)
+		$scope.full_word = word
+		$scope.run_query($scope.full_word)
+	$scope.autocompleteSubmit = () ->
+		console.log("hello")
+		if ($scope.word != "")
+			word = $filter('lowercase')($scope.word)
+			search_url = $scope.url + "search/" + word + ".json" 
+			$http.get(search_url).then (response) -> 
+				$scope.full_word = response.data[0]
+				$scope.run_query($scope.full_word)
+	$scope.run_query = (word) -> 
+		match_url = $scope.url + $scope.query(word)
+		$http.get(match_url).then (response) -> 
+			$scope.results = response.data.map (r) ->
+				r.any_lexemes = r.primary_word.lexemes.length > 0
+				r
 	$scope.expanded = (result) ->
 		result.expanded == true
 	$scope.not_expanded = (result) ->
@@ -56,9 +70,9 @@ app.controller "HomeController", ($scope,$http,$filter) ->
 		$scope.query_options.match_type == "rhyme"
 	$scope.set_options_level = (value) ->
 		$scope.options_level = value
-		$scope.refresh_results()
+		$scope.run_query()
 	$scope.filtered_results = () ->
-		if ($scope.options_level == 1)
+		if ($scope.options_level > 0)
 			fr = $scope.results
 			if ($scope.query_options.match_length == true) && ($scope.query_options.match_type == "rhyme")
 				fr = $filter('filter')(fr,{num_syllables:$scope.full_word.num_syllables},true)
@@ -78,6 +92,5 @@ app.controller "HomeController", ($scope,$http,$filter) ->
 	$scope.query_options.match_length = false
 	$scope.query_options.must_contain_lexemes = false
 	$scope.query_options.match_type = "rhyme"
-	$scope.word = "bird"
 	$scope.options_level = 0
-	$scope.refresh_results()
+	$scope.autocomplete_words = []

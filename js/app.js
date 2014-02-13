@@ -1,7 +1,7 @@
 'use strict';
 var app;
 
-app = angular.module('giftrappedApp', ['ui.router']);
+app = angular.module('giftrappedApp', ['ui.router', 'autocomplete']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/');
@@ -13,19 +13,40 @@ app.config(function($stateProvider, $urlRouterProvider) {
 });
 
 app.controller("HomeController", function($scope, $http, $filter) {
-  $scope.refresh_results = function() {
+  $scope.autocompleteType = function(typed) {
+    var search_url;
+    $scope.word = typed;
+    if (typed) {
+      search_url = $scope.url + "search/" + typed + ".json";
+      return $http.get(search_url).then(function(response) {
+        return $scope.autocomplete_words = response.data;
+      });
+    }
+  };
+  $scope.autocompleteSelect = function(word) {
+    console.log(word);
+    $scope.full_word = word;
+    return $scope.run_query($scope.full_word);
+  };
+  $scope.autocompleteSubmit = function() {
     var search_url, word;
-    word = $filter('lowercase')($scope.word);
-    search_url = $scope.url + "search/" + word + ".json";
-    return $http.get(search_url).then(function(response) {
-      var match_url;
-      $scope.full_word = response.data[0];
-      match_url = $scope.url + $scope.query($scope.full_word);
-      return $http.get(match_url).then(function(response) {
-        return $scope.results = response.data.map(function(r) {
-          r.any_lexemes = r.primary_word.lexemes.length > 0;
-          return r;
-        });
+    console.log("hello");
+    if ($scope.word !== "") {
+      word = $filter('lowercase')($scope.word);
+      search_url = $scope.url + "search/" + word + ".json";
+      return $http.get(search_url).then(function(response) {
+        $scope.full_word = response.data[0];
+        return $scope.run_query($scope.full_word);
+      });
+    }
+  };
+  $scope.run_query = function(word) {
+    var match_url;
+    match_url = $scope.url + $scope.query(word);
+    return $http.get(match_url).then(function(response) {
+      return $scope.results = response.data.map(function(r) {
+        r.any_lexemes = r.primary_word.lexemes.length > 0;
+        return r;
       });
     });
   };
@@ -76,11 +97,11 @@ app.controller("HomeController", function($scope, $http, $filter) {
   };
   $scope.set_options_level = function(value) {
     $scope.options_level = value;
-    return $scope.refresh_results();
+    return $scope.run_query();
   };
   $scope.filtered_results = function() {
     var fr;
-    if ($scope.options_level === 1) {
+    if ($scope.options_level > 0) {
       fr = $scope.results;
       if (($scope.query_options.match_length === true) && ($scope.query_options.match_type === "rhyme")) {
         fr = $filter('filter')(fr, {
@@ -110,7 +131,6 @@ app.controller("HomeController", function($scope, $http, $filter) {
   $scope.query_options.match_length = false;
   $scope.query_options.must_contain_lexemes = false;
   $scope.query_options.match_type = "rhyme";
-  $scope.word = "bird";
   $scope.options_level = 0;
-  return $scope.refresh_results();
+  return $scope.autocomplete_words = [];
 });
