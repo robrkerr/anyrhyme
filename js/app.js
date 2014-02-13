@@ -15,22 +15,20 @@ app.config(function($stateProvider, $urlRouterProvider) {
 app.controller("HomeController", function($scope, $http, $filter) {
   $scope.autocompleteType = function(typed) {
     var search_url;
-    $scope.word = typed;
-    if (typed) {
-      search_url = $scope.url + "search/" + typed + ".json";
+    $scope.word = $filter('lowercase')(typed);
+    if ($scope.word) {
+      search_url = $scope.url + "search/" + $scope.word + ".json";
       return $http.get(search_url).then(function(response) {
         return $scope.autocomplete_words = response.data;
       });
     }
   };
   $scope.autocompleteSelect = function(word) {
-    console.log(word);
     $scope.full_word = word;
     return $scope.run_query($scope.full_word);
   };
   $scope.autocompleteSubmit = function() {
     var search_url, word;
-    console.log("hello");
     if ($scope.word !== "") {
       word = $filter('lowercase')($scope.word);
       search_url = $scope.url + "search/" + word + ".json";

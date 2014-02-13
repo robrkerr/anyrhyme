@@ -12,17 +12,15 @@ app.config ($stateProvider, $urlRouterProvider) ->
 
 app.controller "HomeController", ($scope,$http,$filter) ->
 	$scope.autocompleteType = (typed) ->
-		$scope.word = typed
-		if typed
-			search_url = $scope.url + "search/" + typed + ".json" 
+		$scope.word = $filter('lowercase')(typed)
+		if $scope.word
+			search_url = $scope.url + "search/" + $scope.word + ".json" 
 			$http.get(search_url).then (response) -> 
 				$scope.autocomplete_words = response.data
 	$scope.autocompleteSelect = (word) ->
-		console.log(word)
 		$scope.full_word = word
 		$scope.run_query($scope.full_word)
 	$scope.autocompleteSubmit = () ->
-		console.log("hello")
 		if ($scope.word != "")
 			word = $filter('lowercase')($scope.word)
 			search_url = $scope.url + "search/" + word + ".json" 
