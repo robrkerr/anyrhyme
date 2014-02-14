@@ -23,3 +23,12 @@ body {
     margin: 0 auto;
   }
 }
+
+a {
+  text-decoration: underline;
+  color: blue;
+}
+
+a:hover {
+  cursor: pointer;
+}

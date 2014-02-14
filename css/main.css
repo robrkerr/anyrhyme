@@ -25,6 +25,17 @@ body {
   margin: 0 auto;
 }
 
+/* line 27, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/_base.scss */
+a {
+  text-decoration: underline;
+  color: blue;
+}
+
+/* line 32, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/_base.scss */
+a:hover {
+  cursor: pointer;
+}
+
 /* line 1, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/_autocomplete.scss */
 .autocomplete {
   position: relative;
@@ -162,6 +173,54 @@ body {
 .main-option-box {
   font-size: 2em;
   padding: 0.5em;
+}
+
+/* line 73, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+.main-option-segment-description {
+  display: inline-block;
+  text-align: left;
+  width: 4em;
+}
+
+/* line 79, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+.main-option-segment-input {
+  width: 40%;
+  max-width: 8em;
+  font-size: 1em;
+  padding: 0.2em;
+}
+
+/* line 86, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+.main-option-diagram-syllable {
+  display: inline-block;
+  background-color: #78ff87;
+  padding: 0.6em 0.5em;
+  margin: 0 0.1em;
+}
+
+/* line 94, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+.main-option-diagram-segment {
+  padding: 0;
+}
+
+/* line 98, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+.main-option-diagram-segment-antimatch {
+  color: red;
+  padding: 0;
+}
+
+/* line 103, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+.main-option-box-syllable-details {
+  font-size: 2em;
+  padding: 0.5em;
+  background-color: #78ff87;
+  width: 16.5em;
+  margin: 0.5em auto;
+}
+
+/* line 112, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+.main-option-segment-box {
+  padding: 0.3em;
 }
 
 /* line 1, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_results-list.scss */

@@ -32,7 +32,7 @@
 					</div>
 		    	<div class="main-option-box" ng-if="(options_level == 1) && rhyming_option()">
 		    		<input type="checkbox" style="width: 2.8em; height: 2.8em" ng-model="query_options.match_length"></input>
-		    		Include only same length
+		    		Only words of same length
 		    	</div>
 		    	<div class="main-option-box" ng-if="options_level == 2">
 		    		Find words whose 
@@ -48,10 +48,62 @@
 						syllable(s) match:
 		    	</div>
 		    	<div class="main-option-box" ng-if="options_level == 2">
-		    		MATCHING DIAGRAM
+		    		<span class="main-option-diagram-syllable">
+		    			<span class="main-option-diagram-segment">*</span>-<span class="main-option-diagram-segment">*</span>-<span class="main-option-diagram-segment">*</span>
+		    		</span>
+		    		<span class="main-option-diagram-segment">
+		    			...
+		    		</span>
+		    		<span class="main-option-diagram-syllable">
+		    			<span class="main-option-diagram-segment-antimatch">b-</span><span class="main-option-diagram-segment">er0</span><span class="main-option-diagram-segment">-d</span>
+		    		</span>
+		    		<span class="main-option-diagram-syllable">
+		    			<span class="main-option-diagram-segment">*-</span><span class="main-option-diagram-segment">ey1</span><span class="main-option-diagram-segment">-*</span>
+		    		</span>
 		    	</div>
 		    	<div class="main-option-box" ng-if="options_level == 2">
-		    		Include words with 
+		    		<span style="font-size: 0.8em">
+		    			(Set to the <a>end</a> / <a>beginning</a> of above word)
+		    		</span>
+					</div>
+		    	<div class="main-option-box-syllable-details" ng-if="options_level == 2">
+		    		<div class="main-option-segment-box">
+			    		<span class="main-option-segment-description">Onset</span>
+			    		<select name="select"style="font-size: 1em">
+							  <option value="match">is</option> 
+							  <option value="anti-match">isn't</option>
+							</select>
+							<input type="text" class="main-option-segment-input">
+						</div>
+						<div class="main-option-segment-box">
+			    		<span class="main-option-segment-description">Nucleus</span>
+			    		<select name="select"style="font-size: 1em">
+							  <option value="match">is</option> 
+							  <option value="anti-match">isn't</option>
+							</select>
+							<input type="text" class="main-option-segment-input">
+						</div>
+						<div class="main-option-segment-box">
+							<span class="main-option-segment-description">Coda</span>
+			    		<select name="select"style="font-size: 1em">
+							  <option value="match">is</option> 
+							  <option value="anti-match">isn't</option>
+							</select>
+							<input type="text" class="main-option-segment-input">
+						</div>
+						<div class="main-option-segment-box">
+			    		<select name="select"style="font-size: 1em">
+							  <option value="match">Primary</option> 
+							  <option value="anti-match">Secondary</option>
+							  <option value="anti-match">Some</option>
+							  <option value="anti-match">No</option>
+							  <option value="anti-match">Any</option>
+							</select>
+							<span class="main-option-segment-description">stress</span>
+						</div>
+		    	</div>
+		    	<div class="main-option-box" ng-if="options_level == 2">
+		    		Words with 
 		    		<select name="select" ng-model="query_options.filter_num_syllables_type" style="font-size: 1em">
 						  <option value="at-least">at least</option> 
 						  <option value="exactly">exactly</option>
@@ -74,7 +126,7 @@
 		    	</div>
 		    	<div class="main-option-box" ng-if="options_level > 0">
 		    		<input type="checkbox" style="width: 2.8em; height: 2.8em" ng-model="query_options.must_contain_lexemes"></input>
-		    		Include only with lexemes
+		    		Only words with lexemes
 		    	</div>
 		    </div>
 		    <div class="main-options-area" ng-if="options_level == 0">
@@ -100,7 +152,6 @@
 		<div ng-repeat="result in filtered_results()" ng-click="expand(result)">
 			<div class="result-row-{{even_tag($index)}}">
 				<div class="result-word-name">{{result.primary_word.name}}</div>
-				<!-- <span class="result-word-pronunciation">({{result.pronunciation_label_with_syllable_breaks}})</span> -->
 				<div class="result-expander-arrow-{{even_tag($index)}}" ng-if="not_expanded(result)">▼</div>
 				<div class="result-expander-arrow-{{even_tag($index)}}" ng-if="expanded(result)">▲</div>
 				<div class="result-word-pronunciation" ng-if="expanded(result)">

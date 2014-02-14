@@ -67,5 +67,48 @@
 
 .main-option-box {
   font-size: 2em;
-  padding: 0.5em;  
+  padding: 0.5em;
+}
+
+.main-option-segment-description {
+  display: inline-block; 
+  text-align: left; 
+  width: 4em;
+}
+
+.main-option-segment-input {
+  width: 40%; 
+  max-width: 8em; 
+  font-size: 1em;
+  padding: 0.2em;
+}
+
+.main-option-diagram-syllable {
+  display: inline-block; 
+  background-color: $green-medium;
+  padding: 0.6em 0.5em;
+  margin: 0 0.1em;
+  // border-radius: 0.4em;
+}
+
+.main-option-diagram-segment {
+  padding: 0;
+}
+
+.main-option-diagram-segment-antimatch {
+  color: red;
+  padding: 0;
+}
+
+.main-option-box-syllable-details {
+  font-size: 2em;
+  padding: 0.5em;
+  // border-radius: 0.4em;
+  background-color: $green-medium;
+  width: 16.5em;
+  margin: 0.5em auto;
+}
+
+.main-option-segment-box {
+  padding: 0.3em;
 }

@@ -13,6 +13,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 });
 
 app.controller("HomeController", function($scope, $http, $filter) {
+  var at_least_num_syllables_filter, exactly_num_syllables_filter;
   $scope.autocompleteType = function(typed) {
     var search_url;
     $scope.word = $filter('lowercase')(typed);
@@ -25,7 +26,7 @@ app.controller("HomeController", function($scope, $http, $filter) {
   };
   $scope.autocompleteSelect = function(word) {
     $scope.full_word = word;
-    return $scope.run_query($scope.full_word);
+    return $scope.run_query();
   };
   $scope.autocompleteSubmit = function() {
     var search_url, word;
@@ -34,19 +35,21 @@ app.controller("HomeController", function($scope, $http, $filter) {
       search_url = $scope.url + "search/" + word + ".json";
       return $http.get(search_url).then(function(response) {
         $scope.full_word = response.data[0];
-        return $scope.run_query($scope.full_word);
+        return $scope.run_query();
       });
     }
   };
-  $scope.run_query = function(word) {
+  $scope.run_query = function() {
     var match_url;
-    match_url = $scope.url + $scope.query(word);
-    return $http.get(match_url).then(function(response) {
-      return $scope.results = response.data.map(function(r) {
-        r.any_lexemes = r.primary_word.lexemes.length > 0;
-        return r;
+    if ($scope.full_word) {
+      match_url = $scope.url + $scope.query($scope.full_word);
+      return $http.get(match_url).then(function(response) {
+        return $scope.results = response.data.map(function(r) {
+          r.any_lexemes = r.primary_word.lexemes.length > 0;
+          return r;
+        });
       });
-    });
+    }
   };
   $scope.expanded = function(result) {
     return result.expanded === true;
@@ -99,22 +102,34 @@ app.controller("HomeController", function($scope, $http, $filter) {
   };
   $scope.filtered_results = function() {
     var fr;
+    fr = $scope.results;
     if ($scope.options_level > 0) {
-      fr = $scope.results;
-      if (($scope.query_options.match_length === true) && ($scope.query_options.match_type === "rhyme")) {
-        fr = $filter('filter')(fr, {
-          num_syllables: $scope.full_word.num_syllables
-        }, true);
-      }
       if ($scope.query_options.must_contain_lexemes === true) {
         fr = $filter('filter')(fr, {
           any_lexemes: true
         }, true);
       }
-      return fr;
-    } else {
-      return $scope.results;
+      if ($scope.options_level === 1) {
+        if (($scope.query_options.match_length === true) && ($scope.query_options.match_type === "rhyme")) {
+          fr = $filter('filter')(fr, {
+            num_syllables: $scope.full_word.num_syllables
+          }, true);
+        }
+      } else if ($scope.options_level === 2) {
+        if ($scope.query_options.filter_num_syllables_type === "at-least") {
+          fr = $filter('filter')(fr, at_least_num_syllables_filter);
+        } else if ($scope.query_options.filter_num_syllables_type === "exactly") {
+          fr = $filter('filter')(fr, exactly_num_syllables_filter);
+        }
+      }
     }
+    return fr;
+  };
+  at_least_num_syllables_filter = function(word) {
+    return word.num_syllables >= parseInt($scope.query_options.filter_num_syllables);
+  };
+  exactly_num_syllables_filter = function(word) {
+    return word.num_syllables === parseInt($scope.query_options.filter_num_syllables);
   };
   $scope.even_tag = function(i) {
     if ((i % 2) === 0) {
@@ -129,6 +144,10 @@ app.controller("HomeController", function($scope, $http, $filter) {
   $scope.query_options.match_length = false;
   $scope.query_options.must_contain_lexemes = false;
   $scope.query_options.match_type = "rhyme";
-  $scope.options_level = 0;
+  $scope.query_options.filter_num_syllables_type = "at-least";
+  $scope.query_options.filter_num_syllables = 1;
+  $scope.query_options.match_end = "final";
+  $scope.query_options.match_num_syllables = 2;
+  $scope.options_level = 2;
   return $scope.autocomplete_words = [];
 });

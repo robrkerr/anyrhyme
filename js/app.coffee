@@ -19,20 +19,21 @@ app.controller "HomeController", ($scope,$http,$filter) ->
 				$scope.autocomplete_words = response.data
 	$scope.autocompleteSelect = (word) ->
 		$scope.full_word = word
-		$scope.run_query($scope.full_word)
+		$scope.run_query()
 	$scope.autocompleteSubmit = () ->
 		if ($scope.word != "")
 			word = $filter('lowercase')($scope.word)
 			search_url = $scope.url + "search/" + word + ".json" 
 			$http.get(search_url).then (response) -> 
 				$scope.full_word = response.data[0]
-				$scope.run_query($scope.full_word)
-	$scope.run_query = (word) -> 
-		match_url = $scope.url + $scope.query(word)
-		$http.get(match_url).then (response) -> 
-			$scope.results = response.data.map (r) ->
-				r.any_lexemes = r.primary_word.lexemes.length > 0
-				r
+				$scope.run_query()
+	$scope.run_query = () -> 
+		if $scope.full_word
+			match_url = $scope.url + $scope.query($scope.full_word)
+			$http.get(match_url).then (response) -> 
+				$scope.results = response.data.map (r) ->
+					r.any_lexemes = r.primary_word.lexemes.length > 0
+					r
 	$scope.expanded = (result) ->
 		result.expanded == true
 	$scope.not_expanded = (result) ->
@@ -70,15 +71,23 @@ app.controller "HomeController", ($scope,$http,$filter) ->
 		$scope.options_level = value
 		$scope.run_query()
 	$scope.filtered_results = () ->
+		fr = $scope.results
 		if ($scope.options_level > 0)
-			fr = $scope.results
-			if ($scope.query_options.match_length == true) && ($scope.query_options.match_type == "rhyme")
-				fr = $filter('filter')(fr,{num_syllables:$scope.full_word.num_syllables},true)
 			if $scope.query_options.must_contain_lexemes == true
 				fr = $filter('filter')(fr,{any_lexemes:true},true)
-			fr
-		else
-			$scope.results
+			if ($scope.options_level == 1)
+				if ($scope.query_options.match_length == true) && ($scope.query_options.match_type == "rhyme")
+					fr = $filter('filter')(fr,{num_syllables:$scope.full_word.num_syllables},true)
+			else if ($scope.options_level == 2)
+				if $scope.query_options.filter_num_syllables_type == "at-least"
+					fr = $filter('filter')(fr,at_least_num_syllables_filter)
+				else if $scope.query_options.filter_num_syllables_type == "exactly"
+					fr = $filter('filter')(fr,exactly_num_syllables_filter)
+		fr
+	at_least_num_syllables_filter = (word) ->
+		word.num_syllables >= parseInt($scope.query_options.filter_num_syllables)
+	exactly_num_syllables_filter = (word) ->
+		word.num_syllables == parseInt($scope.query_options.filter_num_syllables)
 	$scope.even_tag = (i) ->
 		if (i%2)==0
 			'odd'
@@ -90,5 +99,9 @@ app.controller "HomeController", ($scope,$http,$filter) ->
 	$scope.query_options.match_length = false
 	$scope.query_options.must_contain_lexemes = false
 	$scope.query_options.match_type = "rhyme"
-	$scope.options_level = 0
+	$scope.query_options.filter_num_syllables_type = "at-least"
+	$scope.query_options.filter_num_syllables = 1
+	$scope.query_options.match_end = "final"
+	$scope.query_options.match_num_syllables = 2
+	$scope.options_level = 2
 	$scope.autocomplete_words = []
