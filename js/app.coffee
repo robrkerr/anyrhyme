@@ -19,6 +19,7 @@ app.controller "HomeController", ($scope,$http,$filter) ->
 				$scope.autocomplete_words = response.data
 	$scope.autocompleteSelect = (word) ->
 		$scope.full_word = word
+		$scope.preset_rhyme()
 		$scope.run_query()
 	$scope.autocompleteSubmit = () ->
 		if ($scope.word != "")
@@ -26,6 +27,7 @@ app.controller "HomeController", ($scope,$http,$filter) ->
 			search_url = $scope.url + "search/" + word + ".json" 
 			$http.get(search_url).then (response) -> 
 				$scope.full_word = response.data[0]
+				$scope.preset_rhyme()
 				$scope.run_query()
 	$scope.run_query = () -> 
 		if $scope.full_word
@@ -93,6 +95,141 @@ app.controller "HomeController", ($scope,$http,$filter) ->
 			'odd'
 		else
 			'even'
+	$scope.list_of_syllables_to_match = () ->
+		$scope.query_options.syllables_to_match.slice(3-$scope.query_options.match_num_syllables,3)
+	$scope.show_ellipsis = (i) ->
+		qo = $scope.query_options
+		at_least = qo.filter_num_syllables_type == "at-least"
+		more_syllables = qo.filter_num_syllables > qo.match_num_syllables + 1
+		if (qo.match_end == "final")
+			(i==1) && (at_least || more_syllables)
+		else
+			(i==2) && (at_least || more_syllables)
+	$scope.show_leading = (i) ->
+		qo = $scope.query_options
+		more_syllables = qo.filter_num_syllables > qo.match_num_syllables
+		if (qo.match_end == "final")
+			(i==1) && more_syllables
+		else
+			(i==2) && more_syllables
+	clear_syllables_to_match = () ->
+		$scope.query_options.syllables_to_match = [
+			{
+				onset: {match_type: 'match', label: '*'},
+				nucleus: {match_type: 'match', label: '*'},
+				coda: {match_type: 'match', label: '*'},
+				stress: ''
+			},
+			{
+				onset: {match_type: 'match', label: '*'},
+				nucleus: {match_type: 'match', label: '*'},
+				coda: {match_type: 'match', label: '*'},
+				stress: ''
+			},
+			{
+				onset: {match_type: 'match', label: '*'},
+				nucleus: {match_type: 'match', label: '*'},
+				coda: {match_type: 'match', label: '*'},
+				stress: ''
+			}
+		]
+	$scope.preset_rhyme = () ->
+		if $scope.full_word
+			clear_syllables_to_match()
+			num = $scope.full_word.num_syllables - $scope.full_word.last_stressed_syllable
+			if num > 3
+				num = 3
+			for i in [0..(num-1)]
+				s = $scope.full_word.syllables[$scope.full_word.num_syllables - 1 - i]
+				if (i==(num-1)) || (i==2)
+					onset_match_type = 'antimatch'
+				else
+					onset_match_type = 'match'
+				if s.stress > 0
+					stress_to_match = '3'
+				else
+					stress_to_match = '0'
+				if s.onset.label == ""
+					onset_label = "_"
+				else
+					onset_label = s.onset.label
+				if s.coda.label == ""
+					coda_label = "_"
+				else
+					coda_label = s.coda.label
+				syllable_to_match = {
+					onset: { match_type: onset_match_type, label: onset_label },
+					nucleus: { match_type: 'match', label: s.nucleus.label },
+					coda: { match_type: 'match', label: coda_label },
+					stress: stress_to_match
+	    	}
+				$scope.query_options.syllables_to_match[2-i] = syllable_to_match
+			$scope.query_options.match_num_syllables = num
+			$scope.query_options.match_end = "final"
+			$scope.query_options.filter_num_syllables_type = "at-least"
+			$scope.query_options.filter_num_syllables = 1
+	$scope.preset_portmanteau1 = () ->
+		if $scope.full_word
+			clear_syllables_to_match()
+			s = $scope.full_word.syllables[$scope.full_word.num_syllables-1]
+			if s.onset.label == ""
+				onset_label = "_"
+			else
+				onset_label = s.onset.label
+			if s.coda.label == ""
+				coda_label = "_"
+			else
+				coda_label = s.coda.label
+			syllable_to_match = {
+				onset: { match_type: 'match', label: onset_label },
+				nucleus: { match_type: 'match', label: s.nucleus.label },
+				coda: { match_type: 'match', label: coda_label },
+				stress: ''
+    	}
+			$scope.query_options.syllables_to_match[2] = syllable_to_match
+			$scope.query_options.match_num_syllables = 1
+			$scope.query_options.match_end = "first"
+			$scope.query_options.filter_num_syllables_type = "at-least"
+			$scope.query_options.filter_num_syllables = 2
+	$scope.preset_portmanteau2 = () ->
+		if $scope.full_word
+			clear_syllables_to_match()
+			s = $scope.full_word.syllables[0]
+			if s.onset.label == ""
+				onset_label = "_"
+			else
+				onset_label = s.onset.label
+			if s.coda.label == ""
+				coda_label = "_"
+			else
+				coda_label = s.coda.label
+			syllable_to_match = {
+				onset: { match_type: 'match', label: onset_label },
+				nucleus: { match_type: 'match', label: s.nucleus.label },
+				coda: { match_type: 'match', label: coda_label },
+				stress: ''
+    	}
+			$scope.query_options.syllables_to_match[2] = syllable_to_match
+			$scope.query_options.match_num_syllables = 1
+			$scope.query_options.match_end = "final"
+			$scope.query_options.filter_num_syllables_type = "at-least"
+			$scope.query_options.filter_num_syllables = 2
+	$scope.select_match_syllable = (i) ->
+		$scope.match_syllable_selected = i
+	$scope.match_syllable_class = (i) ->
+		if ($scope.match_syllable_selected == i)
+			"-selected"
+		else 
+			""
+	$scope.selected_match_syllable = () ->
+		if ($scope.match_syllable_selected >= 1) && ($scope.match_syllable_selected <= 3)
+			[$scope.list_of_syllables_to_match()[$scope.match_syllable_selected-1]]
+		else if ($scope.match_syllable_selected == 4)
+			[$scope.query_options.leading_syllable_to_match]
+		else if ($scope.match_syllable_selected == 5)
+			[$scope.query_options.trailing_syllable_to_match]
+		else
+			[]
 	$scope.url = "http://api.gift-rapped.com/"
 	$scope.results = []
 	$scope.query_options = {}
@@ -102,6 +239,20 @@ app.controller "HomeController", ($scope,$http,$filter) ->
 	$scope.query_options.filter_num_syllables_type = "at-least"
 	$scope.query_options.filter_num_syllables = 1
 	$scope.query_options.match_end = "final"
-	$scope.query_options.match_num_syllables = 2
+	$scope.query_options.match_num_syllables = 1
+	clear_syllables_to_match()
+	$scope.query_options.leading_syllable_to_match = {
+		onset: {match_type: 'match', label: '*'},
+		nucleus: {match_type: 'match', label: '*'},
+		coda: {match_type: 'match', label: '*'},
+		stress: ''
+	}
+	$scope.query_options.trailing_syllable_to_match = {
+		onset: {match_type: 'match', label: '*'},
+		nucleus: {match_type: 'match', label: '*'},
+		coda: {match_type: 'match', label: '*'},
+		stress: ''
+	}
 	$scope.options_level = 2
+	$scope.match_syllable_selected = 3
 	$scope.autocomplete_words = []

@@ -198,27 +198,44 @@ a:hover {
   margin: 0 0.1em;
 }
 
-/* line 94, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
-.main-option-diagram-segment {
+/* line 93, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+.main-option-diagram-syllable-selected {
+  display: inline-block;
+  background-color: #b6ffc3;
+  padding: 0.6em 0.5em;
+  margin: 0 0.1em;
+}
+
+/* line 100, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+.main-option-diagram-syllable:hover {
+  cursor: pointer;
+}
+
+/* line 104, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+.main-option-diagram-syllable-selected:hover {
+  cursor: pointer;
+}
+
+/* line 108, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+.main-option-diagram-segment-match {
   padding: 0;
 }
 
-/* line 98, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 112, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
 .main-option-diagram-segment-antimatch {
   color: red;
   padding: 0;
 }
 
-/* line 103, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 117, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
 .main-option-box-syllable-details {
-  font-size: 2em;
   padding: 0.5em;
   background-color: #78ff87;
   width: 16.5em;
   margin: 0.5em auto;
 }
 
-/* line 112, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 124, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
 .main-option-segment-box {
   padding: 0.3em;
 }

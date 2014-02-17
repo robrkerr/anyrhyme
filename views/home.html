@@ -48,58 +48,63 @@
 						syllable(s) match:
 		    	</div>
 		    	<div class="main-option-box" ng-if="options_level == 2">
-		    		<span class="main-option-diagram-syllable">
-		    			<span class="main-option-diagram-segment">*</span>-<span class="main-option-diagram-segment">*</span>-<span class="main-option-diagram-segment">*</span>
+		    		<span class="main-option-diagram-syllable{{match_syllable_class(4)}}" ng-if="show_leading(1)" ng-click="select_match_syllable(4)">
+		    			<span class="main-option-diagram-segment-{{query_options.leading_syllable_to_match.onset.match_type}}">{{query_options.leading_syllable_to_match.onset.label}}-</span><span class="main-option-diagram-segment-{{query_options.leading_syllable_to_match.nucleus.match_type}}">{{query_options.leading_syllable_to_match.nucleus.label}}</span><span class="main-option-diagram-segment-{{query_options.leading_syllable_to_match.coda.match_type}}">-{{query_options.leading_syllable_to_match.coda.label}}</span>
 		    		</span>
-		    		<span class="main-option-diagram-segment">
+		    		<span class="main-option-diagram-segment-match" ng-if="show_ellipsis(1)">
 		    			...
 		    		</span>
-		    		<span class="main-option-diagram-syllable">
-		    			<span class="main-option-diagram-segment-antimatch">b-</span><span class="main-option-diagram-segment">er0</span><span class="main-option-diagram-segment">-d</span>
+		    		<span class="main-option-diagram-syllable{{match_syllable_class($index+1)}}" ng-repeat="syllable in list_of_syllables_to_match()" ng-click="select_match_syllable($index+1)">
+		    			<span class="main-option-diagram-segment-{{syllable.onset.match_type}}">{{syllable.onset.label}}-</span><span class="main-option-diagram-segment-{{syllable.nucleus.match_type}}">{{syllable.nucleus.label}}{{syllable.stress}}</span><span class="main-option-diagram-segment-{{syllable.coda.match_type}}">-{{syllable.coda.label}}</span>
 		    		</span>
-		    		<span class="main-option-diagram-syllable">
-		    			<span class="main-option-diagram-segment">*-</span><span class="main-option-diagram-segment">ey1</span><span class="main-option-diagram-segment">-*</span>
+		    		<span class="main-option-diagram-segment-match" ng-if="show_ellipsis(2)">
+		    			...
+		    		</span>
+		    		<span class="main-option-diagram-syllable{{match_syllable_class(5)}}" ng-if="show_leading(2)" ng-click="select_match_syllable(5)">
+		    			<span class="main-option-diagram-segment-{{query_options.leading_syllable_to_match.onset.match_type}}">{{query_options.leading_syllable_to_match.onset.label}}-</span><span class="main-option-diagram-segment-{{query_options.leading_syllable_to_match.nucleus.match_type}}">{{query_options.leading_syllable_to_match.nucleus.label}}</span><span class="main-option-diagram-segment-{{query_options.leading_syllable_to_match.coda.match_type}}">-{{query_options.leading_syllable_to_match.coda.label}}</span>
 		    		</span>
 		    	</div>
 		    	<div class="main-option-box" ng-if="options_level == 2">
 		    		<span style="font-size: 0.8em">
-		    			(Set to the <a>end</a> / <a>beginning</a> of above word)
+		    			Set as a <a ng-click="preset_rhyme()">rhyme</a>, <br><a ng-click="preset_portmanteau1()">portmanteau</a> (from this word), or <br><a ng-click="preset_portmanteau2()">portmanteau</a> (onto this word) <br>of the above word
 		    		</span>
 					</div>
-		    	<div class="main-option-box-syllable-details" ng-if="options_level == 2">
-		    		<div class="main-option-segment-box">
-			    		<span class="main-option-segment-description">Onset</span>
-			    		<select name="select"style="font-size: 1em">
-							  <option value="match">is</option> 
-							  <option value="anti-match">isn't</option>
-							</select>
-							<input type="text" class="main-option-segment-input">
-						</div>
-						<div class="main-option-segment-box">
-			    		<span class="main-option-segment-description">Nucleus</span>
-			    		<select name="select"style="font-size: 1em">
-							  <option value="match">is</option> 
-							  <option value="anti-match">isn't</option>
-							</select>
-							<input type="text" class="main-option-segment-input">
-						</div>
-						<div class="main-option-segment-box">
-							<span class="main-option-segment-description">Coda</span>
-			    		<select name="select"style="font-size: 1em">
-							  <option value="match">is</option> 
-							  <option value="anti-match">isn't</option>
-							</select>
-							<input type="text" class="main-option-segment-input">
-						</div>
-						<div class="main-option-segment-box">
-			    		<select name="select"style="font-size: 1em">
-							  <option value="match">Primary</option> 
-							  <option value="anti-match">Secondary</option>
-							  <option value="anti-match">Some</option>
-							  <option value="anti-match">No</option>
-							  <option value="anti-match">Any</option>
-							</select>
-							<span class="main-option-segment-description">stress</span>
+					<div class="main-option-box" ng-if="options_level == 2">
+		    		<div class="main-option-box-syllable-details" ng-repeat="syllable in selected_match_syllable()">
+			    		<div class="main-option-segment-box">
+				    		<span class="main-option-segment-description">Onset</span>
+				    		<select name="select"style="font-size: 1em" ng-model="syllable.onset.match_type">
+								  <option value="match">is</option> 
+								  <option value="antimatch">isn't</option>
+								</select>
+								<input type="text" class="main-option-segment-input" ng-model="syllable.onset.label">
+							</div>
+							<div class="main-option-segment-box">
+				    		<span class="main-option-segment-description">Nucleus</span>
+				    		<select name="select"style="font-size: 1em" ng-model="syllable.nucleus.match_type">
+								  <option value="match">is</option> 
+								  <option value="antimatch">isn't</option>
+								</select>
+								<input type="text" class="main-option-segment-input" ng-model="syllable.nucleus.label">
+							</div>
+							<div class="main-option-segment-box">
+								<span class="main-option-segment-description">Coda</span>
+				    		<select name="select"style="font-size: 1em" ng-model="syllable.coda.match_type">
+								  <option value="match">is</option> 
+								  <option value="antimatch">isn't</option>
+								</select>
+								<input type="text" class="main-option-segment-input" ng-model="syllable.coda.label">
+							</div>
+							<div class="main-option-segment-box">
+				    		<select name="select" style="font-size: 1em" ng-model="syllable.stress">
+								  <option value="1">Primary</option> 
+								  <option value="2">Secondary</option>
+								  <option value="3">Some</option>
+								  <option value="0">No</option>
+								  <option value="">Any</option>
+								</select>
+								<span class="main-option-segment-description">stress</span>
+							</div>		
 						</div>
 		    	</div>
 		    	<div class="main-option-box" ng-if="options_level == 2">
@@ -126,7 +131,7 @@
 		    	</div>
 		    	<div class="main-option-box" ng-if="options_level > 0">
 		    		<input type="checkbox" style="width: 2.8em; height: 2.8em" ng-model="query_options.must_contain_lexemes"></input>
-		    		Only words with lexemes
+		    		Only words with definitions 
 		    	</div>
 		    </div>
 		    <div class="main-options-area" ng-if="options_level == 0">
