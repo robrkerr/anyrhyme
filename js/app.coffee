@@ -46,7 +46,77 @@ app.controller "HomeController", ($scope,$http,$filter) ->
 		else
 			result.expanded = true
 	$scope.query = (word) ->
-		if ($scope.options_level == 1) && ($scope.query_options.match_type == "port1")
+		if ($scope.options_level == 2)
+			syllables_str = ""
+			if $scope.query_options.match_end == "final"
+				for i in [(3-$scope.query_options.match_num_syllables)...3]
+					s = $scope.query_options.syllables_to_match[i]
+					if s.onset.match_type == "match"
+						onset = s.onset.label
+					else
+						onset = "~" + s.onset.label
+					if s.nucleus.match_type == "match"
+						nucleus = s.nucleus.label
+					else
+						nucleus = "~" + s.nucleus.label
+					if s.coda.match_type == "match"
+						coda = s.coda.label
+					else
+						coda = "~" + s.coda.label
+					syllables_str = syllables_str + "/" + onset + "," + nucleus + s.stress + "," + coda
+				if $scope.show_leading(1)
+					s = $scope.query_options.leading_syllable_to_match
+					if s.onset.match_type == "match"
+						onset = s.onset.label
+					else
+						onset = "~" + s.onset.label
+					if s.nucleus.match_type == "match"
+						nucleus = s.nucleus.label
+					else
+						nucleus = "~" + s.nucleus.label
+					if s.coda.match_type == "match"
+						coda = s.coda.label
+					else
+						coda = "~" + s.coda.label
+					front = "/" + onset + "," + nucleus + s.stress + "," + coda + "/and"
+				else
+					front = ""
+				"match/beginning/with" + front + "/at-least/0/syllables/and" + syllables_str + ".json"
+			else
+				for i in [0...$scope.query_options.match_num_syllables]
+					s = $scope.query_options.syllables_to_match[2-i]
+					if s.onset.match_type == "match"
+						onset = s.onset.label
+					else
+						onset = "~" + s.onset.label
+					if s.nucleus.match_type == "match"
+						nucleus = s.nucleus.label
+					else
+						nucleus = "~" + s.nucleus.label
+					if s.coda.match_type == "match"
+						coda = s.coda.label
+					else
+						coda = "~" + s.coda.label
+					syllables_str = syllables_str + "/" + onset + "," + nucleus + s.stress + "," + coda
+				if $scope.show_leading(2)
+					s = $scope.query_options.trailing_syllable_to_match
+					if s.onset.match_type == "match"
+						onset = s.onset.label
+					else
+						onset = "~" + s.onset.label
+					if s.nucleus.match_type == "match"
+						nucleus = s.nucleus.label
+					else
+						nucleus = "~" + s.nucleus.label
+					if s.coda.match_type == "match"
+						coda = s.coda.label
+					else
+						coda = "~" + s.coda.label
+					end = "/" + onset + "," + nucleus + s.stress + "," + coda + "/and"
+				else
+					end = ""
+				"match/ending/with" + end + "/at-least/0/syllables/and" + syllables_str + ".json"
+		else if ($scope.options_level == 1) && ($scope.query_options.match_type == "port1")
 			s = word.syllables[word.syllables.length-1]
 			syllables_str = s.onset.label + "," + s.nucleus.label + "," + s.coda.label
 			"match/ending/with/at-least/1/syllables/and/" + syllables_str + ".json"
@@ -139,7 +209,7 @@ app.controller "HomeController", ($scope,$http,$filter) ->
 			num = $scope.full_word.num_syllables - $scope.full_word.last_stressed_syllable
 			if num > 3
 				num = 3
-			for i in [0..(num-1)]
+			for i in [0...num]
 				s = $scope.full_word.syllables[$scope.full_word.num_syllables - 1 - i]
 				if (i==(num-1)) || (i==2)
 					onset_match_type = 'antimatch'

@@ -67,8 +67,95 @@ app.controller("HomeController", function($scope, $http, $filter) {
     }
   };
   $scope.query = function(word) {
-    var num, s, syllables_str, syllables_str_arr, word_syllables;
-    if (($scope.options_level === 1) && ($scope.query_options.match_type === "port1")) {
+    var coda, end, front, i, nucleus, num, onset, s, syllables_str, syllables_str_arr, word_syllables, _i, _j, _ref, _ref1;
+    if ($scope.options_level === 2) {
+      syllables_str = "";
+      if ($scope.query_options.match_end === "final") {
+        for (i = _i = _ref = 3 - $scope.query_options.match_num_syllables; _ref <= 3 ? _i < 3 : _i > 3; i = _ref <= 3 ? ++_i : --_i) {
+          s = $scope.query_options.syllables_to_match[i];
+          if (s.onset.match_type === "match") {
+            onset = s.onset.label;
+          } else {
+            onset = "~" + s.onset.label;
+          }
+          if (s.nucleus.match_type === "match") {
+            nucleus = s.nucleus.label;
+          } else {
+            nucleus = "~" + s.nucleus.label;
+          }
+          if (s.coda.match_type === "match") {
+            coda = s.coda.label;
+          } else {
+            coda = "~" + s.coda.label;
+          }
+          syllables_str = syllables_str + "/" + onset + "," + nucleus + s.stress + "," + coda;
+        }
+        if ($scope.show_leading(1)) {
+          s = $scope.query_options.leading_syllable_to_match;
+          if (s.onset.match_type === "match") {
+            onset = s.onset.label;
+          } else {
+            onset = "~" + s.onset.label;
+          }
+          if (s.nucleus.match_type === "match") {
+            nucleus = s.nucleus.label;
+          } else {
+            nucleus = "~" + s.nucleus.label;
+          }
+          if (s.coda.match_type === "match") {
+            coda = s.coda.label;
+          } else {
+            coda = "~" + s.coda.label;
+          }
+          front = "/" + onset + "," + nucleus + s.stress + "," + coda + "/and";
+        } else {
+          front = "";
+        }
+        return "match/beginning/with" + front + "/at-least/0/syllables/and" + syllables_str + ".json";
+      } else {
+        for (i = _j = 0, _ref1 = $scope.query_options.match_num_syllables; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; i = 0 <= _ref1 ? ++_j : --_j) {
+          s = $scope.query_options.syllables_to_match[2 - i];
+          if (s.onset.match_type === "match") {
+            onset = s.onset.label;
+          } else {
+            onset = "~" + s.onset.label;
+          }
+          if (s.nucleus.match_type === "match") {
+            nucleus = s.nucleus.label;
+          } else {
+            nucleus = "~" + s.nucleus.label;
+          }
+          if (s.coda.match_type === "match") {
+            coda = s.coda.label;
+          } else {
+            coda = "~" + s.coda.label;
+          }
+          syllables_str = syllables_str + "/" + onset + "," + nucleus + s.stress + "," + coda;
+        }
+        if ($scope.show_leading(2)) {
+          s = $scope.query_options.trailing_syllable_to_match;
+          if (s.onset.match_type === "match") {
+            onset = s.onset.label;
+          } else {
+            onset = "~" + s.onset.label;
+          }
+          if (s.nucleus.match_type === "match") {
+            nucleus = s.nucleus.label;
+          } else {
+            nucleus = "~" + s.nucleus.label;
+          }
+          if (s.coda.match_type === "match") {
+            coda = s.coda.label;
+          } else {
+            coda = "~" + s.coda.label;
+          }
+          end = "/" + onset + "," + nucleus + s.stress + "," + coda + "/and";
+        } else {
+          end = "";
+        }
+        return "match/ending/with" + end + "/at-least/0/syllables/and" + syllables_str + ".json";
+      }
+    } else if (($scope.options_level === 1) && ($scope.query_options.match_type === "port1")) {
       s = word.syllables[word.syllables.length - 1];
       syllables_str = s.onset.label + "," + s.nucleus.label + "," + s.coda.label;
       return "match/ending/with/at-least/1/syllables/and/" + syllables_str + ".json";
@@ -212,14 +299,14 @@ app.controller("HomeController", function($scope, $http, $filter) {
     ];
   };
   $scope.preset_rhyme = function() {
-    var coda_label, i, num, onset_label, onset_match_type, s, stress_to_match, syllable_to_match, _i, _ref;
+    var coda_label, i, num, onset_label, onset_match_type, s, stress_to_match, syllable_to_match, _i;
     if ($scope.full_word) {
       clear_syllables_to_match();
       num = $scope.full_word.num_syllables - $scope.full_word.last_stressed_syllable;
       if (num > 3) {
         num = 3;
       }
-      for (i = _i = 0, _ref = num - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
+      for (i = _i = 0; 0 <= num ? _i < num : _i > num; i = 0 <= num ? ++_i : --_i) {
         s = $scope.full_word.syllables[$scope.full_word.num_syllables - 1 - i];
         if ((i === (num - 1)) || (i === 2)) {
           onset_match_type = 'antimatch';
