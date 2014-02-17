@@ -11,7 +11,8 @@ app.directive('autocomplete', function(){
       suggestions: '=data',
       onType: '=onType',
       onSelect: '=onSelect',
-      onSubmit: '=onSubmit'
+      onSubmit: '=onSubmit',
+      initial: '=initial'
     },
     controller: function($scope, $element, $attrs){
 
@@ -92,7 +93,7 @@ app.directive('autocomplete', function(){
       }
 
       // submitting text with RIGHT ARROW or ENTER
-      $scope.submit = function(){
+      $scope.submit = function() {
         $scope.onSubmit($scope.searchParam);
         watching = false;
         $scope.completing = false;
@@ -100,6 +101,9 @@ app.directive('autocomplete', function(){
         $scope.setIndex(-1);
       }
 
+      $scope.searchParam = $scope.initial;
+      $scope.onType($scope.searchParam);
+      $scope.submit();
 
     },
     link: function(scope, element, attrs){

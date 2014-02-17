@@ -31,6 +31,7 @@ app.controller("HomeController", function($scope, $http, $filter) {
   };
   $scope.autocompleteSubmit = function() {
     var search_url, word;
+    console.log($scope.word);
     if ($scope.word !== "") {
       word = $filter('lowercase')($scope.word);
       search_url = $scope.url + "search/" + word + ".json";
@@ -487,7 +488,8 @@ app.controller("HomeController", function($scope, $http, $filter) {
     },
     stress: ''
   };
-  $scope.options_level = 2;
+  $scope.options_level = 0;
   $scope.match_syllable_selected = 3;
-  return $scope.autocomplete_words = [];
+  $scope.autocomplete_words = [];
+  return $scope.initial_word = "bird";
 });

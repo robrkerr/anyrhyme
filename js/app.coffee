@@ -22,6 +22,7 @@ app.controller "HomeController", ($scope,$http,$filter) ->
 		$scope.preset_rhyme()
 		$scope.run_query()
 	$scope.autocompleteSubmit = () ->
+		console.log($scope.word)
 		if ($scope.word != "")
 			word = $filter('lowercase')($scope.word)
 			search_url = $scope.url + "search/" + word + ".json" 
@@ -323,6 +324,7 @@ app.controller "HomeController", ($scope,$http,$filter) ->
 		coda: {match_type: 'match', label: '*'},
 		stress: ''
 	}
-	$scope.options_level = 2
+	$scope.options_level = 0
 	$scope.match_syllable_selected = 3
 	$scope.autocomplete_words = []
+	$scope.initial_word = "bird"
