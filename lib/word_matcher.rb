@@ -90,9 +90,11 @@ class WordMatcher
 					stress = e[0][-1].to_i
 					[segment.id,e[1]]
 				else
+					stress = e[0][-1].to_i
 					["*",e[1]]
 				end
 			else
+				e[0] = "" if (e[0] == "_")
 				segment = Segment.where({label: e[0], segment_type: i}).first
 				segment ? [segment.id,e[1]] : ["*",e[1]]
 			end
