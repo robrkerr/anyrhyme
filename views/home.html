@@ -148,7 +148,8 @@
 		    </div>
 		  </div>
 	    <div class="main-final">
-	    	<span class="main-word-input">...and find {{filtered_results().length}} rhyming words:</span>
+	    	<span ng-if="!busy" class="main-word-input">...and find {{filtered_results().length}} rhyming words:</span>
+	    	<span ng-if="busy" class="main-word-input">...and find...</span>
 	    </div>
 	  </div>
 	</section>

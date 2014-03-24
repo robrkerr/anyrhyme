@@ -22,21 +22,23 @@ app.controller "HomeController", ($scope,$http,$filter) ->
 		$scope.preset_rhyme()
 		$scope.run_query()
 	$scope.autocompleteSubmit = () ->
-		console.log($scope.word)
 		if ($scope.word != "")
 			word = $filter('lowercase')($scope.word)
 			search_url = $scope.url + "search/" + word + ".json" 
+			$scope.busy = true;
 			$http.get(search_url).then (response) -> 
 				$scope.full_word = response.data[0]
 				$scope.preset_rhyme()
 				$scope.run_query()
 	$scope.run_query = () -> 
 		if $scope.full_word
+			$scope.busy = true;
 			match_url = $scope.url + $scope.query($scope.full_word)
 			$http.get(match_url).then (response) -> 
 				$scope.results = response.data.map (r) ->
 					r.any_lexemes = r.primary_word.lexemes.length > 0
 					r
+				$scope.busy = false;
 	$scope.expanded = (result) ->
 		result.expanded == true
 	$scope.not_expanded = (result) ->

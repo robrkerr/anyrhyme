@@ -31,10 +31,10 @@ app.controller("HomeController", function($scope, $http, $filter) {
   };
   $scope.autocompleteSubmit = function() {
     var search_url, word;
-    console.log($scope.word);
     if ($scope.word !== "") {
       word = $filter('lowercase')($scope.word);
       search_url = $scope.url + "search/" + word + ".json";
+      $scope.busy = true;
       return $http.get(search_url).then(function(response) {
         $scope.full_word = response.data[0];
         $scope.preset_rhyme();
@@ -45,12 +45,14 @@ app.controller("HomeController", function($scope, $http, $filter) {
   $scope.run_query = function() {
     var match_url;
     if ($scope.full_word) {
+      $scope.busy = true;
       match_url = $scope.url + $scope.query($scope.full_word);
       return $http.get(match_url).then(function(response) {
-        return $scope.results = response.data.map(function(r) {
+        $scope.results = response.data.map(function(r) {
           r.any_lexemes = r.primary_word.lexemes.length > 0;
           return r;
         });
+        return $scope.busy = false;
       });
     }
   };
