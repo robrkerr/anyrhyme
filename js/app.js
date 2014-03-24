@@ -35,6 +35,7 @@ app.controller("HomeController", function($scope, $http, $filter) {
       word = $filter('lowercase')($scope.word);
       search_url = $scope.url + "search/" + word + ".json";
       $scope.busy = true;
+      $scope.results = [];
       return $http.get(search_url).then(function(response) {
         $scope.full_word = response.data[0];
         $scope.preset_rhyme();
@@ -46,6 +47,7 @@ app.controller("HomeController", function($scope, $http, $filter) {
     var match_url;
     if ($scope.full_word) {
       $scope.busy = true;
+      $scope.results = [];
       match_url = $scope.url + $scope.query($scope.full_word);
       return $http.get(match_url).then(function(response) {
         $scope.results = response.data.map(function(r) {
