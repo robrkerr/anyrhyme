@@ -50,6 +50,13 @@ app.controller "HomeController", ($scope,$http,$filter) ->
 			result.expanded = false
 		else
 			result.expanded = true
+	$scope.expand_query_word = () ->
+		if $scope.query_word_expanded == true
+			$scope.query_word_expanded = false
+		else
+			$scope.query_word_expanded = true
+	$scope.do_not_expand_query_word = ($event) ->
+		$event.stopPropagation();
 	$scope.query = (word) ->
 		if ($scope.options_level == 2)
 			syllables_str = ""
@@ -305,6 +312,13 @@ app.controller "HomeController", ($scope,$http,$filter) ->
 			[$scope.query_options.trailing_syllable_to_match]
 		else
 			[]
+	$scope.toggle_explanation = () ->
+		if $scope.explanation == true
+			$scope.explanation = false
+		else
+			$scope.explanation = true
+	$scope.explanation = false
+	$scope.query_word_expanded = false
 	$scope.url = "http://api.gift-rapped.com/"
 	$scope.results = []
 	$scope.query_options = {}

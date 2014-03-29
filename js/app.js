@@ -71,6 +71,16 @@ app.controller("HomeController", function($scope, $http, $filter) {
       return result.expanded = true;
     }
   };
+  $scope.expand_query_word = function() {
+    if ($scope.query_word_expanded === true) {
+      return $scope.query_word_expanded = false;
+    } else {
+      return $scope.query_word_expanded = true;
+    }
+  };
+  $scope.do_not_expand_query_word = function($event) {
+    return $event.stopPropagation();
+  };
   $scope.query = function(word) {
     var coda, end, front, i, nucleus, num, onset, s, syllables_str, syllables_str_arr, word_syllables, _i, _j, _ref, _ref1;
     if ($scope.options_level === 2) {
@@ -451,6 +461,15 @@ app.controller("HomeController", function($scope, $http, $filter) {
       return [];
     }
   };
+  $scope.toggle_explanation = function() {
+    if ($scope.explanation === true) {
+      return $scope.explanation = false;
+    } else {
+      return $scope.explanation = true;
+    }
+  };
+  $scope.explanation = false;
+  $scope.query_word_expanded = false;
   $scope.url = "http://api.gift-rapped.com/";
   $scope.results = [];
   $scope.query_options = {};

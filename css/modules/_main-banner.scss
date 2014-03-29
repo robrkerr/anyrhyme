@@ -22,16 +22,16 @@
   }
 }
 
-.main-word-input {
+.query-word-input {
   font-size: 2.5em;
 }
 
-.main-word-input-pronunciation {
+.query-word-input-pronunciation {
   font-size: 2em;
   font-style: italic;
 }
 
-.main-word-input-arrows {
+.query-word-input-arrows {
   font-size: 2.5em; 
   color: $green-darker;
   display: inline-block;
@@ -55,6 +55,7 @@
 .main-options-container {
   background-color: $green-darker;
   padding: 0em;
+  position: relative;
 }
 
 .main-lead-in {
@@ -123,4 +124,23 @@
 
 .main-option-segment-box {
   padding: 0.3em;
+}
+
+.query-word-area {
+  padding: 1em 0.5em;
+}
+
+.query-word-expander-arrow {
+  font-size: 2.5em; 
+  color: $green-medium;
+  position: absolute;
+  top: 0.15em;
+  right: 0.4em;
+  padding: 0.6em;
+}
+
+.query-word-lexeme {
+  text-align: left; 
+  font-size: 1.5em; 
+  padding: 0.4em 2em;
 }

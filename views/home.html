@@ -1,8 +1,19 @@
 
 <header class="site-header">
-  gift-rapped.com
-
-  &copy; 2014
+	<div class="header-box">
+		<a ng-click="toggle_explanation()" style="float: left">What is this?</a>
+		<span class="header-arrow" ng-if="explanation == false">▼</span>
+		<span class="header-arrow" ng-if="explanation == true">▲</span>
+	  <span style="float: right">gift-rapped.com &copy; 2014</span>
+	</div>
+	<div ng-if="explanation == true" class="explanation-box">
+		<div class="explanation-subbox">
+			GiftRAPPED is a rhyming dictionary... but also a lot more! You can find portmanteaus (e.g. <a href="http://en.wikipedia.org/wiki/Sheeple">sheeple</a>), rhymes of differing strength, and explore words that are share similar sounds.
+		</div>
+		<div class="explanation-subbox">
+			This opensource app is powered by the GiftRAPPED API (<a href="http://api.gift-rapped.com">api.gift-rapped.com</a>), which you can use to make cool things, such as a silly misquote generator (<a href="http://misfloated.gift-rapped.com">misfloated.gift-rapped.com</a>). It uses word phoneme data from <a href="http://www.speech.cs.cmu.edu/cgi-bin/cmudict">Carnegie Mellon University</a> and lexemes (word definitions) from <a href="http://wordnet.princeton.edu/">Princeton University's WordNet</a>.
+		</div>
+	</div>
 </header>
 
 <div class="outer-container">
@@ -12,15 +23,24 @@
 	  </div>
 	  <div class="main-banner-tagline">
 	    <div class="main-lead-in">
-	    	<span class="main-word-input">Type in a word: </span>
+	    	<span class="query-word-input">Type in a word: </span>
 	    </div>
 	    <div class="main-options-container">
-		    <div class="main-options-area-input">
-		    	<autocomplete initial="initial_word" placeholder="" click-activation="true" data="autocomplete_words" on-type="autocompleteType" on-select="autocompleteSelect" on-submit="autocompleteSubmit"></autocomplete>
-		    </div>
-		    <div class="main-options-area">
-		    	<span class="main-word-input-pronunciation">({{full_word.pronunciation_label_with_syllable_breaks}})</span>
-		    </div>
+		    <div class="main-options-area-input" ng-click="expand_query_word()">
+		    	<div ng-click="do_not_expand_query_word($event)">
+		    		<autocomplete initial="initial_word" placeholder="" click-activation="true" data="autocomplete_words" on-type="autocompleteType" on-select="autocompleteSelect" on-submit="autocompleteSubmit"></autocomplete>
+		    	</div>
+					<div class="query-word-expander-arrow" ng-if="query_word_expanded == false">▼</div>
+					<div class="query-word-expander-arrow" ng-if="query_word_expanded == true">▲</div>
+			    <div class="query-word-area" ng-if="query_word_expanded == true">
+			    	<span class="query-word-input-pronunciation">({{full_word.pronunciation_label_with_syllable_breaks}})</span>
+			    </div>
+			    <div ng-if="query_word_expanded == true">
+						<div class="query-word-lexeme" ng-repeat="lexeme in full_word.lexemes">
+							({{lexeme.word_class}}) {{lexeme.gloss}}
+						</div>
+					</div>
+				</div>
 		    <div class="main-options-area">
 		    	<div class="main-option-box" ng-if="options_level == 1">
 		    		Match type: 
@@ -148,8 +168,8 @@
 		    </div>
 		  </div>
 	    <div class="main-final">
-	    	<span ng-if="!busy" class="main-word-input">...and find {{filtered_results().length}} rhyming words:</span>
-	    	<span ng-if="busy" class="main-word-input">...and find...</span>
+	    	<span ng-if="!busy" class="query-word-input">...and find {{filtered_results().length}} rhyming words:</span>
+	    	<span ng-if="busy" class="query-word-input">...and find...</span>
 	    </div>
 	  </div>
 	</section>
