@@ -1,0 +1,27 @@
+# POSTGRESQL
+development:
+  adapter: postgresql
+  database: giftrapped_development
+  pool: 5
+  username: giftrapped
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test: &test
+  adapter: postgresql
+  database: giftrapped_test
+  pool: 5
+  username: giftrapped
+
+production:
+  adapter: postgresql
+  database: giftrapped_psql_db
+  pool: 5
+  url: <%= ENV['DATABASE_URL'] %>
+  host: <%= ENV['AWS_DB_HOST'] %>
+  username: <%= ENV['AWS_DB_USERNAME'] %>
+  password: <%= ENV['AWS_DB_PASSWORD'] %>
+
+cucumber:
+  <<: *test
