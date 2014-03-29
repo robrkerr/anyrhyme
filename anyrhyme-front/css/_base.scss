@@ -1,0 +1,34 @@
+* {
+  box-sizing:           border-box;
+  padding:              0px;
+  margin:               0px;
+}
+
+body {
+  font: normal 16px Helvetica;
+  background: $green-medium;
+
+  .breakpoint-mobile & {
+    font: normal 8px Helvetica;
+  }
+  .breakpoint-tablet & {
+    font: normal 10px Helvetica;
+  }
+}
+
+.outer-container {
+  .breakpoint-desktop &,
+  .breakpoint-wide & {
+    width: 1024px;
+    margin: 0 auto;
+  }
+}
+
+a {
+  text-decoration: underline;
+  color: blue;
+}
+
+a:hover {
+  cursor: pointer;
+}

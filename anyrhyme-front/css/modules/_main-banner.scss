@@ -1,0 +1,156 @@
+.main-banner {
+  text-align: center;
+}
+
+.main-banner a {
+  color: black;
+}
+
+.main-banner-headline {
+  background: $green-medium;
+  overflow: hidden;
+  padding-bottom: 0.4em;
+
+  h1 {
+    font-size: 4em;
+    padding: 0.7em;
+  }
+}
+
+.main-banner-tagline {
+  padding: 1em 0em;
+  background-color: $green-medium;
+
+  input {
+    background-color: $green-lightest;
+  }
+}
+
+.query-word-input {
+  font-size: 2.5em;
+}
+
+.query-word-input-pronunciation {
+  font-size: 2em;
+  font-style: italic;
+}
+
+.query-word-input-arrows {
+  font-size: 2.5em; 
+  color: $green-darker;
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.main-more-options {
+  font-size: 1.6em; 
+  font-style: italic;
+}
+
+.main-options-area-input {
+  background-color: $green-darker;
+  padding: 1em 0em;
+}
+
+.main-options-area {
+  padding: 0em 0.5em 1em;
+}
+
+.main-options-select-area {
+  max-width: 540px; 
+  padding: 1em 2em;
+  margin: 0em auto;
+}
+
+.main-options-container {
+  background-color: $green-darker;
+  padding: 0em;
+  position: relative;
+}
+
+.main-lead-in {
+  padding: 0em 0em 1em;
+}
+
+.main-final {
+  padding: 1em 0em 3.5em;
+}
+
+.main-option-box {
+  font-size: 2em;
+  padding: 0.5em;
+}
+
+.main-option-segment-description {
+  display: inline-block; 
+  text-align: left; 
+  width: 4em;
+}
+
+.main-option-segment-input {
+  width: 40%; 
+  max-width: 8em; 
+  font-size: 1em;
+  padding: 0.2em;
+}
+
+.main-option-diagram-syllable {
+  display: inline-block; 
+  background-color: $green-medium;
+  padding: 0.6em 0.5em;
+  margin: 0 0.1em;
+}
+
+.main-option-diagram-syllable-selected {
+  display: inline-block; 
+  background-color: $green-lightest;
+  padding: 0.6em 0.5em;
+  margin: 0 0.1em;
+}
+
+.main-option-diagram-syllable:hover {
+  cursor: pointer;
+}
+
+.main-option-diagram-syllable-selected:hover {
+  cursor: pointer;
+}
+
+.main-option-diagram-segment-match {
+  padding: 0;
+}
+
+.main-option-diagram-segment-antimatch {
+  color: red;
+  padding: 0;
+}
+
+.main-option-box-syllable-details {
+  padding: 0.5em;
+  background-color: $green-medium;
+  width: 16.5em;
+  margin: 0.5em auto;
+}
+
+.main-option-segment-box {
+  padding: 0.3em;
+}
+
+.query-word-area {
+  padding: 1em 0.5em;
+}
+
+.query-word-expander-arrow {
+  font-size: 2.5em; 
+  color: $green-medium;
+  position: absolute;
+  top: 0.15em;
+  right: 0.4em;
+  padding: 0.6em;
+}
+
+.query-word-lexeme {
+  text-align: left; 
+  font-size: 1.5em; 
+  padding: 0.4em 2em;
+}

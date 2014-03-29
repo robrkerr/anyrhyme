@@ -1,0 +1,33 @@
+.site-header {
+  background-color: $dark-gray;
+  color: $light-gray;
+  font-size: 1.8em; 
+  line-height: 1.8;
+  padding: 0em 1em;
+}
+
+.header-box {
+	color: $green-lightest;
+	overflow: auto;
+}
+
+.site-header a {
+	color: $green-lightest;
+}
+
+.explanation-box {
+	padding: 1em 1em;
+	line-height: 1.4em;
+}
+
+.explanation-subbox {
+	padding: 0.5em 0em;
+}
+
+.header-arrow {
+	color: $green-lightest;
+	float: left; 
+	font-size: 0.8em;
+	padding: 0.2em 0.8em;
+}
+

@@ -1,0 +1,39 @@
+.autocomplete {
+  position: relative;
+  width: 95%; 
+  max-width: 500px; 
+  margin: 0 auto;
+  padding: 0;
+}
+
+.autocomplete input {
+  font-size: 2.5em; 
+  padding: 0.3em;  
+  width: 100%;
+}
+
+.autocomplete ul {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  background-color: $green-medium;
+  border-left: 1px solid #888;
+  border-right: 1px solid #888;
+  border-bottom: 1px solid #888;
+  z-index: 1;
+}
+
+.autocomplete li {
+  text-align: left;
+  list-style: none;
+  width: 100%;
+  font-size: 1.5em; 
+  line-height: 2em;
+  padding: 0.3em; 
+  background-color: #fff;
+}
+
+.autocomplete li.active {
+  width: 100%;
+  background-color: #4bf;
+}
