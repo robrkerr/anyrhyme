@@ -13,6 +13,9 @@
 		<div class="explanation-subbox">
 			This opensource app is powered by the GiftRAPPED API (<a href="http://api.gift-rapped.com">api.gift-rapped.com</a>), which you can use to make cool things, such as a silly misquote generator (<a href="http://misfloated.gift-rapped.com">misfloated.gift-rapped.com</a>). It uses word phoneme data from <a href="http://www.speech.cs.cmu.edu/cgi-bin/cmudict">Carnegie Mellon University</a> and lexemes (word definitions) from <a href="http://wordnet.princeton.edu/">Princeton University's WordNet</a>.
 		</div>
+		<div class="explanation-subbox">
+			My name is Rob Kerr. Have a look at the github repositories for <a href="https://github.com/robrkerr/giftrapped-ang">this app</a> and for <a href="https://github.com/robrkerr/giftrapped-api">the API</a>. 
+		</div>
 	</div>
 </header>
 
@@ -26,12 +29,24 @@
 	    	<span class="query-word-input">Type in a word: </span>
 	    </div>
 	    <div class="main-options-container">
-		    <div class="main-options-area-input" ng-click="expand_query_word()">
+		    <div class="main-options-area-input">
 		    	<div ng-click="do_not_expand_query_word($event)">
 		    		<autocomplete initial="initial_word" placeholder="" click-activation="true" data="autocomplete_words" on-type="autocompleteType" on-select="autocompleteSelect" on-submit="autocompleteSubmit"></autocomplete>
 		    	</div>
-					<div class="query-word-expander-arrow" ng-if="query_word_expanded == false">▼</div>
-					<div class="query-word-expander-arrow" ng-if="query_word_expanded == true">▲</div>
+		    	<div class="main-options-select-area">
+		    		<div class="main-more-options" style="display: inline-block; float: left">
+			    		options:
+			    		<a ng-click="set_options_level(0)" ng-if="options_level != 0">none</a>
+			    		<span ng-if="options_level == 0">none</span> /
+			    		<a ng-click="set_options_level(1)" ng-if="options_level != 1">some</a>
+			    		<span ng-if="options_level == 1">some</span> /
+			    		<a ng-click="set_options_level(2)" ng-if="options_level != 2">all</a>
+			    		<span ng-if="options_level == 2">all</span>
+			    	</div>
+			    	<div class="main-more-options" style="display: inline-block; float: right">
+			    		<a ng-click="expand_query_word()">word details</a>
+						</div>
+		    	</div>
 			    <div class="query-word-area" ng-if="query_word_expanded == true">
 			    	<span class="query-word-input-pronunciation">({{full_word.pronunciation_label_with_syllable_breaks}})</span>
 			    </div>
@@ -153,18 +168,6 @@
 		    		<input type="checkbox" style="width: 2.8em; height: 2.8em" ng-model="query_options.must_contain_lexemes"></input>
 		    		Only words with definitions 
 		    	</div>
-		    </div>
-		    <div class="main-options-area" ng-if="options_level == 0">
-		    	<a class="main-more-options" ng-click="set_options_level(1)">click for options</a>
-		    </div>
-		    <div class="main-options-area" ng-if="options_level == 1">
-		    	<a class="main-more-options" ng-click="set_options_level(2)">click for more options</a>
-		    </div>
-		    <div class="main-options-area" ng-if="options_level == 2">
-		    	<a class="main-more-options" ng-click="set_options_level(1)">click for fewer options</a>
-		    </div>
-		    <div class="main-options-area" ng-if="options_level > 0">
-		    	<a class="main-more-options" ng-click="set_options_level(0)">remove options</a>
 		    </div>
 		  </div>
 	    <div class="main-final">
