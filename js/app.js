@@ -1,18 +1,9 @@
 'use strict';
 var app;
 
-app = angular.module('giftrappedApp', ['ui.router', 'autocomplete']);
+app = angular.module('anyRhymeApp', ['autocomplete']);
 
-app.config(function($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise('/');
-  return $stateProvider.state('home', {
-    url: '/',
-    templateUrl: 'views/home.html',
-    controller: 'HomeController'
-  });
-});
-
-app.controller("HomeController", function($scope, $http, $filter) {
+app.controller("BodyController", function($scope, $http, $filter) {
   var at_least_num_syllables_filter, clear_syllables_to_match, exactly_num_syllables_filter;
   $scope.autocompleteType = function(typed) {
     var search_url;

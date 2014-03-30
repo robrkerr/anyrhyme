@@ -1,42 +1,42 @@
-/* line 1, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/_base.scss */
+/* line 1, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/_base.scss */
 * {
   box-sizing: border-box;
   padding: 0px;
   margin: 0px;
 }
 
-/* line 7, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/_base.scss */
+/* line 7, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/_base.scss */
 body {
   font: normal 16px Helvetica;
   background: #78ff87;
 }
-/* line 11, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/_base.scss */
+/* line 11, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/_base.scss */
 .breakpoint-mobile body {
   font: normal 8px Helvetica;
 }
-/* line 14, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/_base.scss */
+/* line 14, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/_base.scss */
 .breakpoint-tablet body {
   font: normal 10px Helvetica;
 }
 
-/* line 21, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/_base.scss */
+/* line 21, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/_base.scss */
 .breakpoint-desktop .outer-container, .breakpoint-wide .outer-container {
   width: 1024px;
   margin: 0 auto;
 }
 
-/* line 27, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/_base.scss */
+/* line 27, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/_base.scss */
 a {
   text-decoration: underline;
   color: blue;
 }
 
-/* line 32, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/_base.scss */
+/* line 32, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/_base.scss */
 a:hover {
   cursor: pointer;
 }
 
-/* line 1, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/_autocomplete.scss */
+/* line 1, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/_autocomplete.scss */
 .autocomplete {
   position: relative;
   width: 95%;
@@ -45,14 +45,14 @@ a:hover {
   padding: 0;
 }
 
-/* line 9, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/_autocomplete.scss */
+/* line 9, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/_autocomplete.scss */
 .autocomplete input {
   font-size: 2.5em;
   padding: 0.3em;
   width: 100%;
 }
 
-/* line 15, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/_autocomplete.scss */
+/* line 15, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/_autocomplete.scss */
 .autocomplete ul {
   position: absolute;
   left: 0;
@@ -64,7 +64,7 @@ a:hover {
   z-index: 1;
 }
 
-/* line 26, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/_autocomplete.scss */
+/* line 26, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/_autocomplete.scss */
 .autocomplete li {
   text-align: left;
   list-style: none;
@@ -75,13 +75,13 @@ a:hover {
   background-color: #fff;
 }
 
-/* line 36, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/_autocomplete.scss */
+/* line 36, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/_autocomplete.scss */
 .autocomplete li.active {
   width: 100%;
   background-color: #4bf;
 }
 
-/* line 1, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_header.scss */
+/* line 1, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_header.scss */
 .site-header {
   background-color: #202020;
   color: #efefef;
@@ -90,29 +90,29 @@ a:hover {
   padding: 0em 1em;
 }
 
-/* line 9, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_header.scss */
+/* line 9, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_header.scss */
 .header-box {
   color: #b6ffc3;
   overflow: auto;
 }
 
-/* line 14, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_header.scss */
+/* line 14, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_header.scss */
 .site-header a {
   color: #b6ffc3;
 }
 
-/* line 18, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_header.scss */
+/* line 18, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_header.scss */
 .explanation-box {
   padding: 1em 1em;
   line-height: 1.4em;
 }
 
-/* line 23, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_header.scss */
+/* line 23, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_header.scss */
 .explanation-subbox {
   padding: 0.5em 0em;
 }
 
-/* line 27, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_header.scss */
+/* line 27, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_header.scss */
 .header-arrow {
   color: #b6ffc3;
   float: left;
@@ -120,50 +120,50 @@ a:hover {
   padding: 0.2em 0.8em;
 }
 
-/* line 1, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 1, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .main-banner {
   text-align: center;
 }
 
-/* line 5, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 5, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .main-banner a {
   color: black;
 }
 
-/* line 9, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 9, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .main-banner-headline {
   background: #78ff87;
   overflow: hidden;
   padding-bottom: 0.4em;
 }
-/* line 14, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 14, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .main-banner-headline h1 {
   font-size: 4em;
   padding: 0.7em;
 }
 
-/* line 20, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 20, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .main-banner-tagline {
   padding: 1em 0em;
   background-color: #78ff87;
 }
-/* line 24, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 24, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .main-banner-tagline input {
   background-color: #b6ffc3;
 }
 
-/* line 29, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 29, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .query-word-input {
   font-size: 2.5em;
 }
 
-/* line 33, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 33, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .query-word-input-pronunciation {
   font-size: 2em;
   font-style: italic;
 }
 
-/* line 38, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 38, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .query-word-input-arrows {
   font-size: 2.5em;
   color: #2ecc40;
@@ -171,61 +171,61 @@ a:hover {
   padding-left: 0.5em;
 }
 
-/* line 45, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 45, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .main-more-options {
   font-size: 1.6em;
   font-style: italic;
 }
 
-/* line 50, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 50, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .main-options-area-input {
   background-color: #2ecc40;
   padding: 1em 0em;
 }
 
-/* line 55, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 55, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .main-options-area {
   padding: 0em 0.5em 1em;
 }
 
-/* line 59, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 59, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .main-options-select-area {
   max-width: 540px;
   padding: 1em 2em;
   margin: 0em auto;
 }
 
-/* line 65, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 65, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .main-options-container {
   background-color: #2ecc40;
   padding: 0em;
   position: relative;
 }
 
-/* line 71, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 71, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .main-lead-in {
   padding: 0em 0em 1em;
 }
 
-/* line 75, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 75, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .main-final {
   padding: 1em 0em 3.5em;
 }
 
-/* line 79, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 79, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .main-option-box {
   font-size: 2em;
   padding: 0.5em;
 }
 
-/* line 84, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 84, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .main-option-segment-description {
   display: inline-block;
   text-align: left;
   width: 4em;
 }
 
-/* line 90, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 90, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .main-option-segment-input {
   width: 40%;
   max-width: 8em;
@@ -233,7 +233,7 @@ a:hover {
   padding: 0.2em;
 }
 
-/* line 97, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 97, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .main-option-diagram-syllable {
   display: inline-block;
   background-color: #78ff87;
@@ -241,7 +241,7 @@ a:hover {
   margin: 0 0.1em;
 }
 
-/* line 104, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 104, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .main-option-diagram-syllable-selected {
   display: inline-block;
   background-color: #b6ffc3;
@@ -249,28 +249,28 @@ a:hover {
   margin: 0 0.1em;
 }
 
-/* line 111, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 111, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .main-option-diagram-syllable:hover {
   cursor: pointer;
 }
 
-/* line 115, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 115, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .main-option-diagram-syllable-selected:hover {
   cursor: pointer;
 }
 
-/* line 119, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 119, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .main-option-diagram-segment-match {
   padding: 0;
 }
 
-/* line 123, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 123, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .main-option-diagram-segment-antimatch {
   color: red;
   padding: 0;
 }
 
-/* line 128, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 128, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .main-option-box-syllable-details {
   padding: 0.5em;
   background-color: #78ff87;
@@ -278,17 +278,17 @@ a:hover {
   margin: 0.5em auto;
 }
 
-/* line 135, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 135, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .main-option-segment-box {
   padding: 0.3em;
 }
 
-/* line 139, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 139, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .query-word-area {
   padding: 1em 0.5em;
 }
 
-/* line 143, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 143, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .query-word-expander-arrow {
   font-size: 2.5em;
   color: #78ff87;
@@ -298,46 +298,46 @@ a:hover {
   padding: 0.6em;
 }
 
-/* line 152, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_main-banner.scss */
+/* line 152, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_main-banner.scss */
 .query-word-lexeme {
   text-align: left;
   font-size: 1.5em;
   padding: 0.4em 2em;
 }
 
-/* line 1, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_results-list.scss */
+/* line 1, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_results-list.scss */
 .results-list {
   text-align: center;
 }
 
-/* line 5, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_results-list.scss */
+/* line 5, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_results-list.scss */
 .result-row-even {
   background-color: #78ff87;
   padding: 1.5em;
   position: relative;
 }
 
-/* line 11, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_results-list.scss */
+/* line 11, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_results-list.scss */
 .result-row-odd {
   background-color: #2ecc40;
   padding: 1.5em;
   position: relative;
 }
 
-/* line 17, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_results-list.scss */
+/* line 17, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_results-list.scss */
 .result-word-name {
   font-size: 2.5em;
   width: 100%;
 }
 
-/* line 22, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_results-list.scss */
+/* line 22, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_results-list.scss */
 .result-word-pronunciation {
   font-size: 2em;
   font-style: italic;
   padding: 0.6em 0em;
 }
 
-/* line 28, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_results-list.scss */
+/* line 28, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_results-list.scss */
 .result-expander-arrow-even {
   font-size: 2.5em;
   color: #2ecc40;
@@ -347,7 +347,7 @@ a:hover {
   padding: 0.6em;
 }
 
-/* line 37, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_results-list.scss */
+/* line 37, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_results-list.scss */
 .result-expander-arrow-odd {
   font-size: 2.5em;
   color: #78ff87;
@@ -357,7 +357,7 @@ a:hover {
   padding: 0.6em;
 }
 
-/* line 46, ../../../../../../Users/robertkerr/Documents/GitHub/giftrapped-ang/css/modules/_results-list.scss */
+/* line 46, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_results-list.scss */
 .result-word-lexeme {
   text-align: left;
   font-size: 1.5em;
