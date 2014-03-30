@@ -1,16 +1,8 @@
 'use strict'
 
-app = angular.module 'giftrappedApp', ['ui.router','autocomplete']
+app = angular.module 'anyRhymeApp', ['autocomplete']
 
-app.config ($stateProvider, $urlRouterProvider) ->
-	$urlRouterProvider.otherwise '/'
-	$stateProvider
-		.state 'home',
-			url: '/'
-			templateUrl: 'views/home.html'
-			controller: 'HomeController'
-
-app.controller "HomeController", ($scope,$http,$filter) ->
+app.controller "BodyController", ($scope,$http,$filter) ->
 	$scope.autocompleteType = (typed) ->
 		$scope.word = $filter('lowercase')(typed)
 		if $scope.word
