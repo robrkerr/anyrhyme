@@ -99,6 +99,7 @@ app.directive('autocomplete', function(){
         $scope.completing = false;
         setTimeout(function(){watching = true;},1000);
         $scope.setIndex(-1);
+        document.activeElement.blur();
       }
 
       $scope.searchParam = $scope.initial;
