@@ -311,7 +311,7 @@ app.controller "BodyController", ($scope,$http,$filter) ->
 			$scope.explanation = true
 	$scope.explanation = false
 	$scope.query_word_expanded = false
-	$scope.url = "http://api.gift-rapped.com/"
+	$scope.url = "http://anywhere.anyrhyme.com/"
 	$scope.results = []
 	$scope.query_options = {}
 	$scope.query_options.match_length = false
