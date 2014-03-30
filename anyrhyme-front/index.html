@@ -29,7 +29,7 @@
       <a ng-click="toggle_explanation()" style="float: left">What is this?</a>
       <span class="header-arrow" ng-if="explanation == false">▼</span>
       <span class="header-arrow" ng-if="explanation == true">▲</span>
-      <span style="float: right">anyrhyme.com &copy; 2014</span>
+      <!-- <span style="float: right">anyrhyme.com &copy; 2014</span> -->
     </div>
     <div ng-if="explanation == true" class="explanation-box">
       <div class="explanation-subbox">
@@ -197,7 +197,6 @@
         </div>
         <div class="main-final">
           <span ng-if="!busy" class="query-word-input">...and find {{filtered_results().length}} rhyming words:</span>
-          <!-- <span ng-if="busy" class="query-word-input">...and find...</span> -->
         </div>
       </div>
     </section>
