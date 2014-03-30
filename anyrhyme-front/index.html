@@ -197,23 +197,26 @@
         </div>
         <div class="main-final">
           <span ng-if="!busy" class="query-word-input">...and find {{filtered_results().length}} rhyming words:</span>
-          <span ng-if="busy" class="query-word-input">...and find...</span>
+          <!-- <span ng-if="busy" class="query-word-input">...and find...</span> -->
         </div>
       </div>
     </section>
 
     <section class="results-list">
-      <div ng-repeat="result in filtered_results()" ng-click="expand(result)">
-        <div class="result-row-{{even_tag($index)}}">
-          <div class="result-word-name">{{result.primary_word.name}}</div>
-          <div class="result-expander-arrow-{{even_tag($index)}}" ng-if="not_expanded(result)">▼</div>
-          <div class="result-expander-arrow-{{even_tag($index)}}" ng-if="expanded(result)">▲</div>
-          <div class="result-word-pronunciation" ng-if="expanded(result)">
-            ({{result.pronunciation_label_with_syllable_breaks}})
-          </div>
-          <div ng-if="expanded(result)">
-            <div class="result-word-lexeme" ng-repeat="lexeme in result.primary_word.lexemes">
-              ({{lexeme.word_class}}) {{lexeme.word_gloss}}
+      <div ng-if="busy" class="loading-spinner"></div>
+      <div>
+        <div ng-repeat="result in filtered_results()" ng-click="expand(result)">
+          <div class="result-row-{{even_tag($index)}}">
+            <div class="result-word-name">{{result.primary_word.name}}</div>
+            <div class="result-expander-arrow-{{even_tag($index)}}" ng-if="not_expanded(result)">▼</div>
+            <div class="result-expander-arrow-{{even_tag($index)}}" ng-if="expanded(result)">▲</div>
+            <div class="result-word-pronunciation" ng-if="expanded(result)">
+              ({{result.pronunciation_label_with_syllable_breaks}})
+            </div>
+            <div ng-if="expanded(result)">
+              <div class="result-word-lexeme" ng-repeat="lexeme in result.primary_word.lexemes">
+                ({{lexeme.word_class}}) {{lexeme.word_gloss}}
+              </div>
             </div>
           </div>
         </div>

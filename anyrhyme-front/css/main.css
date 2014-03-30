@@ -308,36 +308,37 @@ a:hover {
 /* line 1, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_results-list.scss */
 .results-list {
   text-align: center;
+  margin-bottom: 10em;
 }
 
-/* line 5, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_results-list.scss */
+/* line 6, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_results-list.scss */
 .result-row-even {
   background-color: #78ff87;
   padding: 1.5em;
   position: relative;
 }
 
-/* line 11, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_results-list.scss */
+/* line 12, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_results-list.scss */
 .result-row-odd {
   background-color: #2ecc40;
   padding: 1.5em;
   position: relative;
 }
 
-/* line 17, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_results-list.scss */
+/* line 18, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_results-list.scss */
 .result-word-name {
   font-size: 2.5em;
   width: 100%;
 }
 
-/* line 22, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_results-list.scss */
+/* line 23, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_results-list.scss */
 .result-word-pronunciation {
   font-size: 2em;
   font-style: italic;
   padding: 0.6em 0em;
 }
 
-/* line 28, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_results-list.scss */
+/* line 29, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_results-list.scss */
 .result-expander-arrow-even {
   font-size: 2.5em;
   color: #2ecc40;
@@ -347,7 +348,7 @@ a:hover {
   padding: 0.6em;
 }
 
-/* line 37, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_results-list.scss */
+/* line 38, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_results-list.scss */
 .result-expander-arrow-odd {
   font-size: 2.5em;
   color: #78ff87;
@@ -357,9 +358,91 @@ a:hover {
   padding: 0.6em;
 }
 
-/* line 46, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_results-list.scss */
+/* line 47, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_results-list.scss */
 .result-word-lexeme {
   text-align: left;
   font-size: 1.5em;
   padding: 0.4em 2em;
+}
+
+@-webkit-keyframes rotate-forever {
+  /* line 10, main.scss */
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  /* line 18, main.scss */
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes rotate-forever {
+  /* line 27, main.scss */
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  /* line 35, main.scss */
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate-forever {
+  /* line 44, main.scss */
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  /* line 52, main.scss */
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+/* line 60, main.scss */
+.loading-spinner {
+  -webkit-animation-duration: 0.6s;
+  -moz-animation-duration: 0.6s;
+  animation-duration: 0.6s;
+  -webkit-animation-iteration-count: infinite;
+  -moz-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  -webkit-animation-name: rotate-forever;
+  -moz-animation-name: rotate-forever;
+  animation-name: rotate-forever;
+  -webkit-animation-timing-function: linear;
+  -moz-animation-timing-function: linear;
+  animation-timing-function: linear;
+  width: 5em;
+  height: 5em;
+  border: 1em solid #2ecc40;
+  border-right-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
 }
