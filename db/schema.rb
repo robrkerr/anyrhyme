@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130626011040) do
+ActiveRecord::Schema.define(:version => 20140412015413) do
 
   create_table "lexemes", :force => true do |t|
     t.integer  "entry_id"
@@ -20,6 +20,67 @@ ActiveRecord::Schema.define(:version => 20130626011040) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "new_syllables", :force => true do |t|
+    t.string   "spelling_word_id"
+    t.integer  "position"
+    t.integer  "r_position"
+    t.integer  "onset_id"
+    t.integer  "nucleus_id"
+    t.integer  "coda_id"
+    t.string   "onset_label"
+    t.string   "nucleus_label"
+    t.string   "coda_label"
+    t.integer  "stress"
+    t.string   "label"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "new_syllables", ["position", "coda_id", "nucleus_id", "onset_id", "stress"], :name => "ns_index22"
+  add_index "new_syllables", ["position", "coda_id", "nucleus_id", "onset_id"], :name => "ns_index8"
+  add_index "new_syllables", ["position", "coda_id", "nucleus_id", "stress"], :name => "ns_index23"
+  add_index "new_syllables", ["position", "coda_id", "nucleus_id"], :name => "ns_index9"
+  add_index "new_syllables", ["position", "coda_id", "onset_id", "stress"], :name => "ns_index25"
+  add_index "new_syllables", ["position", "coda_id", "onset_id"], :name => "ns_index11"
+  add_index "new_syllables", ["position", "coda_id", "stress"], :name => "ns_index26"
+  add_index "new_syllables", ["position", "coda_id"], :name => "ns_index12"
+  add_index "new_syllables", ["position", "nucleus_id", "onset_id", "stress"], :name => "ns_index24"
+  add_index "new_syllables", ["position", "nucleus_id", "onset_id"], :name => "ns_index10"
+  add_index "new_syllables", ["position", "nucleus_id", "stress"], :name => "ns_index27"
+  add_index "new_syllables", ["position", "nucleus_id"], :name => "ns_index13"
+  add_index "new_syllables", ["position", "onset_id", "stress"], :name => "ns_index28"
+  add_index "new_syllables", ["position", "onset_id"], :name => "ns_index14"
+  add_index "new_syllables", ["r_position", "coda_id", "nucleus_id", "onset_id", "stress"], :name => "ns_index15"
+  add_index "new_syllables", ["r_position", "coda_id", "nucleus_id", "onset_id"], :name => "ns_index1"
+  add_index "new_syllables", ["r_position", "coda_id", "nucleus_id", "stress"], :name => "ns_index16"
+  add_index "new_syllables", ["r_position", "coda_id", "nucleus_id"], :name => "ns_index2"
+  add_index "new_syllables", ["r_position", "coda_id", "onset_id", "stress"], :name => "ns_index18"
+  add_index "new_syllables", ["r_position", "coda_id", "onset_id"], :name => "ns_index4"
+  add_index "new_syllables", ["r_position", "coda_id", "stress"], :name => "ns_index19"
+  add_index "new_syllables", ["r_position", "coda_id"], :name => "ns_index5"
+  add_index "new_syllables", ["r_position", "nucleus_id", "onset_id", "stress"], :name => "ns_index17"
+  add_index "new_syllables", ["r_position", "nucleus_id", "onset_id"], :name => "ns_index3"
+  add_index "new_syllables", ["r_position", "nucleus_id", "stress"], :name => "ns_index20"
+  add_index "new_syllables", ["r_position", "nucleus_id"], :name => "ns_index6"
+  add_index "new_syllables", ["r_position", "onset_id", "stress"], :name => "ns_index21"
+  add_index "new_syllables", ["r_position", "onset_id"], :name => "ns_index7"
+  add_index "new_syllables", ["spelling_word_id"], :name => "index_new_syllables_on_spelling_word_id"
+
+  create_table "new_words", :force => true do |t|
+    t.string   "spelling"
+    t.string   "pronunciation_label"
+    t.text     "lexeme_string"
+    t.text     "syllable_string"
+    t.integer  "source"
+    t.string   "spelling_word_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "new_words", ["spelling", "pronunciation_label"], :name => "index_new_words_on_spelling_and_pronunciation_label"
+  add_index "new_words", ["spelling"], :name => "index_new_words_on_spelling"
+  add_index "new_words", ["spelling_word_id"], :name => "index_new_words_on_spelling_word_id"
 
   create_table "phonemes", :force => true do |t|
     t.string   "name"
@@ -70,7 +131,17 @@ ActiveRecord::Schema.define(:version => 20130626011040) do
     t.datetime "updated_at"
   end
 
+  add_index "syllables", ["position", "coda_id", "nucleus_id", "onset_id"], :name => "lololooool"
+  add_index "syllables", ["position", "nucleus_id"], :name => "lol3"
   add_index "syllables", ["pronunciation_id"], :name => "index_syllables_on_pronunciation_id"
+  add_index "syllables", ["r_position", "coda_id", "nucleus_id", "onset_id", "stress"], :name => "lololooooool"
+  add_index "syllables", ["r_position", "coda_id", "nucleus_id", "onset_id"], :name => "lololololol"
+  add_index "syllables", ["r_position", "coda_id", "nucleus_id", "stress"], :name => "lololooooooool"
+  add_index "syllables", ["r_position", "nucleus_id", "coda_id"], :name => "lolol"
+  add_index "syllables", ["r_position", "nucleus_id"], :name => "lol4"
+  add_index "syllables", ["r_position", "onset_id"], :name => "lololol"
+  add_index "syllables", ["r_position", "position", "nucleus_id"], :name => "lol2"
+  add_index "syllables", ["r_position"], :name => "lol"
 
   create_table "word_lexemes", :force => true do |t|
     t.integer  "word_id"

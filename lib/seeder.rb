@@ -189,6 +189,7 @@ class Seeder
   end
 
   def get_pronunciation_label syllables
+    # syllables.map { |s| get_syllable_label(s) }.join(" . ")
     syllables.map { |s| get_syllable_label(s) }.join("-")
   end
 

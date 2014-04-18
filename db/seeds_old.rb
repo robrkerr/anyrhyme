@@ -6,7 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-require 'seeder_new'
+require 'seeder'
 require 'syllable_structurer'
 require 'phoneme_loader'
 require 'phonetic_word_reader'
@@ -21,7 +21,9 @@ end
 
 seeder = Seeder.new
 seed_timer("Clearing tables... ") {
-  seeder.clear_tables
+  seeder.clear_phonemes
+  seeder.clear_words
+  seeder.clear_lexemes
 }
 seed_timer("Seeding phonemes... ") {
   seeder.seed_phonemes PhonemeLoader.get_phoneme_data
@@ -42,7 +44,6 @@ Dir[Rails.root + "data/word_batch_*"].each_with_index do |file,i|
 end
 `rm data/word_batch_*`
 `rm data/lexeme_batch_*`
-seeder.clear_lexemes
 cnt = 0
 Dir[Rails.root + "data/wordnet/data.*"].each do |file|
   `split -a 1 -l 5000 #{file} data/lexeme_batch_`
@@ -59,15 +60,15 @@ Dir[Rails.root + "data/wordnet/data.*"].each do |file|
   end
   `rm data/lexeme_batch_*`
 end
-# Dir[Rails.root + "data/wordnet/*.exc"].each_with_index do |file,i|
-#   puts "Loading extra word relations: Batch #{i+1}"
-#   word_relations = {}
-#   seed_timer("  Reading word relations... ") {
-#     word_relations = WordLexemeReader.read_word_relations(file)
-#   }
-#   seed_timer("  Populating word-lexemes table... ") {
-#     seeder.seed_extra_word_lexemes word_relations
-#   }
-# end
+Dir[Rails.root + "data/wordnet/*.exc"].each_with_index do |file,i|
+  puts "Loading extra word relations: Batch #{i+1}"
+  word_relations = {}
+  seed_timer("  Reading word relations... ") {
+    word_relations = WordLexemeReader.read_word_relations(file)
+  }
+  seed_timer("  Populating word-lexemes table... ") {
+    seeder.seed_extra_word_lexemes word_relations
+  }
+end
 
 
