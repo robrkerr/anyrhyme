@@ -1,11 +1,39 @@
 class WordMatcher
 
-	def self.find_words syllables_to_match, num_syllables, match_at_least_num=true, end_syllable_to_match=false, reverse=false, num=10
+	def self.find_words syllables_to_match, num_syllables, match_at_least_num=true, end_syllable_to_match=false, reverse=false, limit=10, offset = 0
+		v = self.where_string(syllables_to_match, num_syllables, match_at_least_num, end_syllable_to_match, reverse)
+		where_string = v[0]
+		number_to_match = v[1]
+		if (limit==false) || (limit > 100) || (limit < 0)
+			limit = 100
+		end
+		if (offset==false) || (offset < 0)
+			offset = 0
+		end
+		NewWord.find_by_sql(<<-SQL)
+			SELECT new_words.* 
+			FROM new_words
+			INNER JOIN
+				( SELECT spelling_word_id 
+					FROM new_syllables 
+					WHERE #{where_string} 
+					GROUP BY spelling_word_id 
+					HAVING count(1) = #{number_to_match} 
+					ORDER BY spelling_word_id 
+					LIMIT #{limit} 
+					OFFSET #{offset}
+				) AS matches
+			  ON matches.spelling_word_id = new_words.spelling_word_id
+		SQL
+		# results = NewWord.find_by_sql("SELECT new_words.* FROM (SELECT word_id FROM new_syllables WHERE #{where_string} GROUP BY word_id HAVING count(1) = #{number_to_match}) matches, new_words WHERE matches.word_id = new_words.id ORDER BY new_words.spelling LIMIT #{num} OFFSET #{offset}
+	end
+
+	def self.where_string syllables_to_match, num_syllables, match_at_least_num, end_syllable_to_match, reverse
 		syllables_to_match.map! { |s| s ? self.convert_segment_labels_to_ids(s) : s }
 		syllable_index_offset = reverse ? syllables_to_match.index { |s| s } : syllables_to_match.reverse.index { |s| s }
 		number_to_match = syllables_to_match.count { |e| e }
 		if !reverse
-			sql_string = syllables_to_match.reverse.each_with_index.map { |syllable,i|
+			where_string = syllables_to_match.reverse.each_with_index.map { |syllable,i|
 				if syllable
 					new_i = syllables_to_match.first ? i-syllable_index_offset : i+syllable_index_offset
 					string = "(r_position = #{new_i}"
@@ -18,11 +46,11 @@ class WordMatcher
 			if end_syllable_to_match
 				end_syllable_to_match = self.convert_segment_labels_to_ids(end_syllable_to_match)
 				number_to_match += 1
-				sql_string += " OR (position = 0"
-				sql_string += self.sql_string_for_syllable(end_syllable_to_match) + ")"
+				where_string += " OR (position = 0"
+				where_string += self.sql_string_for_syllable(end_syllable_to_match) + ")"
 			end
 		else
-			sql_string = syllables_to_match.each_with_index.map { |syllable,i|
+			where_string = syllables_to_match.each_with_index.map { |syllable,i|
 				if syllable
 					new_i = syllables_to_match.first ? i+syllable_index_offset : i-syllable_index_offset
 					string = "(position = #{new_i}"
@@ -35,22 +63,11 @@ class WordMatcher
 			if end_syllable_to_match
 				end_syllable_to_match = self.convert_segment_labels_to_ids(end_syllable_to_match)
 				number_to_match += 1
-				sql_string += " OR (r_position = 0"
-				sql_string += self.sql_string_for_syllable(end_syllable_to_match) + ")"
+				where_string += " OR (r_position = 0"
+				where_string += self.sql_string_for_syllable(end_syllable_to_match) + ")"
 			end
 		end
-		if num==false
-			num = 100
-		end
-		results = Syllable.where(sql_string)
-									 		.select(:pronunciation_id)
-				  				 		.group(:pronunciation_id)
-				  				 		.having("count(1) = #{number_to_match}")
-				  				 		.order("pronunciation_id ASC")
-				  				 		.limit(num)
-		pron_ids = results.map { |r| r.pronunciation_id }
-		pronunciations = Pronunciation.find(pron_ids).group_by(&:id)
-		pron_ids.map { |id| pronunciations[id].first }
+		return [where_string,number_to_match]
 	end
 
 	def self.sql_string_for_syllable syllable
