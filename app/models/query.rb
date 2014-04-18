@@ -73,38 +73,12 @@ class Query
                                       @number_of_results,
                                       @result_offset)
     results.map { |word|
-      # str = word.lexeme_string
-      # lexemes = (str.length > 0) ? JSON.parse(str) : []
-      # str = word.syllable_string
-      # syllables = (str.length > 0) ? JSON.parse(str) : []
       {
-        label: word.spelling, 
-        pronunciation_label: word.pronunciation_label,
+        spelling: word.spelling, 
+        pronunciation: word.pronunciation_label,
         lexemes: JSON.parse(word.lexeme_string),
         syllables: JSON.parse(word.syllable_string),
         id: word.id
-      }
-    }
-  end
-
-  def detailed_syllable s
-    {
-      label: s['label'],
-      stress: s['stress'],
-      position: s['position'],
-      r_position: s['r_position'],
-      pronunciation_id: s['pronunciation_id'],
-      onset: {
-        id: s['onset_id'],
-        label: s['onset_label']
-      },
-      nucleus: {
-        id: s['nucleus_id'],
-        label: s['nucleus_label']
-      },
-      coda: {
-        id: s['coda_id'],
-        label: s['coda_label']
       }
     }
   end
