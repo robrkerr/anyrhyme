@@ -25,8 +25,10 @@ gem 'jquery-rails'
 
 # gem 'mime-types', :require => 'mime/types'
 
-# Use unicorn as the web server
-# gem 'unicorn'
+# Use puma as the web server
+gem 'puma'
+
+gem 'newrelic_rpm'
 
 # Deploy with Capistrano
 # gem 'capistrano'
