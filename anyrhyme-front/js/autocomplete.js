@@ -53,7 +53,7 @@ app.directive('autocomplete', function(){
         }
 
         // function thats passed to on-type attribute gets executed
-        if($scope.onType)
+        if ($scope.onType)
           $scope.onType($scope.searchParam);
       });
 
@@ -82,8 +82,8 @@ app.directive('autocomplete', function(){
       // selecting a suggestion with RIGHT ARROW or ENTER
       $scope.select = function(suggestion){
         if(suggestion){
-          $scope.searchParam = suggestion.label;
-          $scope.searchFilter = suggestion.label;
+          $scope.searchParam = suggestion.spelling;
+          $scope.searchFilter = suggestion.spelling;
           $scope.onSelect(suggestion);
         }
         watching = false;
@@ -218,10 +218,10 @@ app.directive('autocomplete', function(){
     template: '<div class="autocomplete">'+
                 '<input type="text" ng-model="searchParam" placeholder="{{placeholder}}" />' +
                 '<ul ng-show="completing">' +
-                  '<li suggestion ng-repeat="suggestion in suggestions | filter:{label:searchFilter} | orderBy:\'toString()\'" '+
+                  '<li suggestion ng-repeat="suggestion in suggestions | filter:{spelling:searchFilter} | orderBy:\'toString()\'" '+
                   'index="{{$index}}" ng-class="{active: '+
                   '($index == selectedIndex)}" ng-click="select(suggestion)">'+
-                    '{{suggestion.label}} ({{suggestion.pronunciation_label}})'+
+                    '{{suggestion.spelling}} ({{suggestion.pronunciation}})'+
                   '</li>'+
                 '</ul>'+
               '</div>'
