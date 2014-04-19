@@ -31,14 +31,19 @@ app.controller("BodyController", function($scope, $http, $filter) {
       search_url = $scope.url + "search/" + word + ".json";
       $scope.busy = true;
       $scope.results = [];
+      $scope.full_word = void 0;
       return $http({
         method: 'GET',
         url: search_url,
         cache: true
       }).then(function(response) {
-        $scope.full_word = response.data[0];
-        $scope.preset_rhyme();
-        return $scope.run_query();
+        if ($scope.word === response.data[0].spelling) {
+          $scope.full_word = response.data[0];
+          $scope.preset_rhyme();
+          return $scope.run_query();
+        } else {
+          return $scope.busy = false;
+        }
       });
     }
   };

@@ -19,10 +19,14 @@ app.controller "BodyController", ($scope,$http,$filter) ->
 			search_url = $scope.url + "search/" + word + ".json" 
 			$scope.busy = true
 			$scope.results = []
+			$scope.full_word = undefined
 			$http({method: 'GET', url: search_url, cache: true}).then (response) ->
-				$scope.full_word = response.data[0]
-				$scope.preset_rhyme()
-				$scope.run_query()
+				if ($scope.word == response.data[0].spelling)
+					$scope.full_word = response.data[0]
+					$scope.preset_rhyme()
+					$scope.run_query()
+				else
+					$scope.busy = false
 	$scope.run_query = () -> 
 		if $scope.full_word
 			$scope.busy = true
