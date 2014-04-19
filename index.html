@@ -73,7 +73,7 @@
               </div>
             </div>
             <div class="query-word-area" ng-if="query_word_expanded == true">
-              <span class="query-word-input-pronunciation">({{full_word.pronunciation}})</span>
+              <span ng-if="full_word" class="query-word-input-pronunciation">({{full_word.pronunciation}})</span>
             </div>
             <div ng-if="query_word_expanded == true">
               <div class="query-word-lexeme" ng-repeat="lexeme in full_word.lexemes">
