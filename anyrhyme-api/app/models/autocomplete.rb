@@ -10,7 +10,7 @@ class Autocomplete
 
   def results
     return [] if @term == ""
-    NewWord.where("spelling LIKE ?", "#{@term}%").limit(@number_of_results).map { |word| 
+    NewWord.where("spelling LIKE ?", "#{@term}%").order("spelling").limit(@number_of_results).map { |word| 
     	{
         spelling: word.spelling, 
         pronunciation: word.pronunciation_label,
