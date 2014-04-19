@@ -4,13 +4,17 @@ var app;
 app = angular.module('anyRhymeApp', ['autocomplete']);
 
 app.controller("BodyController", function($scope, $http, $filter) {
-  var at_least_num_syllables_filter, clear_syllables_to_match, exactly_num_syllables_filter;
+  var at_least_num_syllables_filter, clear_syllables_to_match, exactly_num_syllables_filter, last_stressed_syllable;
   $scope.autocompleteType = function(typed) {
     var search_url;
     $scope.word = $filter('lowercase')(typed);
     if ($scope.word) {
       search_url = $scope.url + "search/" + $scope.word + ".json";
-      return $http.get(search_url).then(function(response) {
+      return $http({
+        method: 'GET',
+        url: search_url,
+        cache: true
+      }).then(function(response) {
         return $scope.autocomplete_words = response.data;
       });
     }
@@ -27,7 +31,11 @@ app.controller("BodyController", function($scope, $http, $filter) {
       search_url = $scope.url + "search/" + word + ".json";
       $scope.busy = true;
       $scope.results = [];
-      return $http.get(search_url).then(function(response) {
+      return $http({
+        method: 'GET',
+        url: search_url,
+        cache: true
+      }).then(function(response) {
         $scope.full_word = response.data[0];
         $scope.preset_rhyme();
         return $scope.run_query();
@@ -40,9 +48,13 @@ app.controller("BodyController", function($scope, $http, $filter) {
       $scope.busy = true;
       $scope.results = [];
       match_url = $scope.url + $scope.query($scope.full_word);
-      return $http.get(match_url).then(function(response) {
+      return $http({
+        method: 'GET',
+        url: match_url,
+        cache: true
+      }).then(function(response) {
         $scope.results = response.data.map(function(r) {
-          r.any_lexemes = r.primary_word.lexemes.length > 0;
+          r.any_lexemes = r.lexemes.length > 0;
           return r;
         });
         return $scope.busy = false;
@@ -72,6 +84,13 @@ app.controller("BodyController", function($scope, $http, $filter) {
   $scope.do_not_expand_query_word = function($event) {
     return $event.stopPropagation();
   };
+  last_stressed_syllable = function(word) {
+    var stresses;
+    stresses = word.syllables.map(function(s) {
+      return s.stress > 0;
+    });
+    return stresses.length - 1 - stresses.reverse().indexOf(true);
+  };
   $scope.query = function(word) {
     var coda, end, front, i, nucleus, num, onset, s, syllables_str, syllables_str_arr, word_syllables, _i, _j, _ref, _ref1;
     if ($scope.options_level === 2) {
@@ -80,38 +99,38 @@ app.controller("BodyController", function($scope, $http, $filter) {
         for (i = _i = _ref = 3 - $scope.query_options.match_num_syllables; _ref <= 3 ? _i < 3 : _i > 3; i = _ref <= 3 ? ++_i : --_i) {
           s = $scope.query_options.syllables_to_match[i];
           if (s.onset.match_type === "match") {
-            onset = s.onset.label;
+            onset = s.onset;
           } else {
-            onset = "~" + s.onset.label;
+            onset = "~" + s.onset;
           }
           if (s.nucleus.match_type === "match") {
-            nucleus = s.nucleus.label;
+            nucleus = s.nucleus;
           } else {
-            nucleus = "~" + s.nucleus.label;
+            nucleus = "~" + s.nucleus;
           }
           if (s.coda.match_type === "match") {
-            coda = s.coda.label;
+            coda = s.coda;
           } else {
-            coda = "~" + s.coda.label;
+            coda = "~" + s.coda;
           }
           syllables_str = syllables_str + "/" + onset + "," + nucleus + s.stress + "," + coda;
         }
         if ($scope.show_leading(1)) {
           s = $scope.query_options.leading_syllable_to_match;
           if (s.onset.match_type === "match") {
-            onset = s.onset.label;
+            onset = s.onset;
           } else {
-            onset = "~" + s.onset.label;
+            onset = "~" + s.onset;
           }
           if (s.nucleus.match_type === "match") {
-            nucleus = s.nucleus.label;
+            nucleus = s.nucleus;
           } else {
-            nucleus = "~" + s.nucleus.label;
+            nucleus = "~" + s.nucleus;
           }
           if (s.coda.match_type === "match") {
-            coda = s.coda.label;
+            coda = s.coda;
           } else {
-            coda = "~" + s.coda.label;
+            coda = "~" + s.coda;
           }
           front = "/" + onset + "," + nucleus + s.stress + "," + coda + "/and";
         } else {
@@ -122,38 +141,38 @@ app.controller("BodyController", function($scope, $http, $filter) {
         for (i = _j = 0, _ref1 = $scope.query_options.match_num_syllables; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; i = 0 <= _ref1 ? ++_j : --_j) {
           s = $scope.query_options.syllables_to_match[2 - i];
           if (s.onset.match_type === "match") {
-            onset = s.onset.label;
+            onset = s.onset;
           } else {
-            onset = "~" + s.onset.label;
+            onset = "~" + s.onset;
           }
           if (s.nucleus.match_type === "match") {
-            nucleus = s.nucleus.label;
+            nucleus = s.nucleus;
           } else {
-            nucleus = "~" + s.nucleus.label;
+            nucleus = "~" + s.nucleus;
           }
           if (s.coda.match_type === "match") {
-            coda = s.coda.label;
+            coda = s.coda;
           } else {
-            coda = "~" + s.coda.label;
+            coda = "~" + s.coda;
           }
           syllables_str = syllables_str + "/" + onset + "," + nucleus + s.stress + "," + coda;
         }
         if ($scope.show_leading(2)) {
           s = $scope.query_options.trailing_syllable_to_match;
           if (s.onset.match_type === "match") {
-            onset = s.onset.label;
+            onset = s.onset;
           } else {
-            onset = "~" + s.onset.label;
+            onset = "~" + s.onset;
           }
           if (s.nucleus.match_type === "match") {
-            nucleus = s.nucleus.label;
+            nucleus = s.nucleus;
           } else {
-            nucleus = "~" + s.nucleus.label;
+            nucleus = "~" + s.nucleus;
           }
           if (s.coda.match_type === "match") {
-            coda = s.coda.label;
+            coda = s.coda;
           } else {
-            coda = "~" + s.coda.label;
+            coda = "~" + s.coda;
           }
           end = "/" + onset + "," + nucleus + s.stress + "," + coda + "/and";
         } else {
@@ -163,14 +182,14 @@ app.controller("BodyController", function($scope, $http, $filter) {
       }
     } else if (($scope.options_level === 1) && ($scope.query_options.match_type === "port1")) {
       s = word.syllables[word.syllables.length - 1];
-      syllables_str = s.onset.label + "," + s.nucleus.label + "," + s.coda.label;
+      syllables_str = s.onset.join("-") + "," + s.nucleus[0] + "," + s.coda.join("-");
       return "match/ending/with/at-least/1/syllables/and/" + syllables_str + ".json";
     } else if (($scope.options_level === 1) && ($scope.query_options.match_type === "port2")) {
       s = word.syllables[0];
-      syllables_str = s.onset.label + "," + s.nucleus.label + "," + s.coda.label;
+      syllables_str = s.onset.join("-") + "," + s.nucleus[0] + "," + s.coda.join("-");
       return "match/beginning/with/at-least/1/syllables/and/" + syllables_str + ".json";
     } else {
-      num = word.num_syllables - word.last_stressed_syllable;
+      num = word.syllables.length - last_stressed_syllable(word);
       if (num > 3) {
         num = 3;
       }
@@ -182,7 +201,7 @@ app.controller("BodyController", function($scope, $http, $filter) {
         } else {
           stress = 0;
         }
-        return s.onset.label + "," + s.nucleus.label + stress + "," + s.coda.label;
+        return s.onset.join("-") + "," + s.nucleus[0] + stress + "," + s.coda.join("-");
       });
       syllables_str = "~" + syllables_str_arr.join('/');
       return "match/beginning/with/at-least/0/syllables/and/" + syllables_str + ".json";
@@ -207,7 +226,7 @@ app.controller("BodyController", function($scope, $http, $filter) {
       if ($scope.options_level === 1) {
         if (($scope.query_options.match_length === true) && ($scope.query_options.match_type === "rhyme")) {
           fr = $filter('filter')(fr, {
-            num_syllables: $scope.full_word.num_syllables
+            num_syllables: $scope.full_word.syllables.length
           }, true);
         }
       } else if ($scope.options_level === 2) {
@@ -221,10 +240,10 @@ app.controller("BodyController", function($scope, $http, $filter) {
     return fr;
   };
   at_least_num_syllables_filter = function(word) {
-    return word.num_syllables >= parseInt($scope.query_options.filter_num_syllables);
+    return word.syllables.length >= parseInt($scope.query_options.filter_num_syllables);
   };
   exactly_num_syllables_filter = function(word) {
-    return word.num_syllables === parseInt($scope.query_options.filter_num_syllables);
+    return word.syllables.length === parseInt($scope.query_options.filter_num_syllables);
   };
   $scope.even_tag = function(i) {
     if ((i % 2) === 0) {
@@ -308,12 +327,12 @@ app.controller("BodyController", function($scope, $http, $filter) {
     var coda_label, i, num, onset_label, onset_match_type, s, stress_to_match, syllable_to_match, _i;
     if ($scope.full_word) {
       clear_syllables_to_match();
-      num = $scope.full_word.num_syllables - $scope.full_word.last_stressed_syllable;
+      num = $scope.full_word.syllables.length - last_stressed_syllable($scope.full_word);
       if (num > 3) {
         num = 3;
       }
       for (i = _i = 0; 0 <= num ? _i < num : _i > num; i = 0 <= num ? ++_i : --_i) {
-        s = $scope.full_word.syllables[$scope.full_word.num_syllables - 1 - i];
+        s = $scope.full_word.syllables[$scope.full_word.syllables.length - 1 - i];
         if ((i === (num - 1)) || (i === 2)) {
           onset_match_type = 'antimatch';
         } else {
@@ -324,15 +343,15 @@ app.controller("BodyController", function($scope, $http, $filter) {
         } else {
           stress_to_match = '0';
         }
-        if (s.onset.label === "") {
+        if (s.onset === "") {
           onset_label = "_";
         } else {
-          onset_label = s.onset.label;
+          onset_label = s.onset.join("-");
         }
-        if (s.coda.label === "") {
+        if (s.coda === "") {
           coda_label = "_";
         } else {
-          coda_label = s.coda.label;
+          coda_label = s.coda.join("-");
         }
         syllable_to_match = {
           onset: {
@@ -341,7 +360,7 @@ app.controller("BodyController", function($scope, $http, $filter) {
           },
           nucleus: {
             match_type: 'match',
-            label: s.nucleus.label
+            label: s.nucleus[0]
           },
           coda: {
             match_type: 'match',
@@ -361,16 +380,16 @@ app.controller("BodyController", function($scope, $http, $filter) {
     var coda_label, onset_label, s, syllable_to_match;
     if ($scope.full_word) {
       clear_syllables_to_match();
-      s = $scope.full_word.syllables[$scope.full_word.num_syllables - 1];
-      if (s.onset.label === "") {
+      s = $scope.full_word.syllables[$scope.full_word.syllables.length - 1];
+      if (s.onset === "") {
         onset_label = "_";
       } else {
-        onset_label = s.onset.label;
+        onset_label = s.onset.join("-");
       }
-      if (s.coda.label === "") {
+      if (s.coda === "") {
         coda_label = "_";
       } else {
-        coda_label = s.coda.label;
+        coda_label = s.coda.join("-");
       }
       syllable_to_match = {
         onset: {
@@ -379,7 +398,7 @@ app.controller("BodyController", function($scope, $http, $filter) {
         },
         nucleus: {
           match_type: 'match',
-          label: s.nucleus.label
+          label: s.nucleus[0]
         },
         coda: {
           match_type: 'match',
@@ -399,15 +418,15 @@ app.controller("BodyController", function($scope, $http, $filter) {
     if ($scope.full_word) {
       clear_syllables_to_match();
       s = $scope.full_word.syllables[0];
-      if (s.onset.label === "") {
+      if (s.onset === "") {
         onset_label = "_";
       } else {
-        onset_label = s.onset.label;
+        onset_label = s.onset.join("-");
       }
-      if (s.coda.label === "") {
+      if (s.coda === "") {
         coda_label = "_";
       } else {
-        coda_label = s.coda.label;
+        coda_label = s.coda.join("-");
       }
       syllable_to_match = {
         onset: {
@@ -416,7 +435,7 @@ app.controller("BodyController", function($scope, $http, $filter) {
         },
         nucleus: {
           match_type: 'match',
-          label: s.nucleus.label
+          label: s.nucleus[0]
         },
         coda: {
           match_type: 'match',
@@ -459,9 +478,19 @@ app.controller("BodyController", function($scope, $http, $filter) {
       return $scope.explanation = true;
     }
   };
+  $scope.more_results = function() {
+    return $scope.results.length === 100;
+  };
+  $scope.number_qualifier = function() {
+    if ($scope.more_results()) {
+      return "at least";
+    } else {
+      return "";
+    }
+  };
   $scope.explanation = false;
   $scope.query_word_expanded = false;
-  $scope.url = "http://anywhere.anyrhyme.com/";
+  $scope.url = "http://anyrhyme.herokuapp.com/";
   $scope.results = [];
   $scope.query_options = {};
   $scope.query_options.match_length = false;
