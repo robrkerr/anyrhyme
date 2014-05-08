@@ -6,7 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-require 'seeder_new'
+require 'seeder'
 require 'syllable_structurer'
 require 'phoneme_loader'
 require 'phonetic_word_reader'
