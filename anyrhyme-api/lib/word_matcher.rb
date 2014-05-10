@@ -1,6 +1,6 @@
 class WordMatcher
 
-	def self.find_words syllables_to_match, num_syllables, match_at_least_num=true, end_syllable_to_match=false, reverse=false, limit=10, offset = 0
+	def self.find_words syllables_to_match, num_syllables, match_at_least_num=true, end_syllable_to_match=false, reverse=false, defined=false, limit=10, offset = 0
 		v = self.where_string(syllables_to_match, num_syllables, match_at_least_num, end_syllable_to_match, reverse)
 		where_string = v[0]
 		number_to_match = v[1]
@@ -10,12 +10,13 @@ class WordMatcher
 		if (offset==false) || (offset < 0)
 			offset = 0
 		end
+		syllable_table = defined ? "defined_syllables" : "syllables"
 		Word.find_by_sql(<<-SQL)
 			SELECT words.* 
 			FROM words
 			INNER JOIN
 				( SELECT spelling_word_id 
-					FROM syllables 
+					FROM #{syllable_table} 
 					WHERE #{where_string} 
 					GROUP BY spelling_word_id 
 					HAVING count(1) = #{number_to_match} 

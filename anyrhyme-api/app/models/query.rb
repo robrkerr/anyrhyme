@@ -26,7 +26,7 @@ class Query
     if params["front_syllable"]
       @front_syllable = parse_syllable_string(params["front_syllable"])
     end
-    @flag = params["lol"] ? true : false
+    @defined = params["defined"] ? (params["defined"]=="true") : false
   end
 
   def parse_syllable_string string
@@ -70,6 +70,7 @@ class Query
                                       match_at_least_num, 
                                       @front_syllable, 
                                       match_direction_reversed, 
+                                      @defined,
                                       @number_of_results,
                                       @result_offset)
     results.map { |word|
