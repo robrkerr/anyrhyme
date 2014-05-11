@@ -29,8 +29,8 @@ app.controller("BodyController", function($scope, $http, $filter, Query) {
     if ($scope.word !== "") {
       word = $filter('lowercase')($scope.word);
       search_url = anywhere_url + "search/" + word + ".json";
-      $scope.busy = true;
-      $scope.results = [];
+      $scope.busy.am_i = true;
+      $scope.results.list = [];
       $scope.full_word = void 0;
       return $http({
         method: 'GET',
@@ -42,30 +42,14 @@ app.controller("BodyController", function($scope, $http, $filter, Query) {
           $scope.preset_rhyme();
           return $scope.runQuery();
         } else {
-          return $scope.busy = false;
+          return $scope.busy.am_i = false;
         }
       });
     }
   };
   $scope.runQuery = function() {
-    var match_url, query_parameters, query_string;
     if ($scope.full_word) {
-      $scope.busy = true;
-      $scope.results = [];
-      query_string = Query.create($scope.full_word, $scope.query_options);
-      query_parameters = Query.parameters($scope.query_options);
-      match_url = anywhere_url + query_string + query_parameters;
-      return $http({
-        method: 'GET',
-        url: match_url,
-        cache: true
-      }).then(function(response) {
-        $scope.results = response.data.map(function(r) {
-          r.any_lexemes = r.lexemes.length > 0;
-          return r;
-        });
-        return $scope.busy = false;
-      });
+      return Query.execute($scope.full_word, $scope.query_options, $scope.busy, $scope.results);
     }
   };
   $scope.expanded = function(result) {
@@ -169,7 +153,7 @@ app.controller("BodyController", function($scope, $http, $filter, Query) {
     }
   };
   $scope.more_results = function() {
-    return $scope.results.length === 100;
+    return $scope.results.list.length === 100;
   };
   $scope.number_qualifier = function() {
     if ($scope.more_results()) {
@@ -181,50 +165,15 @@ app.controller("BodyController", function($scope, $http, $filter, Query) {
   $scope.explanation = false;
   $scope.query_word_expanded = false;
   anywhere_url = "http://anyrhyme.herokuapp.com/";
-  $scope.results = [];
-  $scope.query_options = {};
-  $scope.query_options.match_length = false;
-  $scope.query_options.must_contain_lexemes = false;
-  $scope.query_options.match_type = "rhyme";
-  $scope.query_options.filter_num_syllables_type = "at-least";
-  $scope.query_options.filter_num_syllables = 1;
-  $scope.query_options.match_end = "final";
-  $scope.query_options.match_num_syllables = 1;
-  Query.clear_syllables_to_match($scope.query_options);
-  $scope.query_options.leading_syllable_to_match = {
-    onset: {
-      match_type: 'match',
-      label: '*'
-    },
-    nucleus: {
-      match_type: 'match',
-      label: '*'
-    },
-    coda: {
-      match_type: 'match',
-      label: '*'
-    },
-    stress: ''
-  };
-  $scope.query_options.trailing_syllable_to_match = {
-    onset: {
-      match_type: 'match',
-      label: '*'
-    },
-    nucleus: {
-      match_type: 'match',
-      label: '*'
-    },
-    coda: {
-      match_type: 'match',
-      label: '*'
-    },
-    stress: ''
-  };
-  $scope.query_options.level = 0;
+  $scope.results = {};
+  $scope.results.list = [];
+  $scope.results.exhausted = false;
+  $scope.query_options = Query.initialise_options();
   $scope.match_syllable_selected = 3;
   $scope.autocomplete_words = [];
-  return $scope.initial_word = "bird";
+  $scope.initial_word = "bird";
+  $scope.busy = {};
+  return $scope.busy.am_i = false;
 });
 
 'use strict';
@@ -232,9 +181,9 @@ var app;
 
 app = angular.module('anyRhymeApp');
 
-app.factory("Query", function() {
-  var blank_syllable, clear_syllables_to_match, construct_query, last_stressed_syllable, matching_end_syllable, preset_portmanteau1, preset_portmanteau2, preset_rhyme, query_parameters;
-  construct_query = function(word, original_options) {
+app.factory("Query", function($http) {
+  var anywhere_url, blank_syllable, clear_syllables_to_match, create_query, execute_query, initialise_options, last_stressed_syllable, matching_end_syllable, parse_response, preset_portmanteau1, preset_portmanteau2, preset_rhyme, query_parameters;
+  create_query = function(word, original_options) {
     var coda, direction, end_str, i, nucleus, num, num_type, onset, options, s, syllables_str, _i, _j, _ref, _ref1;
     if (original_options.level === 2) {
       options = original_options;
@@ -346,7 +295,6 @@ app.factory("Query", function() {
       num_type = "at-least";
       num = 0;
     }
-    console.log("match/" + direction + "/with" + end_str + "/" + num_type + "/" + num + "/syllables/and" + syllables_str + ".json");
     return "match/" + direction + "/with" + end_str + "/" + num_type + "/" + num + "/syllables/and" + syllables_str + ".json";
   };
   query_parameters = function(options) {
@@ -391,6 +339,21 @@ app.factory("Query", function() {
       },
       stress: ''
     };
+  };
+  initialise_options = function() {
+    var options;
+    options = {};
+    options.level = 0;
+    options.match_length = false;
+    options.must_contain_lexemes = false;
+    options.match_type = "rhyme";
+    options.filter_num_syllables_type = "at-least";
+    options.filter_num_syllables = 1;
+    options.match_end = "final";
+    options.match_num_syllables = 1;
+    clear_syllables_to_match(options);
+    options.leading_syllable_to_match = blank_syllable;
+    return options.trailing_syllable_to_match = blank_syllable;
   };
   preset_rhyme = function(word, options) {
     var coda_label, i, new_options, num, onset_label, onset_match_type, s, stress_to_match, syllable_to_match, _i;
@@ -519,9 +482,34 @@ app.factory("Query", function() {
     new_options.filter_num_syllables = 2;
     return new_options;
   };
+  parse_response = function(response) {
+    return response.data.map(function(r) {
+      r.any_lexemes = r.lexemes.length > 0;
+      return r;
+    });
+  };
+  execute_query = function(word, options, busy, results) {
+    var cached_results, url;
+    url = anywhere_url + create_query(word, options) + query_parameters(options);
+    if (sessionStorage[url] === void 0) {
+      busy.am_i = true;
+      return $http.get(url).then(function(response) {
+        results.list = parse_response(response);
+        results.exhausted = false;
+        sessionStorage[url] = JSON.stringify(results);
+        return busy.am_i = false;
+      });
+    } else {
+      cached_results = JSON.parse(sessionStorage[url]);
+      results.list = cached_results.list;
+      results.exhausted = cached_results.exhausted;
+      return busy.am_i = false;
+    }
+  };
+  anywhere_url = "http://anyrhyme.herokuapp.com/";
   return {
-    create: construct_query,
-    parameters: query_parameters,
+    execute: execute_query,
+    initialise_options: initialise_options,
     matching_end_syllable: matching_end_syllable,
     clear_syllables_to_match: clear_syllables_to_match,
     preset_rhyme: preset_rhyme,

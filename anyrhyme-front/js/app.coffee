@@ -17,8 +17,8 @@ app.controller "BodyController", ($scope,$http,$filter,Query) ->
 		if ($scope.word != "")
 			word = $filter('lowercase')($scope.word)
 			search_url = anywhere_url + "search/" + word + ".json" 
-			$scope.busy = true
-			$scope.results = []
+			$scope.busy.am_i = true
+			$scope.results.list = []
 			$scope.full_word = undefined
 			$http({method: 'GET', url: search_url, cache: true}).then (response) ->
 				if ($scope.word == response.data[0].spelling)
@@ -26,19 +26,10 @@ app.controller "BodyController", ($scope,$http,$filter,Query) ->
 					$scope.preset_rhyme()
 					$scope.runQuery()
 				else
-					$scope.busy = false
+					$scope.busy.am_i = false
 	$scope.runQuery = () -> 
 		if $scope.full_word
-			$scope.busy = true
-			$scope.results = []
-			query_string = Query.create($scope.full_word,$scope.query_options)
-			query_parameters = Query.parameters($scope.query_options)
-			match_url = anywhere_url + query_string + query_parameters
-			$http({method: 'GET', url: match_url, cache: true}).then (response) ->
-				$scope.results = response.data.map (r) ->
-					r.any_lexemes = r.lexemes.length > 0
-					r
-				$scope.busy = false
+			Query.execute($scope.full_word, $scope.query_options, $scope.busy, $scope.results)
 	$scope.expanded = (result) ->
 		result.expanded == true
 	$scope.not_expanded = (result) ->
@@ -61,10 +52,7 @@ app.controller "BodyController", ($scope,$http,$filter,Query) ->
 		$scope.query_options.level = value
 		$scope.runQuery()
 	$scope.even_tag = (i) ->
-		if (i%2)==0
-			'odd'
-		else
-			'even'
+		if (i%2)==0 then 'odd' else 'even'
 	$scope.list_of_syllables_to_match = () ->
 		$scope.query_options.syllables_to_match.slice(3-$scope.query_options.match_num_syllables,3)
 	$scope.show_ellipsis = (i) ->
@@ -111,40 +99,21 @@ app.controller "BodyController", ($scope,$http,$filter,Query) ->
 		else
 			$scope.explanation = true
 	$scope.more_results = () ->
-		$scope.results.length == 100
+		$scope.results.list.length == 100
 	$scope.number_qualifier = () ->
-		if $scope.more_results()
-		  "at least"
-		else
-		  ""
+		if $scope.more_results() then "at least" else ""
 	$scope.explanation = false
 	$scope.query_word_expanded = false
 	# anywhere_url = "http://anywhere.anyrhyme.com/"
 	# anywhere_url = "http://localhost:3000/"
 	anywhere_url = "http://anyrhyme.herokuapp.com/"
-	$scope.results = []
-	$scope.query_options = {}
-	$scope.query_options.match_length = false
-	$scope.query_options.must_contain_lexemes = false
-	$scope.query_options.match_type = "rhyme"
-	$scope.query_options.filter_num_syllables_type = "at-least"
-	$scope.query_options.filter_num_syllables = 1
-	$scope.query_options.match_end = "final"
-	$scope.query_options.match_num_syllables = 1
-	Query.clear_syllables_to_match($scope.query_options)
-	$scope.query_options.leading_syllable_to_match = {
-		onset: {match_type: 'match', label: '*'},
-		nucleus: {match_type: 'match', label: '*'},
-		coda: {match_type: 'match', label: '*'},
-		stress: ''
-	}
-	$scope.query_options.trailing_syllable_to_match = {
-		onset: {match_type: 'match', label: '*'},
-		nucleus: {match_type: 'match', label: '*'},
-		coda: {match_type: 'match', label: '*'},
-		stress: ''
-	}
-	$scope.query_options.level = 0
+	$scope.results = {}
+	$scope.results.list = []
+	$scope.results.exhausted = false
+	$scope.query_options = Query.initialise_options()
 	$scope.match_syllable_selected = 3
 	$scope.autocomplete_words = []
 	$scope.initial_word = "bird"
+	$scope.busy = {}
+	$scope.busy.am_i = false
+
