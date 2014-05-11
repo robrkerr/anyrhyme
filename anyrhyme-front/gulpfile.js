@@ -18,7 +18,7 @@ gulp.task('sass', function () {
 });
 
 gulp.task('js', function() {
-  gulp.src('./js/app.coffee')
+  gulp.src('./js/**/*.coffee')
     .pipe(coffee({bare: true}).on('error', gutil.log))
 	  .pipe(concat("app.js"))
     .pipe(gulp.dest('./js'));
