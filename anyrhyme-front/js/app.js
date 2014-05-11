@@ -124,17 +124,20 @@ app.controller("BodyController", function($scope, $http, $filter, Query) {
   };
   $scope.preset_rhyme = function() {
     if ($scope.full_word) {
-      return $scope.query_options = Query.preset_rhyme($scope.full_word, $scope.query_options);
+      $scope.query_options = Query.preset_rhyme($scope.full_word, $scope.query_options);
+      return $scope.runQuery();
     }
   };
   $scope.preset_portmanteau1 = function() {
     if ($scope.full_word) {
-      return $scope.query_options = Query.preset_portmanteau1($scope.full_word, $scope.query_options);
+      $scope.query_options = Query.preset_portmanteau1($scope.full_word, $scope.query_options);
+      return $scope.runQuery();
     }
   };
   $scope.preset_portmanteau2 = function() {
     if ($scope.full_word) {
-      return $scope.query_options = Query.preset_portmanteau2($scope.full_word, $scope.query_options);
+      $scope.query_options = Query.preset_portmanteau2($scope.full_word, $scope.query_options);
+      return $scope.runQuery();
     }
   };
   $scope.select_match_syllable = function(i) {
@@ -230,7 +233,7 @@ var app;
 app = angular.module('anyRhymeApp');
 
 app.factory("Query", function() {
-  var clear_syllables_to_match, construct_query, last_stressed_syllable, matching_end_syllable, preset_portmanteau1, preset_portmanteau2, preset_rhyme, query_parameters;
+  var blank_syllable, clear_syllables_to_match, construct_query, last_stressed_syllable, matching_end_syllable, preset_portmanteau1, preset_portmanteau2, preset_rhyme, query_parameters;
   construct_query = function(word, original_options) {
     var coda, direction, end_str, i, nucleus, num, num_type, onset, options, s, syllables_str, _i, _j, _ref, _ref1;
     if (original_options.level === 2) {
@@ -370,51 +373,24 @@ app.factory("Query", function() {
     return stresses.length - 1 - stresses.reverse().indexOf(true);
   };
   clear_syllables_to_match = function(options) {
-    return options.syllables_to_match = [
-      {
-        onset: {
-          match_type: 'match',
-          label: '*'
-        },
-        nucleus: {
-          match_type: 'match',
-          label: '*'
-        },
-        coda: {
-          match_type: 'match',
-          label: '*'
-        },
-        stress: ''
-      }, {
-        onset: {
-          match_type: 'match',
-          label: '*'
-        },
-        nucleus: {
-          match_type: 'match',
-          label: '*'
-        },
-        coda: {
-          match_type: 'match',
-          label: '*'
-        },
-        stress: ''
-      }, {
-        onset: {
-          match_type: 'match',
-          label: '*'
-        },
-        nucleus: {
-          match_type: 'match',
-          label: '*'
-        },
-        coda: {
-          match_type: 'match',
-          label: '*'
-        },
-        stress: ''
-      }
-    ];
+    return options.syllables_to_match = [blank_syllable, blank_syllable, blank_syllable];
+  };
+  blank_syllable = function() {
+    return {
+      onset: {
+        match_type: 'match',
+        label: '*'
+      },
+      nucleus: {
+        match_type: 'match',
+        label: '*'
+      },
+      coda: {
+        match_type: 'match',
+        label: '*'
+      },
+      stress: ''
+    };
   };
   preset_rhyme = function(word, options) {
     var coda_label, i, new_options, num, onset_label, onset_match_type, s, stress_to_match, syllable_to_match, _i;

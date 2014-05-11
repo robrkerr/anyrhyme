@@ -80,12 +80,15 @@ app.controller "BodyController", ($scope,$http,$filter,Query) ->
 	$scope.preset_rhyme = () ->
 		if $scope.full_word
 			$scope.query_options = Query.preset_rhyme($scope.full_word,$scope.query_options)
+			$scope.runQuery()
 	$scope.preset_portmanteau1 = () ->
 		if $scope.full_word
 			$scope.query_options = Query.preset_portmanteau1($scope.full_word,$scope.query_options)
+			$scope.runQuery()
 	$scope.preset_portmanteau2 = () ->
 		if $scope.full_word
 			$scope.query_options = Query.preset_portmanteau2($scope.full_word,$scope.query_options)
+			$scope.runQuery()
 	$scope.select_match_syllable = (i) ->
 		$scope.match_syllable_selected = i
 	$scope.match_syllable_class = (i) ->

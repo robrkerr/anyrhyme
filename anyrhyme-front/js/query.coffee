@@ -112,25 +112,17 @@ app.factory "Query", ->
 		stresses.length - 1 - stresses.reverse().indexOf(true)
 	clear_syllables_to_match = (options) ->
 		options.syllables_to_match = [
-			{
-				onset: {match_type: 'match', label: '*'},
-				nucleus: {match_type: 'match', label: '*'},
-				coda: {match_type: 'match', label: '*'},
-				stress: ''
-			},
-			{
-				onset: {match_type: 'match', label: '*'},
-				nucleus: {match_type: 'match', label: '*'},
-				coda: {match_type: 'match', label: '*'},
-				stress: ''
-			},
-			{
-				onset: {match_type: 'match', label: '*'},
-				nucleus: {match_type: 'match', label: '*'},
-				coda: {match_type: 'match', label: '*'},
-				stress: ''
-			}
+			blank_syllable,
+			blank_syllable,
+			blank_syllable
 		]
+	blank_syllable = () ->
+		{
+			onset: {match_type: 'match', label: '*'},
+			nucleus: {match_type: 'match', label: '*'},
+			coda: {match_type: 'match', label: '*'},
+			stress: ''
+		}
 	preset_rhyme = (word,options) ->
 		new_options = angular.copy(options)
 		clear_syllables_to_match(new_options)
