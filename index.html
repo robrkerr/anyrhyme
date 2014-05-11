@@ -196,15 +196,15 @@
           </div>
         </div>
         <div class="main-final">
-          <span ng-if="!busy" class="query-word-input">...and find {{number_qualifier()}} {{results.length}} rhyming words:</span>
+          <span ng-if="!busy.am_i" class="query-word-input">...and find {{number_qualifier()}} {{results.list.length}} rhyming words:</span>
         </div>
       </div>
     </section>
 
     <section class="results-list">
-      <div ng-if="busy" class="loading-spinner"></div>
-      <div>
-        <div ng-repeat="result in results" ng-click="expand(result)">
+      <div ng-if="busy.am_i" class="loading-spinner"></div>
+      <div ng-if="!busy.am_i">
+        <div ng-repeat="result in results.list" ng-click="expand(result)">
           <div class="result-row-{{even_tag($index)}}">
             <div class="result-word-name">{{result.spelling}}</div>
             <div class="result-expander-arrow-{{even_tag($index)}}" ng-if="not_expanded(result)">▼</div>

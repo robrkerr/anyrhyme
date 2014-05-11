@@ -2,8 +2,8 @@
 
 app = angular.module 'anyRhymeApp'
 
-app.factory "Query", ->
-	construct_query = (word,original_options) ->
+app.factory "Query", ($http) ->
+	create_query = (word,original_options) ->
 		if (original_options.level == 2)
 			options = original_options
 		else if (original_options.level == 1) && (original_options.match_type == "port1")
@@ -94,7 +94,6 @@ app.factory "Query", ->
 		else
 			num_type = "at-least"
 			num = 0
-		console.log("match/" + direction + "/with" + end_str + "/" + num_type + "/" + num + "/syllables/and" + syllables_str + ".json")
 		"match/" + direction + "/with" + end_str + "/" + num_type + "/" + num + "/syllables/and" + syllables_str + ".json"
 	query_parameters = (options) ->
 		if (options.level > 0) && (options.must_contain_lexemes == true)
@@ -123,6 +122,19 @@ app.factory "Query", ->
 			coda: {match_type: 'match', label: '*'},
 			stress: ''
 		}
+	initialise_options = () ->
+		options = {}
+		options.level = 0
+		options.match_length = false
+		options.must_contain_lexemes = false
+		options.match_type = "rhyme"
+		options.filter_num_syllables_type = "at-least"
+		options.filter_num_syllables = 1
+		options.match_end = "final"
+		options.match_num_syllables = 1
+		clear_syllables_to_match(options)
+		options.leading_syllable_to_match = blank_syllable
+		options.trailing_syllable_to_match = blank_syllable
 	preset_rhyme = (word,options) ->
 		new_options = angular.copy(options)
 		clear_syllables_to_match(new_options)
@@ -207,9 +219,31 @@ app.factory "Query", ->
 		new_options.filter_num_syllables_type = "at-least"
 		new_options.filter_num_syllables = 2
 		new_options
+	parse_response = (response) ->
+		response.data.map (r) ->
+			r.any_lexemes = r.lexemes.length > 0
+			r
+	execute_query = (word,options,busy,results) ->
+		url = anywhere_url + create_query(word,options) + query_parameters(options)
+		if sessionStorage[url] == undefined
+			busy.am_i = true
+			$http.get(url).then (response) ->
+				results.list = parse_response(response)
+				results.exhausted = false
+				sessionStorage[url] = JSON.stringify(results)
+				busy.am_i = false
+		else
+			cached_results = JSON.parse(sessionStorage[url])
+			results.list = cached_results.list
+			results.exhausted = cached_results.exhausted
+			busy.am_i = false
+	# anywhere_url = "http://anywhere.anyrhyme.com/"
+	# anywhere_url = "http://localhost:3000/"
+	anywhere_url = "http://anyrhyme.herokuapp.com/"
 	{
-		create: construct_query,
-		parameters: query_parameters,
+		execute: execute_query,
+		# expand: 
+		initialise_options: initialise_options,
 		matching_end_syllable: matching_end_syllable,
 		clear_syllables_to_match: clear_syllables_to_match,
 		preset_rhyme: preset_rhyme,
