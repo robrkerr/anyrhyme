@@ -43,10 +43,10 @@ app.factory "Query", ->
 					coda = s.coda.label
 				else
 					coda = "~" + s.coda.label
-				front = "/" + onset + "," + nucleus + s.stress + "," + coda + "/and"
+				end_str = "/" + onset + "," + nucleus + s.stress + "," + coda + "/and"
 			else
-				front = ""
-			"match/beginning/with" + front + "/at-least/0/syllables/and" + syllables_str + ".json"
+				end_str = ""
+			direction = "beginning"
 		else
 			for i in [0...options.match_num_syllables]
 				s = options.syllables_to_match[2-i]
@@ -77,10 +77,30 @@ app.factory "Query", ->
 					coda = s.coda.label
 				else
 					coda = "~" + s.coda.label
-				end = "/" + onset + "," + nucleus + s.stress + "," + coda + "/and"
+				end_str = "/" + onset + "," + nucleus + s.stress + "," + coda + "/and"
 			else
-				end = ""
-			"match/ending/with" + end + "/at-least/0/syllables/and" + syllables_str + ".json"
+				end_str = ""
+			direction = "ending"
+		if (options.level == 1) && (options.match_length == true) && (options.match_type == "rhyme")
+			num_type = "exactly"
+			num = 0
+		else if (options.level == 2)
+			num_type = options.filter_num_syllables_type
+			num = options.filter_num_syllables - options.match_num_syllables 
+			if matching_end_syllable("trailing",options)
+				num = num - 1
+			else if matching_end_syllable("leading",options)
+				num = num - 1
+		else
+			num_type = "at-least"
+			num = 0
+		console.log("match/" + direction + "/with" + end_str + "/" + num_type + "/" + num + "/syllables/and" + syllables_str + ".json")
+		"match/" + direction + "/with" + end_str + "/" + num_type + "/" + num + "/syllables/and" + syllables_str + ".json"
+	query_parameters = (options) ->
+		if (options.level > 0) && (options.must_contain_lexemes == true)
+			"?defined=true"
+		else
+			""
 	matching_end_syllable = (type,options) ->
 		more_syllables = options.filter_num_syllables > options.match_num_syllables
 		if (options.match_end == "final")
@@ -197,8 +217,8 @@ app.factory "Query", ->
 		new_options
 	{
 		create: construct_query,
+		parameters: query_parameters,
 		matching_end_syllable: matching_end_syllable,
-		last_stressed_syllable: last_stressed_syllable,
 		clear_syllables_to_match: clear_syllables_to_match,
 		preset_rhyme: preset_rhyme,
 		preset_portmanteau1: preset_portmanteau1,

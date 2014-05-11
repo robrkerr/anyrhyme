@@ -32,7 +32,8 @@ app.controller "BodyController", ($scope,$http,$filter,Query) ->
 			$scope.busy = true
 			$scope.results = []
 			query_string = Query.create($scope.full_word,$scope.query_options)
-			match_url = anywhere_url + query_string + query_parameters($scope.query_options)
+			query_parameters = Query.parameters($scope.query_options)
+			match_url = anywhere_url + query_string + query_parameters
 			$http({method: 'GET', url: match_url, cache: true}).then (response) ->
 				$scope.results = response.data.map (r) ->
 					r.any_lexemes = r.lexemes.length > 0
@@ -54,31 +55,11 @@ app.controller "BodyController", ($scope,$http,$filter,Query) ->
 			$scope.query_word_expanded = true
 	$scope.do_not_expand_query_word = (e) ->
 		e.stopPropagation()
-	query_parameters = (options) ->
-		if (options.level > 0) && (options.must_contain_lexemes == true)
-			"?defined=true"
-		else
-			""
 	$scope.rhyming_option = () ->
 		$scope.query_options.match_type == "rhyme"
 	$scope.setQueryOptionsLevel = (value) ->
 		$scope.query_options.level = value
 		$scope.runQuery()
-	$scope.filtered_results = () ->
-		fr = $scope.results
-		if ($scope.query_options.level == 1)
-			if ($scope.query_options.match_length == true) && ($scope.query_options.match_type == "rhyme")
-				fr = $filter('filter')(fr,{num_syllables:$scope.full_word.syllables.length},true)
-		else if ($scope.query_options.level == 2)
-			if $scope.query_options.filter_num_syllables_type == "at-least"
-				fr = $filter('filter')(fr,at_least_num_syllables_filter)
-			else if $scope.query_options.filter_num_syllables_type == "exactly"
-				fr = $filter('filter')(fr,exactly_num_syllables_filter)
-		fr
-	at_least_num_syllables_filter = (word) ->
-		word.syllables.length >= parseInt($scope.query_options.filter_num_syllables)
-	exactly_num_syllables_filter = (word) ->
-		word.syllables.length == parseInt($scope.query_options.filter_num_syllables)
 	$scope.even_tag = (i) ->
 		if (i%2)==0
 			'odd'
