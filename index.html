@@ -169,11 +169,11 @@
             </div>
             <div class="main-option-box" ng-if="query_options.level == 2">
               Words with 
-              <select name="select" ng-model="query_options.filter_num_syllables_type" style="font-size: 1em">
+              <select name="select" ng-model="query_options.filter_num_syllables_type" ng-change="runQuery()" style="font-size: 1em">
                 <option value="at-least">at least</option> 
                 <option value="exactly">exactly</option>
               </select>
-              <select name="select" ng-model="query_options.filter_num_syllables" style="font-size: 1em">
+              <select name="select" ng-model="query_options.filter_num_syllables" ng-change="runQuery()" style="font-size: 1em">
                 <option value="1">1</option> 
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -196,7 +196,7 @@
           </div>
         </div>
         <div class="main-final">
-          <span ng-if="!busy" class="query-word-input">...and find {{number_qualifier()}} {{filtered_results().length}} rhyming words:</span>
+          <span ng-if="!busy" class="query-word-input">...and find {{number_qualifier()}} {{results.length}} rhyming words:</span>
         </div>
       </div>
     </section>
@@ -204,7 +204,7 @@
     <section class="results-list">
       <div ng-if="busy" class="loading-spinner"></div>
       <div>
-        <div ng-repeat="result in filtered_results()" ng-click="expand(result)">
+        <div ng-repeat="result in results" ng-click="expand(result)">
           <div class="result-row-{{even_tag($index)}}">
             <div class="result-word-name">{{result.spelling}}</div>
             <div class="result-expander-arrow-{{even_tag($index)}}" ng-if="not_expanded(result)">▼</div>

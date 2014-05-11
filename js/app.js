@@ -4,7 +4,7 @@ var app;
 app = angular.module('anyRhymeApp', ['autocomplete']);
 
 app.controller("BodyController", function($scope, $http, $filter, Query) {
-  var anywhere_url, at_least_num_syllables_filter, exactly_num_syllables_filter, query_parameters;
+  var anywhere_url;
   $scope.autocompleteType = function(typed) {
     var search_url;
     $scope.word = $filter('lowercase')(typed);
@@ -48,12 +48,13 @@ app.controller("BodyController", function($scope, $http, $filter, Query) {
     }
   };
   $scope.runQuery = function() {
-    var match_url, query_string;
+    var match_url, query_parameters, query_string;
     if ($scope.full_word) {
       $scope.busy = true;
       $scope.results = [];
       query_string = Query.create($scope.full_word, $scope.query_options);
-      match_url = anywhere_url + query_string + query_parameters($scope.query_options);
+      query_parameters = Query.parameters($scope.query_options);
+      match_url = anywhere_url + query_string + query_parameters;
       return $http({
         method: 'GET',
         url: match_url,
@@ -90,43 +91,12 @@ app.controller("BodyController", function($scope, $http, $filter, Query) {
   $scope.do_not_expand_query_word = function(e) {
     return e.stopPropagation();
   };
-  query_parameters = function(options) {
-    if ((options.level > 0) && (options.must_contain_lexemes === true)) {
-      return "?defined=true";
-    } else {
-      return "";
-    }
-  };
   $scope.rhyming_option = function() {
     return $scope.query_options.match_type === "rhyme";
   };
   $scope.setQueryOptionsLevel = function(value) {
     $scope.query_options.level = value;
     return $scope.runQuery();
-  };
-  $scope.filtered_results = function() {
-    var fr;
-    fr = $scope.results;
-    if ($scope.query_options.level === 1) {
-      if (($scope.query_options.match_length === true) && ($scope.query_options.match_type === "rhyme")) {
-        fr = $filter('filter')(fr, {
-          num_syllables: $scope.full_word.syllables.length
-        }, true);
-      }
-    } else if ($scope.query_options.level === 2) {
-      if ($scope.query_options.filter_num_syllables_type === "at-least") {
-        fr = $filter('filter')(fr, at_least_num_syllables_filter);
-      } else if ($scope.query_options.filter_num_syllables_type === "exactly") {
-        fr = $filter('filter')(fr, exactly_num_syllables_filter);
-      }
-    }
-    return fr;
-  };
-  at_least_num_syllables_filter = function(word) {
-    return word.syllables.length >= parseInt($scope.query_options.filter_num_syllables);
-  };
-  exactly_num_syllables_filter = function(word) {
-    return word.syllables.length === parseInt($scope.query_options.filter_num_syllables);
   };
   $scope.even_tag = function(i) {
     if ((i % 2) === 0) {
@@ -260,9 +230,9 @@ var app;
 app = angular.module('anyRhymeApp');
 
 app.factory("Query", function() {
-  var clear_syllables_to_match, construct_query, last_stressed_syllable, matching_end_syllable, preset_portmanteau1, preset_portmanteau2, preset_rhyme;
+  var clear_syllables_to_match, construct_query, last_stressed_syllable, matching_end_syllable, preset_portmanteau1, preset_portmanteau2, preset_rhyme, query_parameters;
   construct_query = function(word, original_options) {
-    var coda, end, front, i, nucleus, onset, options, s, syllables_str, _i, _j, _ref, _ref1;
+    var coda, direction, end_str, i, nucleus, num, num_type, onset, options, s, syllables_str, _i, _j, _ref, _ref1;
     if (original_options.level === 2) {
       options = original_options;
     } else if ((original_options.level === 1) && (original_options.match_type === "port1")) {
@@ -310,11 +280,11 @@ app.factory("Query", function() {
         } else {
           coda = "~" + s.coda.label;
         }
-        front = "/" + onset + "," + nucleus + s.stress + "," + coda + "/and";
+        end_str = "/" + onset + "," + nucleus + s.stress + "," + coda + "/and";
       } else {
-        front = "";
+        end_str = "";
       }
-      return "match/beginning/with" + front + "/at-least/0/syllables/and" + syllables_str + ".json";
+      direction = "beginning";
     } else {
       for (i = _j = 0, _ref1 = options.match_num_syllables; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; i = 0 <= _ref1 ? ++_j : --_j) {
         s = options.syllables_to_match[2 - i];
@@ -352,11 +322,35 @@ app.factory("Query", function() {
         } else {
           coda = "~" + s.coda.label;
         }
-        end = "/" + onset + "," + nucleus + s.stress + "," + coda + "/and";
+        end_str = "/" + onset + "," + nucleus + s.stress + "," + coda + "/and";
       } else {
-        end = "";
+        end_str = "";
       }
-      return "match/ending/with" + end + "/at-least/0/syllables/and" + syllables_str + ".json";
+      direction = "ending";
+    }
+    if ((options.level === 1) && (options.match_length === true) && (options.match_type === "rhyme")) {
+      num_type = "exactly";
+      num = 0;
+    } else if (options.level === 2) {
+      num_type = options.filter_num_syllables_type;
+      num = options.filter_num_syllables - options.match_num_syllables;
+      if (matching_end_syllable("trailing", options)) {
+        num = num - 1;
+      } else if (matching_end_syllable("leading", options)) {
+        num = num - 1;
+      }
+    } else {
+      num_type = "at-least";
+      num = 0;
+    }
+    console.log("match/" + direction + "/with" + end_str + "/" + num_type + "/" + num + "/syllables/and" + syllables_str + ".json");
+    return "match/" + direction + "/with" + end_str + "/" + num_type + "/" + num + "/syllables/and" + syllables_str + ".json";
+  };
+  query_parameters = function(options) {
+    if ((options.level > 0) && (options.must_contain_lexemes === true)) {
+      return "?defined=true";
+    } else {
+      return "";
     }
   };
   matching_end_syllable = function(type, options) {
@@ -551,8 +545,8 @@ app.factory("Query", function() {
   };
   return {
     create: construct_query,
+    parameters: query_parameters,
     matching_end_syllable: matching_end_syllable,
-    last_stressed_syllable: last_stressed_syllable,
     clear_syllables_to_match: clear_syllables_to_match,
     preset_rhyme: preset_rhyme,
     preset_portmanteau1: preset_portmanteau1,
