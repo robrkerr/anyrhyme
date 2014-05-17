@@ -219,6 +219,10 @@
             </div>
           </div>
         </div>
+        <div ng-if="more_results()" class="result-row-{{even_tag(results.list.length)}}">
+          <a ng-if="!expanding" class="more-results-link" ng-click="loadMore()">More</a>
+          <div ng-if="expanding" class="loading-spinner spinner-{{even_tag(results.list.length)}}"></div>
+        </div>
       </div>
     </section>
   </div>

@@ -57,6 +57,7 @@
     transform: rotate(360deg);
   }
 }
+
 .loading-spinner {
   -webkit-animation-duration: 0.6s;
   -moz-animation-duration: 0.6s;
@@ -76,4 +77,14 @@
   border-right-color: transparent;
   border-radius: 50%;
   display: inline-block;
+}
+
+.spinner-even {
+  border: 1em solid $green-darker;
+  border-right-color: transparent;
+}
+
+.spinner-odd {
+  border: 1em solid $green-medium;
+  border-right-color: transparent;
 }

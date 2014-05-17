@@ -365,6 +365,13 @@ a:hover {
   padding: 0.4em 2em;
 }
 
+/* line 53, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_results-list.scss */
+.more-results-link {
+  font-size: 2.5em;
+  width: 100%;
+  color: black;
+}
+
 @-webkit-keyframes rotate-forever {
   /* line 10, main.scss */
   0% {
@@ -425,7 +432,7 @@ a:hover {
   }
 }
 
-/* line 60, main.scss */
+/* line 61, main.scss */
 .loading-spinner {
   -webkit-animation-duration: 0.6s;
   -moz-animation-duration: 0.6s;
@@ -445,4 +452,16 @@ a:hover {
   border-right-color: transparent;
   border-radius: 50%;
   display: inline-block;
+}
+
+/* line 82, main.scss */
+.spinner-even {
+  border: 1em solid #2ecc40;
+  border-right-color: transparent;
+}
+
+/* line 87, main.scss */
+.spinner-odd {
+  border: 1em solid #78ff87;
+  border-right-color: transparent;
 }
