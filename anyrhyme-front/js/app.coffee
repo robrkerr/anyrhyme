@@ -17,7 +17,7 @@ app.controller "BodyController", ($scope,$http,$filter,Query) ->
 		if ($scope.word != "")
 			word = $filter('lowercase')($scope.word)
 			search_url = anywhere_url + "search/" + word + ".json" 
-			$scope.busy.am_i = true
+			$scope.busy = true
 			$scope.results.list = []
 			$scope.full_word = undefined
 			$http({method: 'GET', url: search_url, cache: true}).then (response) ->
@@ -26,10 +26,15 @@ app.controller "BodyController", ($scope,$http,$filter,Query) ->
 					$scope.preset_rhyme()
 					$scope.runQuery()
 				else
-					$scope.busy.am_i = false
+					$scope.busy = false
 	$scope.runQuery = () -> 
 		if $scope.full_word
-			Query.execute($scope.full_word, $scope.query_options, $scope.busy, $scope.results)
+			$scope.busy = true
+			Query.execute($scope.full_word, $scope.query_options).then (results) ->
+				$scope.results = results
+				$scope.busy = false
+		else
+			$scope.busy = false
 	$scope.expanded = (result) ->
 		result.expanded == true
 	$scope.not_expanded = (result) ->
@@ -99,7 +104,7 @@ app.controller "BodyController", ($scope,$http,$filter,Query) ->
 		else
 			$scope.explanation = true
 	$scope.more_results = () ->
-		$scope.results.list.length == 100
+		!$scope.results.exhausted
 	$scope.number_qualifier = () ->
 		if $scope.more_results() then "at least" else ""
 	$scope.explanation = false
@@ -114,6 +119,5 @@ app.controller "BodyController", ($scope,$http,$filter,Query) ->
 	$scope.match_syllable_selected = 3
 	$scope.autocomplete_words = []
 	$scope.initial_word = "bird"
-	$scope.busy = {}
-	$scope.busy.am_i = false
+	$scope.busy = false
 
