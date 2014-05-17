@@ -100,6 +100,11 @@ app.factory "Query", ($http,$q) ->
 			""
 		else
 			"?defined=true"
+	expanded_parameters = (options,offset) ->
+		if (options.level > 0) && (options.must_contain_lexemes == false)
+			"offset=" + offset
+		else
+			"?defined=true&offset=" + offset
 	matching_end_syllable = (type,options) ->
 		more_syllables = options.filter_num_syllables > options.match_num_syllables
 		if (options.match_end == "final")
@@ -238,12 +243,29 @@ app.factory "Query", ($http,$q) ->
 				results
 		else
 			$q.when(JSON.parse(sessionStorage[url]))
+	expand_query = (word,options) ->
+		url = anywhere_url + create_query(word,options) + query_parameters(options)
+		if sessionStorage[url] != undefined
+			cached_results = JSON.parse(sessionStorage[url])
+			if !cached_results.exhausted
+				expand_url = anywhere_url + create_query(word,options) + expanded_parameters(options,cached_results.list.length)
+				$http({method: 'GET', url: expand_url, cache: true}).then (response) ->
+					new_results = parse_response(response)
+					if new_results.length < 100
+						cached_results.exhausted = true
+					cached_results.list = cached_results.list.concat(new_results)
+					sessionStorage[url] = JSON.stringify(cached_results)
+					cached_results
+			else
+				$q.when(cached_results)
+		else
+			$q.when(undefined)
 	# anywhere_url = "http://anywhere.anyrhyme.com/"
 	# anywhere_url = "http://localhost:3000/"
 	anywhere_url = "http://anyrhyme.herokuapp.com/"
 	{
 		execute: execute_query,
-		# expand: 
+		expand: expand_query,
 		initialise_options: initialise_options,
 		matching_end_syllable: matching_end_syllable,
 		clear_syllables_to_match: clear_syllables_to_match,

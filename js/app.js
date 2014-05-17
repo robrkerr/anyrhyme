@@ -58,6 +58,17 @@ app.controller("BodyController", function($scope, $http, $filter, Query) {
       return $scope.busy = false;
     }
   };
+  $scope.loadMore = function() {
+    if ($scope.full_word) {
+      $scope.expanding = true;
+      return Query.expand($scope.full_word, $scope.query_options).then(function(results) {
+        $scope.results = results;
+        return $scope.expanding = false;
+      });
+    } else {
+      return $scope.expanding = false;
+    }
+  };
   $scope.expanded = function(result) {
     return result.expanded === true;
   };
@@ -178,7 +189,8 @@ app.controller("BodyController", function($scope, $http, $filter, Query) {
   $scope.match_syllable_selected = 3;
   $scope.autocomplete_words = [];
   $scope.initial_word = "bird";
-  return $scope.busy = false;
+  $scope.busy = false;
+  return $scope.expanding = false;
 });
 
 'use strict';
@@ -187,7 +199,7 @@ var app;
 app = angular.module('anyRhymeApp');
 
 app.factory("Query", function($http, $q) {
-  var anywhere_url, blank_syllable, clear_syllables_to_match, create_query, execute_query, initialise_options, last_stressed_syllable, matching_end_syllable, parse_response, preset_portmanteau1, preset_portmanteau2, preset_rhyme, query_parameters;
+  var anywhere_url, blank_syllable, clear_syllables_to_match, create_query, execute_query, expand_query, expanded_parameters, initialise_options, last_stressed_syllable, matching_end_syllable, parse_response, preset_portmanteau1, preset_portmanteau2, preset_rhyme, query_parameters;
   create_query = function(word, original_options) {
     var coda, direction, end_str, i, nucleus, num, num_type, onset, options, s, syllables_str, _i, _j, _ref, _ref1;
     if (original_options.level === 2) {
@@ -307,6 +319,13 @@ app.factory("Query", function($http, $q) {
       return "";
     } else {
       return "?defined=true";
+    }
+  };
+  expanded_parameters = function(options, offset) {
+    if ((options.level > 0) && (options.must_contain_lexemes === false)) {
+      return "offset=" + offset;
+    } else {
+      return "?defined=true&offset=" + offset;
     }
   };
   matching_end_syllable = function(type, options) {
@@ -518,9 +537,38 @@ app.factory("Query", function($http, $q) {
       return $q.when(JSON.parse(sessionStorage[url]));
     }
   };
+  expand_query = function(word, options) {
+    var cached_results, expand_url, url;
+    url = anywhere_url + create_query(word, options) + query_parameters(options);
+    if (sessionStorage[url] !== void 0) {
+      cached_results = JSON.parse(sessionStorage[url]);
+      if (!cached_results.exhausted) {
+        expand_url = anywhere_url + create_query(word, options) + expanded_parameters(options, cached_results.list.length);
+        return $http({
+          method: 'GET',
+          url: expand_url,
+          cache: true
+        }).then(function(response) {
+          var new_results;
+          new_results = parse_response(response);
+          if (new_results.length < 100) {
+            cached_results.exhausted = true;
+          }
+          cached_results.list = cached_results.list.concat(new_results);
+          sessionStorage[url] = JSON.stringify(cached_results);
+          return cached_results;
+        });
+      } else {
+        return $q.when(cached_results);
+      }
+    } else {
+      return $q.when(void 0);
+    }
+  };
   anywhere_url = "http://anyrhyme.herokuapp.com/";
   return {
     execute: execute_query,
+    expand: expand_query,
     initialise_options: initialise_options,
     matching_end_syllable: matching_end_syllable,
     clear_syllables_to_match: clear_syllables_to_match,

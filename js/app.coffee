@@ -35,6 +35,14 @@ app.controller "BodyController", ($scope,$http,$filter,Query) ->
 				$scope.busy = false
 		else
 			$scope.busy = false
+	$scope.loadMore = () ->
+		if $scope.full_word
+			$scope.expanding = true
+			Query.expand($scope.full_word, $scope.query_options).then (results) ->
+				$scope.results = results
+				$scope.expanding = false
+		else
+			$scope.expanding = false
 	$scope.expanded = (result) ->
 		result.expanded == true
 	$scope.not_expanded = (result) ->
@@ -120,4 +128,5 @@ app.controller "BodyController", ($scope,$http,$filter,Query) ->
 	$scope.autocomplete_words = []
 	$scope.initial_word = "bird"
 	$scope.busy = false
+	$scope.expanding = false
 
