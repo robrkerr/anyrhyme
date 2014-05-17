@@ -2,7 +2,7 @@
 
 app = angular.module 'anyRhymeApp'
 
-app.factory "Query", ($http) ->
+app.factory "Query", ($http,$q) ->
 	create_query = (word,original_options) ->
 		if (original_options.level == 2)
 			options = original_options
@@ -96,10 +96,10 @@ app.factory "Query", ($http) ->
 			num = 0
 		"match/" + direction + "/with" + end_str + "/" + num_type + "/" + num + "/syllables/and" + syllables_str + ".json"
 	query_parameters = (options) ->
-		if (options.level > 0) && (options.must_contain_lexemes == true)
-			"?defined=true"
-		else
+		if (options.level > 0) && (options.must_contain_lexemes == false)
 			""
+		else
+			"?defined=true"
 	matching_end_syllable = (type,options) ->
 		more_syllables = options.filter_num_syllables > options.match_num_syllables
 		if (options.match_end == "final")
@@ -126,7 +126,7 @@ app.factory "Query", ($http) ->
 		options = {}
 		options.level = 0
 		options.match_length = false
-		options.must_contain_lexemes = false
+		options.must_contain_lexemes = true
 		options.match_type = "rhyme"
 		options.filter_num_syllables_type = "at-least"
 		options.filter_num_syllables = 1
@@ -135,6 +135,7 @@ app.factory "Query", ($http) ->
 		clear_syllables_to_match(options)
 		options.leading_syllable_to_match = blank_syllable
 		options.trailing_syllable_to_match = blank_syllable
+		options
 	preset_rhyme = (word,options) ->
 		new_options = angular.copy(options)
 		clear_syllables_to_match(new_options)
@@ -223,20 +224,20 @@ app.factory "Query", ($http) ->
 		response.data.map (r) ->
 			r.any_lexemes = r.lexemes.length > 0
 			r
-	execute_query = (word,options,busy,results) ->
+	execute_query = (word,options) ->
 		url = anywhere_url + create_query(word,options) + query_parameters(options)
 		if sessionStorage[url] == undefined
-			busy.am_i = true
-			$http.get(url).then (response) ->
-				results.list = parse_response(response)
-				results.exhausted = false
+			$http({method: 'GET', url: url, cache: true}).then (response) ->
+				results = {
+					list: parse_response(response)
+					exhausted: false
+				}
+				if results.list.length < 100
+					results.exhausted = true
 				sessionStorage[url] = JSON.stringify(results)
-				busy.am_i = false
+				results
 		else
-			cached_results = JSON.parse(sessionStorage[url])
-			results.list = cached_results.list
-			results.exhausted = cached_results.exhausted
-			busy.am_i = false
+			$q.when(JSON.parse(sessionStorage[url]))
 	# anywhere_url = "http://anywhere.anyrhyme.com/"
 	# anywhere_url = "http://localhost:3000/"
 	anywhere_url = "http://anyrhyme.herokuapp.com/"
@@ -250,6 +251,3 @@ app.factory "Query", ($http) ->
 		preset_portmanteau1: preset_portmanteau1,
 		preset_portmanteau2: preset_portmanteau2
 	}
-
-
-	
