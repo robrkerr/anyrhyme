@@ -231,7 +231,7 @@ app.factory "Query", ($http,$q,anywhere_url) ->
 			r
 	execute_query = (word,options) ->
 		url = anywhere_url + create_query(word,options) + query_parameters(options)
-		ga('send','event','query','submit','url',url)
+		ga('send','event','query','submit',url)
 		if sessionStorage[url] == undefined
 			$http({method: 'GET', url: url, cache: true}).then (response) ->
 				results = {
@@ -246,7 +246,7 @@ app.factory "Query", ($http,$q,anywhere_url) ->
 			$q.when(JSON.parse(sessionStorage[url]))
 	expand_query = (word,options) ->
 		url = anywhere_url + create_query(word,options) + query_parameters(options)
-		ga('send','event','query','expand','url',url)
+		ga('send','event','query','expand',url)
 		if sessionStorage[url] != undefined
 			cached_results = JSON.parse(sessionStorage[url])
 			if !cached_results.exhausted
