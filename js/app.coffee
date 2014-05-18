@@ -14,14 +14,14 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 			$http({method: 'GET', url: search_url, cache: true}).then (response) ->
 				$scope.autocomplete_words = response.data
 	$scope.autocompleteSelect = (word) ->
-		ga('send','event','autocomplete','select','word',word)
+		ga('send','event','autocomplete','select',word)
 		$scope.full_word = word
 		$scope.preset_rhyme()
 		$scope.runQuery()
 	$scope.autocompleteSubmit = () ->
 		if ($scope.word != "")
 			word = $filter('lowercase')($scope.word)
-			ga('send','event','autocomplete','submit','word',word)
+			ga('send','event','autocomplete','submit',word)
 			search_url = anywhere_url + "search/" + word + ".json" 
 			$scope.busy = true
 			$scope.results.list = []
