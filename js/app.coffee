@@ -37,6 +37,7 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 	$scope.runQuery = () -> 
 		if $scope.full_word
 			$scope.busy = true
+			$scope.ensureFilterSyllablesIsCorrect()
 			Query.execute($scope.full_word, $scope.query_options).then (results) ->
 				$scope.results = results
 				$scope.busy = false
@@ -50,9 +51,6 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 				$scope.expanding = false
 		else
 			$scope.expanding = false
-	$scope.adjustNumberToMatch = () ->
-		$scope.ensureFilterSyllablesIsCorrect()	
-		$scope.runQuery()
 	$scope.ensureFilterSyllablesIsCorrect = () ->
 		options = $scope.query_options
 		if (options.match_num_syllables > options.filter_num_syllables)

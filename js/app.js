@@ -53,6 +53,7 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
   $scope.runQuery = function() {
     if ($scope.full_word) {
       $scope.busy = true;
+      $scope.ensureFilterSyllablesIsCorrect();
       return Query.execute($scope.full_word, $scope.query_options).then(function(results) {
         $scope.results = results;
         return $scope.busy = false;
@@ -71,10 +72,6 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
     } else {
       return $scope.expanding = false;
     }
-  };
-  $scope.adjustNumberToMatch = function() {
-    $scope.ensureFilterSyllablesIsCorrect();
-    return $scope.runQuery();
   };
   $scope.ensureFilterSyllablesIsCorrect = function() {
     var options;
