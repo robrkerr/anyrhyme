@@ -205,7 +205,11 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
   $scope.autocomplete_words = [];
   $scope.initial_word = "bird";
   $scope.busy = false;
-  return $scope.expanding = false;
+  $scope.expanding = false;
+  console.log('hello');
+  console.log(ga);
+  ga('send', 'pageview');
+  return ga('send', 'event', 'page', 'loaded');
 });
 
 'use strict';

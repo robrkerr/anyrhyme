@@ -140,3 +140,7 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 	$scope.initial_word = "bird"
 	$scope.busy = false
 	$scope.expanding = false
+	console.log('hello')
+	console.log(ga)
+	ga('send','pageview');
+	ga('send','event','page','loaded')
