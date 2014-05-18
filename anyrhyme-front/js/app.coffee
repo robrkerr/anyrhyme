@@ -14,7 +14,8 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 			$http({method: 'GET', url: search_url, cache: true}).then (response) ->
 				$scope.autocomplete_words = response.data
 	$scope.autocompleteSelect = (word) ->
-		ga('send','event','autocomplete','select',word)
+		ga('send','event','autocomplete','select',word.spelling)
+		# ga('send','event','autocomplete','select',word.spelling + ": " + word.pronunciation)
 		$scope.full_word = word
 		$scope.preset_rhyme()
 		$scope.runQuery()
