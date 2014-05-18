@@ -2,22 +2,25 @@
 
 app = angular.module 'anyRhymeApp', ['autocomplete']
 
-# app.constant "anywhere_url", "http://anywhere.anyrhyme.com/"
+app.constant "anywhere_url", "http://anywhere.anyrhyme.com/"
 # app.constant "anywhere_url", "http://localhost:3000/"
-app.constant "anywhere_url", "http://anyrhyme.herokuapp.com/"
+# app.constant "anywhere_url", "http://anyrhyme.herokuapp.com/"
 
 app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 	$scope.autocompleteType = (typed) ->
+		ga('send','event','autocomplete','type','text',typed)
 		$scope.word = $filter('lowercase')(typed)
 		if $scope.word
 			search_url = anywhere_url + "search/" + $scope.word + ".json" 
 			$http({method: 'GET', url: search_url, cache: true}).then (response) ->
 				$scope.autocomplete_words = response.data
 	$scope.autocompleteSelect = (word) ->
+		ga('send','event','autocomplete','select','word',word)
 		$scope.full_word = word
 		$scope.preset_rhyme()
 		$scope.runQuery()
 	$scope.autocompleteSubmit = () ->
+		ga('send','event','autocomplete','submit','word',$scope.word)
 		if ($scope.word != "")
 			word = $filter('lowercase')($scope.word)
 			search_url = anywhere_url + "search/" + word + ".json" 
@@ -140,7 +143,4 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 	$scope.initial_word = "bird"
 	$scope.busy = false
 	$scope.expanding = false
-	console.log('hello')
-	console.log(ga)
 	ga('send','pageview');
-	ga('send','event','page','loaded')
