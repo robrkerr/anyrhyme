@@ -21,7 +21,7 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
     }
   };
   $scope.autocompleteSelect = function(word) {
-    ga('send', 'event', 'autocomplete', 'select', word);
+    ga('send', 'event', 'autocomplete', 'select', word.spelling);
     $scope.full_word = word;
     $scope.preset_rhyme();
     return $scope.runQuery();
