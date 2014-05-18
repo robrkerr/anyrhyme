@@ -100,7 +100,7 @@
                 <option value="final">final</option> 
                 <option value="first">first</option>
               </select>
-              <select name="select" ng-model="query_options.match_num_syllables" ng-change="runQuery()" style="font-size: 1em">
+              <select name="select" ng-model="query_options.match_num_syllables" ng-change="adjustNumberToMatch()" style="font-size: 1em">
                 <option value="1">1</option> 
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -174,18 +174,7 @@
                 <option value="exactly">exactly</option>
               </select>
               <select name="select" ng-model="query_options.filter_num_syllables" ng-change="runQuery()" style="font-size: 1em">
-                <option value="1">1</option> 
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
+                <option ng-repeat="num in filter_lengths()" value="{{num}}">{{num}}</option>
               </select>
               syllable(s)
             </div>

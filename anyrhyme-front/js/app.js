@@ -70,6 +70,14 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
       return $scope.expanding = false;
     }
   };
+  $scope.adjustNumberToMatch = function() {
+    var options;
+    options = $scope.query_options;
+    if (options.match_num_syllables > options.filter_num_syllables) {
+      options.filter_num_syllables = options.match_num_syllables;
+    }
+    return $scope.runQuery();
+  };
   $scope.expanded = function(result) {
     return result.expanded === true;
   };
@@ -179,6 +187,12 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
     } else {
       return "";
     }
+  };
+  $scope.filter_lengths = function() {
+    var all_lengths, n;
+    all_lengths = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    n = $scope.query_options.match_num_syllables - 1;
+    return all_lengths.slice(n, all_lengths.length);
   };
   $scope.explanation = false;
   $scope.query_word_expanded = false;
@@ -346,7 +360,7 @@ app.factory("Query", function($http, $q, anywhere_url) {
     return stresses.length - 1 - stresses.reverse().indexOf(true);
   };
   clear_syllables_to_match = function(options) {
-    return options.syllables_to_match = [blank_syllable, blank_syllable, blank_syllable];
+    return options.syllables_to_match = [blank_syllable(), blank_syllable(), blank_syllable()];
   };
   blank_syllable = function() {
     return {
@@ -377,8 +391,8 @@ app.factory("Query", function($http, $q, anywhere_url) {
     options.match_end = "final";
     options.match_num_syllables = 1;
     clear_syllables_to_match(options);
-    options.leading_syllable_to_match = blank_syllable;
-    options.trailing_syllable_to_match = blank_syllable;
+    options.leading_syllable_to_match = blank_syllable();
+    options.trailing_syllable_to_match = blank_syllable();
     return options;
   };
   preset_rhyme = function(word, options) {

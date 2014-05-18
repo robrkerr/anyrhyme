@@ -47,6 +47,11 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 				$scope.expanding = false
 		else
 			$scope.expanding = false
+	$scope.adjustNumberToMatch = () ->
+		options = $scope.query_options
+		if (options.match_num_syllables > options.filter_num_syllables)
+			options.filter_num_syllables = options.match_num_syllables
+		$scope.runQuery()
 	$scope.expanded = (result) ->
 		result.expanded == true
 	$scope.not_expanded = (result) ->
@@ -119,6 +124,10 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 		!$scope.results.exhausted
 	$scope.number_qualifier = () ->
 		if $scope.more_results() then "at least" else ""
+	$scope.filter_lengths = () ->
+		all_lengths = [1,2,3,4,5,6,7,8,9,10,11,12]
+		n = $scope.query_options.match_num_syllables-1
+		all_lengths.slice(n,all_lengths.length)
 	$scope.explanation = false
 	$scope.query_word_expanded = false
 	$scope.results = {
