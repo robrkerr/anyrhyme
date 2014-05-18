@@ -83,10 +83,10 @@ app.factory "Query", ($http,$q,anywhere_url) ->
 			direction = "ending"
 		if (options.level == 1) && (options.match_length == true) && (options.match_type == "rhyme")
 			num_type = "exactly"
-			num = 0
+			num = word.syllables.length - options.match_num_syllables
 		else if (options.level == 2)
 			num_type = options.filter_num_syllables_type
-			num = options.filter_num_syllables - options.match_num_syllables 
+			num = options.filter_num_syllables - options.match_num_syllables
 			if matching_end_syllable("trailing",options)
 				num = num - 1
 			else if matching_end_syllable("leading",options)
