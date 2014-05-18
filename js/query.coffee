@@ -2,7 +2,7 @@
 
 app = angular.module 'anyRhymeApp'
 
-app.factory "Query", ($http,$q) ->
+app.factory "Query", ($http,$q,anywhere_url) ->
 	create_query = (word,original_options) ->
 		if (original_options.level == 2)
 			options = original_options
@@ -102,7 +102,7 @@ app.factory "Query", ($http,$q) ->
 			"?defined=true"
 	expanded_parameters = (options,offset) ->
 		if (options.level > 0) && (options.must_contain_lexemes == false)
-			"offset=" + offset
+			"?offset=" + offset
 		else
 			"?defined=true&offset=" + offset
 	matching_end_syllable = (type,options) ->
@@ -260,9 +260,6 @@ app.factory "Query", ($http,$q) ->
 				$q.when(cached_results)
 		else
 			$q.when(undefined)
-	# anywhere_url = "http://anywhere.anyrhyme.com/"
-	# anywhere_url = "http://localhost:3000/"
-	anywhere_url = "http://anyrhyme.herokuapp.com/"
 	{
 		execute: execute_query,
 		expand: expand_query,
