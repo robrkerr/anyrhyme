@@ -3,8 +3,9 @@ var app;
 
 app = angular.module('anyRhymeApp', ['autocomplete']);
 
-app.controller("BodyController", function($scope, $http, $filter, Query) {
-  var anywhere_url;
+app.constant("anywhere_url", "http://anyrhyme.herokuapp.com/");
+
+app.controller("BodyController", function($scope, $http, $filter, Query, anywhere_url) {
   $scope.autocompleteType = function(typed) {
     var search_url;
     $scope.word = $filter('lowercase')(typed);
@@ -181,12 +182,12 @@ app.controller("BodyController", function($scope, $http, $filter, Query) {
   };
   $scope.explanation = false;
   $scope.query_word_expanded = false;
-  anywhere_url = "http://anyrhyme.herokuapp.com/";
-  $scope.results = {};
-  $scope.results.list = [];
-  $scope.results.exhausted = false;
+  $scope.results = {
+    list: [],
+    exhausted: false
+  };
   $scope.query_options = Query.initialise_options();
-  $scope.match_syllable_selected = 3;
+  $scope.match_syllable_selected = 1;
   $scope.autocomplete_words = [];
   $scope.initial_word = "bird";
   $scope.busy = false;
@@ -198,8 +199,8 @@ var app;
 
 app = angular.module('anyRhymeApp');
 
-app.factory("Query", function($http, $q) {
-  var anywhere_url, blank_syllable, clear_syllables_to_match, create_query, execute_query, expand_query, expanded_parameters, initialise_options, last_stressed_syllable, matching_end_syllable, parse_response, preset_portmanteau1, preset_portmanteau2, preset_rhyme, query_parameters;
+app.factory("Query", function($http, $q, anywhere_url) {
+  var blank_syllable, clear_syllables_to_match, create_query, execute_query, expand_query, expanded_parameters, initialise_options, last_stressed_syllable, matching_end_syllable, parse_response, preset_portmanteau1, preset_portmanteau2, preset_rhyme, query_parameters;
   create_query = function(word, original_options) {
     var coda, direction, end_str, i, nucleus, num, num_type, onset, options, s, syllables_str, _i, _j, _ref, _ref1;
     if (original_options.level === 2) {
@@ -323,7 +324,7 @@ app.factory("Query", function($http, $q) {
   };
   expanded_parameters = function(options, offset) {
     if ((options.level > 0) && (options.must_contain_lexemes === false)) {
-      return "offset=" + offset;
+      return "?offset=" + offset;
     } else {
       return "?defined=true&offset=" + offset;
     }
@@ -565,7 +566,6 @@ app.factory("Query", function($http, $q) {
       return $q.when(void 0);
     }
   };
-  anywhere_url = "http://anyrhyme.herokuapp.com/";
   return {
     execute: execute_query,
     expand: expand_query,

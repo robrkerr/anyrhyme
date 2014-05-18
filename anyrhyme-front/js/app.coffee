@@ -2,7 +2,11 @@
 
 app = angular.module 'anyRhymeApp', ['autocomplete']
 
-app.controller "BodyController", ($scope,$http,$filter,Query) ->
+# app.constant "anywhere_url", "http://anywhere.anyrhyme.com/"
+# app.constant "anywhere_url", "http://localhost:3000/"
+app.constant "anywhere_url", "http://anyrhyme.herokuapp.com/"
+
+app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 	$scope.autocompleteType = (typed) ->
 		$scope.word = $filter('lowercase')(typed)
 		if $scope.word
@@ -117,16 +121,13 @@ app.controller "BodyController", ($scope,$http,$filter,Query) ->
 		if $scope.more_results() then "at least" else ""
 	$scope.explanation = false
 	$scope.query_word_expanded = false
-	# anywhere_url = "http://anywhere.anyrhyme.com/"
-	# anywhere_url = "http://localhost:3000/"
-	anywhere_url = "http://anyrhyme.herokuapp.com/"
-	$scope.results = {}
-	$scope.results.list = []
-	$scope.results.exhausted = false
+	$scope.results = {
+		list: []
+		exhausted: false
+	}
 	$scope.query_options = Query.initialise_options()
-	$scope.match_syllable_selected = 3
+	$scope.match_syllable_selected = 1
 	$scope.autocomplete_words = []
 	$scope.initial_word = "bird"
 	$scope.busy = false
 	$scope.expanding = false
-
