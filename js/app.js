@@ -3,7 +3,7 @@ var app;
 
 app = angular.module('anyRhymeApp', ['autocomplete']);
 
-app.constant("anywhere_url", "http://anyrhyme.herokuapp.com/");
+app.constant("anywhere_url", "http://anywhere.anyrhyme.com/");
 
 app.controller("BodyController", function($scope, $http, $filter, Query, anywhere_url) {
   $scope.autocompleteType = function(typed) {
@@ -21,6 +21,7 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
     }
   };
   $scope.autocompleteSelect = function(word) {
+    ga('send', 'event', 'autocomplete', 'select', 'word', word);
     $scope.full_word = word;
     $scope.preset_rhyme();
     return $scope.runQuery();
@@ -29,6 +30,7 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
     var search_url, word;
     if ($scope.word !== "") {
       word = $filter('lowercase')($scope.word);
+      ga('send', 'event', 'autocomplete', 'submit', 'word', word);
       search_url = anywhere_url + "search/" + word + ".json";
       $scope.busy = true;
       $scope.results.list = [];
@@ -206,10 +208,7 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
   $scope.initial_word = "bird";
   $scope.busy = false;
   $scope.expanding = false;
-  console.log('hello');
-  console.log(ga);
-  ga('send', 'pageview');
-  return ga('send', 'event', 'page', 'loaded');
+  return ga('send', 'pageview');
 });
 
 'use strict';
@@ -535,6 +534,7 @@ app.factory("Query", function($http, $q, anywhere_url) {
   execute_query = function(word, options) {
     var url;
     url = anywhere_url + create_query(word, options) + query_parameters(options);
+    ga('send', 'event', 'query', 'submit', 'url', url);
     if (sessionStorage[url] === void 0) {
       return $http({
         method: 'GET',
@@ -559,6 +559,7 @@ app.factory("Query", function($http, $q, anywhere_url) {
   expand_query = function(word, options) {
     var cached_results, expand_url, url;
     url = anywhere_url + create_query(word, options) + query_parameters(options);
+    ga('send', 'event', 'query', 'expand', 'url', url);
     if (sessionStorage[url] !== void 0) {
       cached_results = JSON.parse(sessionStorage[url]);
       if (!cached_results.exhausted) {
