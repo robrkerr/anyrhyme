@@ -116,9 +116,9 @@ app.factory "Query", ($http,$q,anywhere_url) ->
 		stresses.length - 1 - stresses.reverse().indexOf(true)
 	clear_syllables_to_match = (options) ->
 		options.syllables_to_match = [
-			blank_syllable,
-			blank_syllable,
-			blank_syllable
+			blank_syllable(),
+			blank_syllable(),
+			blank_syllable()
 		]
 	blank_syllable = () ->
 		{
@@ -138,8 +138,8 @@ app.factory "Query", ($http,$q,anywhere_url) ->
 		options.match_end = "final"
 		options.match_num_syllables = 1
 		clear_syllables_to_match(options)
-		options.leading_syllable_to_match = blank_syllable
-		options.trailing_syllable_to_match = blank_syllable
+		options.leading_syllable_to_match = blank_syllable()
+		options.trailing_syllable_to_match = blank_syllable()
 		options
 	preset_rhyme = (word,options) ->
 		new_options = angular.copy(options)
