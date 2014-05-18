@@ -73,12 +73,15 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
     }
   };
   $scope.adjustNumberToMatch = function() {
+    $scope.ensureFilterSyllablesIsCorrect();
+    return $scope.runQuery();
+  };
+  $scope.ensureFilterSyllablesIsCorrect = function() {
     var options;
     options = $scope.query_options;
     if (options.match_num_syllables > options.filter_num_syllables) {
-      options.filter_num_syllables = options.match_num_syllables;
+      return options.filter_num_syllables = options.match_num_syllables;
     }
-    return $scope.runQuery();
   };
   $scope.expanded = function(result) {
     return result.expanded === true;
@@ -108,6 +111,7 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
   };
   $scope.setQueryOptionsLevel = function(value) {
     $scope.query_options.level = value;
+    $scope.ensureFilterSyllablesIsCorrect();
     return $scope.runQuery();
   };
   $scope.even_tag = function(i) {

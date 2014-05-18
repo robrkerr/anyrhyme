@@ -51,10 +51,12 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 		else
 			$scope.expanding = false
 	$scope.adjustNumberToMatch = () ->
+		$scope.ensureFilterSyllablesIsCorrect()	
+		$scope.runQuery()
+	$scope.ensureFilterSyllablesIsCorrect = () ->
 		options = $scope.query_options
 		if (options.match_num_syllables > options.filter_num_syllables)
 			options.filter_num_syllables = options.match_num_syllables
-		$scope.runQuery()
 	$scope.expanded = (result) ->
 		result.expanded == true
 	$scope.not_expanded = (result) ->
@@ -75,6 +77,7 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 		$scope.query_options.match_type == "rhyme"
 	$scope.setQueryOptionsLevel = (value) ->
 		$scope.query_options.level = value
+		$scope.ensureFilterSyllablesIsCorrect()
 		$scope.runQuery()
 	$scope.even_tag = (i) ->
 		if (i%2)==0 then 'odd' else 'even'
