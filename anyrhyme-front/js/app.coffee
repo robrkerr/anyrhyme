@@ -8,7 +8,6 @@ app.constant "anywhere_url", "http://anywhere.anyrhyme.com/"
 
 app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 	$scope.autocompleteType = (typed) ->
-		ga('send','event','autocomplete','type','text',typed)
 		$scope.word = $filter('lowercase')(typed)
 		if $scope.word
 			search_url = anywhere_url + "search/" + $scope.word + ".json" 
@@ -20,9 +19,9 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 		$scope.preset_rhyme()
 		$scope.runQuery()
 	$scope.autocompleteSubmit = () ->
-		ga('send','event','autocomplete','submit','word',$scope.word)
 		if ($scope.word != "")
 			word = $filter('lowercase')($scope.word)
+			ga('send','event','autocomplete','submit','word',word)
 			search_url = anywhere_url + "search/" + word + ".json" 
 			$scope.busy = true
 			$scope.results.list = []
