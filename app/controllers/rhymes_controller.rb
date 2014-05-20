@@ -7,9 +7,10 @@ class RhymesController < ApplicationController
       matching_words = Word.where("spelling LIKE ?", "#{params["word"]}")
       word = matching_words.first if matching_words.length > 0
     end
+    defined = params["defined"] ? (params["defined"]=="true") : false
     respond_to do |format|
       if word 
-        format.json { redirect_to match_route(word) }
+        format.json { redirect_to match_route(word, defined) }
       else
         format.json { render :json => [].to_json }
       end
@@ -18,7 +19,7 @@ class RhymesController < ApplicationController
 
   private
 
-  def match_route word
+  def match_route word, defined
     num = last_stressed_syllable(word) || 0
     num = ((word.syllables.length - num) > 3) ? (word.syllables.length - 3) : num
     word_syllables = word.syllables[num..-1]
@@ -26,7 +27,8 @@ class RhymesController < ApplicationController
       str = (i==0) ? "~" : ""
       str + "#{s.onset.label},#{s.nucleus.label},#{s.coda.label}"
     }.join("/")
-    "/match/beginning/with/exactly/#{num}/syllables/and/" + syllables_str + ".json"
+    route = "/match/beginning/with/exactly/#{num}/syllables/and/" + syllables_str + ".json"
+    defined ? route + "?defined=true" : route
   end
 
   def last_stressed_syllable word
