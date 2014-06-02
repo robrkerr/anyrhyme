@@ -1,7 +1,7 @@
 'use strict';
 var app;
 
-app = angular.module('anyRhymeApp', ['autocomplete']);
+app = angular.module('anyRhymeApp', ['autocomplete', 'ngTouch']);
 
 app.constant("anywhere_url", "http://anywhere.anyrhyme.com/");
 
@@ -111,11 +111,11 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
     $scope.ensureFilterSyllablesIsCorrect();
     return $scope.runQuery();
   };
-  $scope.even_tag = function(i) {
-    if ((i % 2) === 0) {
-      return 'odd';
+  $scope.expanded_tag = function(result) {
+    if ($scope.expanded(result)) {
+      return 'expanded';
     } else {
-      return 'even';
+      return '';
     }
   };
   $scope.list_of_syllables_to_match = function() {
@@ -154,7 +154,11 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
     }
   };
   $scope.select_match_syllable = function(i) {
-    return $scope.match_syllable_selected = i;
+    if ($scope.match_syllable_selected === i) {
+      return $scope.match_syllable_selected = void 0;
+    } else {
+      return $scope.match_syllable_selected = i;
+    }
   };
   $scope.match_syllable_class = function(i) {
     if ($scope.match_syllable_selected === i) {
@@ -204,7 +208,7 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
     exhausted: false
   };
   $scope.query_options = Query.initialise_options();
-  $scope.match_syllable_selected = 1;
+  $scope.match_syllable_selected = void 0;
   $scope.autocomplete_words = [];
   $scope.initial_word = "bird";
   $scope.busy = false;
@@ -419,12 +423,12 @@ app.factory("Query", function($http, $q, anywhere_url) {
       } else {
         stress_to_match = '0';
       }
-      if (s.onset === "") {
+      if (s.onset.length === 0) {
         onset_label = "_";
       } else {
         onset_label = s.onset.join("-");
       }
-      if (s.coda === "") {
+      if (s.coda.length === 0) {
         coda_label = "_";
       } else {
         coda_label = s.coda.join("-");
@@ -450,6 +454,7 @@ app.factory("Query", function($http, $q, anywhere_url) {
     new_options.match_end = "final";
     new_options.filter_num_syllables_type = "at-least";
     new_options.filter_num_syllables = 1;
+    console.log(new_options);
     return new_options;
   };
   preset_portmanteau1 = function(word, options) {
@@ -457,12 +462,12 @@ app.factory("Query", function($http, $q, anywhere_url) {
     new_options = angular.copy(options);
     clear_syllables_to_match(new_options);
     s = word.syllables[word.syllables.length - 1];
-    if (s.onset === "") {
+    if (s.onset.length === 0) {
       onset_label = "_";
     } else {
       onset_label = s.onset.join("-");
     }
-    if (s.coda === "") {
+    if (s.coda.length === 0) {
       coda_label = "_";
     } else {
       coda_label = s.coda.join("-");
@@ -494,12 +499,12 @@ app.factory("Query", function($http, $q, anywhere_url) {
     new_options = angular.copy(options);
     clear_syllables_to_match(new_options);
     s = word.syllables[0];
-    if (s.onset === "") {
+    if (s.onset.length === 0) {
       onset_label = "_";
     } else {
       onset_label = s.onset.join("-");
     }
-    if (s.coda === "") {
+    if (s.coda.length === 0) {
       coda_label = "_";
     } else {
       coda_label = s.coda.join("-");

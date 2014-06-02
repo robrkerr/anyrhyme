@@ -157,11 +157,11 @@ app.factory "Query", ($http,$q,anywhere_url) ->
 				stress_to_match = '3'
 			else
 				stress_to_match = '0'
-			if s.onset == ""
+			if s.onset.length == 0
 				onset_label = "_"
 			else
 				onset_label = s.onset.join("-")
-			if s.coda == ""
+			if s.coda.length == 0
 				coda_label = "_"
 			else
 				coda_label = s.coda.join("-")
@@ -176,16 +176,17 @@ app.factory "Query", ($http,$q,anywhere_url) ->
 		new_options.match_end = "final"
 		new_options.filter_num_syllables_type = "at-least"
 		new_options.filter_num_syllables = 1
+		console.log(new_options)
 		new_options
 	preset_portmanteau1 = (word,options) ->
 		new_options = angular.copy(options)
 		clear_syllables_to_match(new_options)
 		s = word.syllables[word.syllables.length-1]
-		if s.onset == ""
+		if s.onset.length == 0
 			onset_label = "_"
 		else
 			onset_label = s.onset.join("-")
-		if s.coda == ""
+		if s.coda.length == 0
 			coda_label = "_"
 		else
 			coda_label = s.coda.join("-")
@@ -205,11 +206,11 @@ app.factory "Query", ($http,$q,anywhere_url) ->
 		new_options = angular.copy(options)
 		clear_syllables_to_match(new_options)
 		s = word.syllables[0]
-		if s.onset == ""
+		if s.onset.length == 0
 			onset_label = "_"
 		else
 			onset_label = s.onset.join("-")
-		if s.coda == ""
+		if s.coda.length == 0
 			coda_label = "_"
 		else
 			coda_label = s.coda.join("-")
