@@ -13,6 +13,7 @@
 </head>
 <body ng-app="anyRhymeApp" ng-controller="BodyController">
   <script src="js/angular.js"></script>
+  <script src="js/angular-touch.js"></script>
   <script src="js/jquery-1.11.0.js"></script>
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -35,7 +36,7 @@
         <em>anyRhyme</em> is a rhyming dictionary... but also a lot more! You can find portmanteaus (e.g. <a href="http://en.wikipedia.org/wiki/Sheeple">sheeple</a>), rhymes of differing strength, and explore words that are share similar sounds.
       </div>
       <div class="explanation-subbox">
-        This opensource app is powered by the <em>anyWhere, anyRhyme</em> API (<a href="http://anywhere.anyrhyme.com">anywhere.anyrhyme.com</a>), which you can use to make cool things, such as a silly misquote generator (<a href="http://misquoted.anyrhyme.com">misquoted.anyrhyme.com</a>). It uses word phoneme data from <a href="http://www.speech.cs.cmu.edu/cgi-bin/cmudict">Carnegie Mellon University</a> and lexemes (word definitions) from <a href="http://wordnet.princeton.edu/">Princeton University's WordNet</a>.
+        This opensource app is powered by the <em>anyWhere, anyRhyme</em> API (<a class="url-link" href="http://anywhere.anyrhyme.com">anywhere.anyrhyme.com</a>), which you can use to make cool things, such as a silly misquote generator (<a href="http://misquoted.anyrhyme.com">misquoted.anyrhyme.com</a>). It uses word phoneme data from <a href="http://www.speech.cs.cmu.edu/cgi-bin/cmudict">Carnegie Mellon University</a> and lexemes (word definitions) from <a href="http://wordnet.princeton.edu/">Princeton University's WordNet</a>.
       </div>
       <div class="explanation-subbox">
         My name is Rob Kerr. Check out my github repository for this <a href="https://github.com/robrkerr/anyrhyme">project</a>. 
@@ -71,17 +72,19 @@
                 <a ng-click="expand_query_word()">word details</a>
               </div>
             </div>
-            <div class="query-word-area" ng-if="query_word_expanded == true">
-              <span ng-if="full_word" class="query-word-input-pronunciation">{{full_word.spelling}} ({{full_word.pronunciation}})</span>
-            </div>
-            <div ng-if="query_word_expanded == true">
-              <div class="query-word-lexeme" ng-repeat="lexeme in full_word.lexemes">
+            <div class="result-row expanded" style="margin: 2em 0em 2em;" ng-if="query_word_expanded == true">
+              <div class="result-word-name">{{full_word.spelling}}</div>
+              <div class="result-word-pronunciation" ng-if="expanded(result)">
+                {{full_word.pronunciation}}
+              </div>
+              <div class="result-word-lexeme" ng-repeat="lexeme in full_word.lexemes">
                 ({{lexeme.word_class}}) {{lexeme.gloss}}
               </div>
             </div>
           </div>
-          <div class="main-options-area">
-            <div class="main-option-box" ng-if="query_options.level == 1">
+          <!-- <div class="result-row expanded" style="margin: 0em 0em 0.8em; padding: 1em 5em;" ng-repeat="syllable in selected_match_syllable()"> -->
+          <div class="main-options-area expanded" ng-if="query_options.level > 0">
+            <div class="main-option-box" style="margin: 0.8em 0em 0em;" ng-if="query_options.level == 1">
               Match type: 
               <select name="select" ng-model="query_options.match_type" ng-change="runQuery()" style="font-size: 1em">
                 <option value="rhyme">Rhyme</option> 
@@ -93,7 +96,7 @@
               <input type="checkbox" style="width: 2.8em; height: 2.8em" ng-change="runQuery()" ng-model="query_options.match_length"></input>
               Only words of same length
             </div>
-            <div class="main-option-box" ng-if="query_options.level == 2">
+            <div class="main-option-box" style="margin: 0.8em 0em 0em;" ng-if="query_options.level == 2">
               Find words whose 
               <select name="select" ng-model="query_options.match_end" style="font-size: 1em" ng-change="runQuery()">
                 <option value="final">final</option> 
@@ -106,7 +109,7 @@
               </select>
               syllable(s) match:
             </div>
-            <div class="main-option-box" ng-if="query_options.level == 2">
+            <div class="main-option-box" ng-if="query_options.level == 2" style="padding: 1em 0em 0.5em;">
               <span class="main-option-diagram-syllable{{match_syllable_class(4)}}" ng-if="show_end_syllable('leading')" ng-click="select_match_syllable(4)">
                 <span class="main-option-diagram-segment-{{query_options.leading_syllable_to_match.onset.match_type}}">{{query_options.leading_syllable_to_match.onset.label}}-</span><span class="main-option-diagram-segment-{{query_options.leading_syllable_to_match.nucleus.match_type}}">{{query_options.leading_syllable_to_match.nucleus.label}}</span><span class="main-option-diagram-segment-{{query_options.leading_syllable_to_match.coda.match_type}}">-{{query_options.leading_syllable_to_match.coda.label}}</span>
               </span>
@@ -124,12 +127,7 @@
               </span>
             </div>
             <div class="main-option-box" ng-if="query_options.level == 2">
-              <span style="font-size: 0.8em">
-                Set as a <a ng-click="preset_rhyme()">rhyme</a>, <br><a ng-click="preset_portmanteau1()">portmanteau</a> (from this word), or <br><a ng-click="preset_portmanteau2()">portmanteau</a> (onto this word) <br>of the above word
-              </span>
-            </div>
-            <div class="main-option-box" ng-if="query_options.level == 2">
-              <div class="main-option-box-syllable-details" ng-repeat="syllable in selected_match_syllable()">
+              <div class="result-row expanded_inside" style="margin: 0em 3em 0.8em; padding: 1em 2em;" ng-repeat="syllable in selected_match_syllable()">
                 <div class="main-option-segment-box">
                   <span class="main-option-segment-description">Onset</span>
                   <select name="select"style="font-size: 1em" ng-model="syllable.onset.match_type" ng-change="runQuery()">
@@ -166,6 +164,11 @@
                 </div>    
               </div>
             </div>
+            <div class="main-option-box" ng-if="query_options.level == 2" style="padding: 0em 8em 1em;">
+              <span style="font-size: 0.8em">
+                Set as a <a ng-click="preset_rhyme()">rhyme</a>, <a ng-click="preset_portmanteau1()">portmanteau</a> (from this word), or <a ng-click="preset_portmanteau2()">portmanteau</a> (onto this word) of the above word
+              </span>
+            </div>
             <div class="main-option-box" ng-if="query_options.level == 2">
               Words with 
               <select name="select" ng-model="query_options.filter_num_syllables_type" ng-change="runQuery()" style="font-size: 1em">
@@ -193,14 +196,12 @@
       <div ng-if="busy" class="loading-spinner"></div>
       <div ng-if="!busy">
         <div ng-repeat="result in results.list" ng-click="expand(result)">
-          <div class="result-row-{{even_tag($index)}}">
+          <div class="result-row {{expanded_tag(result)}}">
             <div class="result-word-name">{{result.spelling}}</div>
-            <div class="result-expander-arrow-{{even_tag($index)}}" ng-if="not_expanded(result)">▼</div>
-            <div class="result-expander-arrow-{{even_tag($index)}}" ng-if="expanded(result)">▲</div>
             <div class="result-word-pronunciation" ng-if="expanded(result)">
-              ({{result.pronunciation}})
+              {{result.pronunciation}}
             </div>
-            <div ng-if="expanded(result)">
+            <div class="result-word-expanded" ng-if="expanded(result)">
               <div class="result-word-lexeme" ng-repeat="lexeme in result.lexemes">
                 ({{lexeme.word_class}}) {{lexeme.gloss}}
               </div>

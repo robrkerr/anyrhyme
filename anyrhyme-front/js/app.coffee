@@ -1,6 +1,6 @@
 'use strict'
 
-app = angular.module 'anyRhymeApp', ['autocomplete']
+app = angular.module 'anyRhymeApp', ['autocomplete','ngTouch']
 
 app.constant "anywhere_url", "http://anywhere.anyrhyme.com/"
 # app.constant "anywhere_url", "http://localhost:3000/"
@@ -77,8 +77,8 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 		$scope.query_options.level = value
 		$scope.ensureFilterSyllablesIsCorrect()
 		$scope.runQuery()
-	$scope.even_tag = (i) ->
-		if (i%2)==0 then 'odd' else 'even'
+	$scope.expanded_tag = (result) ->
+		if ($scope.expanded(result)) then 'expanded' else ''
 	$scope.list_of_syllables_to_match = () ->
 		$scope.query_options.syllables_to_match.slice(3-$scope.query_options.match_num_syllables,3)
 	$scope.show_ellipsis = (i) ->
@@ -104,7 +104,10 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 			$scope.query_options = Query.preset_portmanteau2($scope.full_word,$scope.query_options)
 			$scope.runQuery()
 	$scope.select_match_syllable = (i) ->
-		$scope.match_syllable_selected = i
+		if ($scope.match_syllable_selected == i)
+			$scope.match_syllable_selected = undefined
+		else
+			$scope.match_syllable_selected = i
 	$scope.match_syllable_class = (i) ->
 		if ($scope.match_syllable_selected == i)
 			"-selected"
@@ -139,7 +142,7 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 		exhausted: false
 	}
 	$scope.query_options = Query.initialise_options()
-	$scope.match_syllable_selected = 1
+	$scope.match_syllable_selected = undefined
 	$scope.autocomplete_words = []
 	$scope.initial_word = "bird"
 	$scope.busy = false

@@ -3,8 +3,7 @@
 @import 'autocomplete';
 
 @import 'modules/header';
-@import 'modules/main-banner';
-@import 'modules/results-list'; 
+@import 'modules/body';
 
 @-webkit-keyframes rotate-forever {
   0% {
@@ -73,18 +72,18 @@
   animation-timing-function: linear;
   width: 5em;
   height: 5em;
-  border: 1em solid $green-darker;
+  border: 1em solid $gray;
   border-right-color: transparent;
   border-radius: 50%;
   display: inline-block;
 }
 
 .spinner-even {
-  border: 1em solid $green-darker;
+  border: 1em solid $gray;
   border-right-color: transparent;
 }
 
 .spinner-odd {
-  border: 1em solid $green-medium;
+  border: 1em solid $gray;
   border-right-color: transparent;
 }

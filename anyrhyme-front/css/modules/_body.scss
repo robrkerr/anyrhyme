@@ -7,22 +7,25 @@
 }
 
 .main-banner-headline {
-  background: $green-medium;
+  background: $almost-white;
   overflow: hidden;
   padding-bottom: 0.4em;
 
   h1 {
-    font-size: 4em;
+    font-size: 5em;
+    font-weight: 600;
     padding: 0.7em;
+    font-family: 'Avenir Next Condensed', Avenir, 'sans-serif';
   }
 }
 
 .main-banner-tagline {
   padding: 1em 0em;
-  background-color: $green-medium;
+  background-color: $almost-white;
 
   input {
-    background-color: $green-lightest;
+    background-color: white;
+    font-family: inherit;
   }
 }
 
@@ -31,13 +34,14 @@
 }
 
 .query-word-input-pronunciation {
-  font-size: 2em;
-  font-style: italic;
+  font-size: 2em; 
+  font-family: 'Avenir Next Condensed', Avenir, 'sans-serif';
+  padding: 0.6em 0em;
 }
 
 .query-word-input-arrows {
   font-size: 2.5em; 
-  color: $green-darker;
+  color: $gray;
   display: inline-block;
   padding-left: 0.5em;
 }
@@ -48,7 +52,7 @@
 }
 
 .main-options-area-input {
-  background-color: $green-darker;
+  background-color: $almost-white;
   padding: 1em 0em;
 }
 
@@ -60,10 +64,11 @@
   max-width: 540px; 
   padding: 1em 2em 2em;
   margin: 0em auto;
+  font-size: 1em;
 }
 
 .main-options-container {
-  background-color: $green-darker;
+  background-color: $almost-white;
   padding: 0em;
   position: relative;
 }
@@ -77,8 +82,11 @@
 }
 
 .main-option-box {
-  font-size: 2em;
-  padding: 0.5em;
+  font-size: 1.8em;
+  padding: 0.3em;
+  select {
+    font-family: inherit;
+  }
 }
 
 .main-option-segment-description {
@@ -89,23 +97,27 @@
 
 .main-option-segment-input {
   width: 40%; 
-  max-width: 8em; 
+  // max-width: 8em; 
   font-size: 1em;
   padding: 0.2em;
 }
 
 .main-option-diagram-syllable {
   display: inline-block; 
-  background-color: $green-medium;
-  padding: 0.6em 0.5em;
+  background-color: $almost-white;
+  padding: 0.7em 0.6em 0.6em;
   margin: 0 0.1em;
+  border: solid 1px $gray;
+  font-family: 'Avenir Next Condensed', Avenir, 'sans-serif';
 }
 
 .main-option-diagram-syllable-selected {
   display: inline-block; 
-  background-color: $green-lightest;
-  padding: 0.6em 0.5em;
+  background-color: white;
+  padding: 0.7em 0.6em 0.6em;
   margin: 0 0.1em;
+  border: solid 1px $gray;
+  font-family: 'Avenir Next Condensed', Avenir, 'sans-serif';
 }
 
 .main-option-diagram-syllable:hover {
@@ -127,7 +139,7 @@
 
 .main-option-box-syllable-details {
   padding: 0.5em;
-  background-color: $green-medium;
+  background-color: $almost-white;
   width: 16.5em;
   margin: 0.5em auto;
 }
@@ -142,7 +154,7 @@
 
 .query-word-expander-arrow {
   font-size: 2.5em; 
-  color: $green-medium;
+  color: $almost-white;
   position: absolute;
   top: 0.15em;
   right: 0.4em;
@@ -153,4 +165,58 @@
   text-align: left; 
   font-size: 1.5em; 
   padding: 0.4em 2em;
+}
+
+.results-list {
+  text-align: center;
+  margin-bottom: 10em; 
+}
+
+.result-row {
+  background-color: $almost-white;
+  padding: 2em 1.5em;
+  position: relative;
+  cursor: pointer;
+}
+
+.expanded {
+  border-top: solid 1px $gray;
+  border-bottom: solid 1px $gray;
+  margin-top: -1px; 
+  background-color: $gray2;
+}
+
+.expanded_inside {
+  border-top: solid 1px $gray;
+  border-bottom: solid 1px $gray;
+  margin-top: -1px; 
+  background-color: $gray1;
+}
+
+.result-word-name {
+  font-size: 2.5em;
+  width: 100%;
+  font-weight: 500;
+}
+
+.result-word-pronunciation {
+  font-size: 2em; 
+  font-family: 'Avenir Next Condensed', Avenir, 'sans-serif';
+  padding: 0.6em 0em;
+}
+
+.result-word-expanded {
+  padding: 1em 2em 0.5em;
+}
+
+.result-word-lexeme {
+  text-align: left; 
+  font-size: 1.5em; 
+  padding: 0.4em 0em;
+}
+
+.more-results-link {
+  font-size: 2.5em;
+  width: 100%;
+  color: black; 
 }
