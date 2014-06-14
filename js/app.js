@@ -1,7 +1,7 @@
 'use strict';
 var app;
 
-app = angular.module('anyRhymeApp', ['autocomplete', 'ngTouch']);
+app = angular.module('anyRhymeApp', ['autocomplete', 'ngTouch', 'angularSmoothscroll']);
 
 app.constant("anywhere_url", "http://anywhere.anyrhyme.com/");
 
@@ -22,6 +22,7 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
   };
   $scope.autocompleteSelect = function(word) {
     ga('send', 'event', 'autocomplete', 'select', word.spelling);
+    $scope.invalid = false;
     $scope.full_word = word;
     $scope.full_word.syllable_objects = $scope.full_word.syllables.map(function(s) {
       return Query.convert_syllable(s);
@@ -43,7 +44,8 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
         url: search_url,
         cache: true
       }).then(function(response) {
-        if ($scope.word === response.data[0].spelling) {
+        if (response.data[0] && ($scope.word === response.data[0].spelling)) {
+          $scope.invalid = false;
           $scope.full_word = response.data[0];
           $scope.full_word.syllable_objects = $scope.full_word.syllables.map(function(s) {
             return Query.convert_syllable(s);
@@ -51,6 +53,7 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
           $scope.preset_rhyme();
           return $scope.runQuery();
         } else {
+          $scope.invalid = true;
           return $scope.busy = false;
         }
       });
@@ -85,8 +88,10 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
     if (options.match_num_syllables > options.filter_num_syllables) {
       options.filter_num_syllables = options.match_num_syllables;
     }
-    if (options.match_num_syllables > $scope.full_word.syllables.length) {
-      return options.match_num_syllables = $scope.full_word.syllables.length;
+    if ($scope.full_word) {
+      if (options.match_num_syllables > $scope.full_word.syllables.length) {
+        return options.match_num_syllables = $scope.full_word.syllables.length;
+      }
     }
   };
   $scope.expanded = function(result) {
@@ -279,7 +284,7 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
   };
   $scope.number_qualifier = function() {
     if ($scope.more_results()) {
-      return "at least ";
+      return "+";
     } else {
       return "";
     }
@@ -299,10 +304,9 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
   $scope.query_options = Query.initialise_options();
   $scope.match_syllable_selected = void 0;
   $scope.autocomplete_words = [];
-  $scope.initial_word = "alligator";
+  $scope.initial_word = "banana";
   $scope.busy = false;
   $scope.expanding = false;
-  $scope.query_options.customize = true;
   return ga('send', 'pageview');
 });
 

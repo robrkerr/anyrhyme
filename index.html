@@ -14,6 +14,7 @@
 <body ng-app="anyRhymeApp" ng-controller="BodyController">
   <script src="js/angular.js"></script>
   <script src="js/angular-touch.js"></script>
+  <script src="js/angular-smoothscroll.js"></script>
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -42,11 +43,11 @@
                 <autocomplete initial="initial_word" placeholder="" click-activation="true" data="autocomplete_words" on-type="autocompleteType" on-select="autocompleteSelect" on-submit="autocompleteSubmit"></autocomplete>
               </form>
             </div>
-            <div class="main-options-select-area">
+            <div id="customize-scrollpoint" class="main-options-select-area">
               <div class="main-more-options" style="display: inline-block; float: left" ng-show="!query_word_expanded">
                 <a ng-click="setQueryBasic()" ng-show="query_options.customize">basic</a>
                 <span ng-show="!query_options.customize">basic</span> /
-                <a ng-click="setQueryCustomize()" ng-show="!query_options.customize">customized</a>
+                <a href="" smooth-scroll target="customize-scrollpoint" offset="0" ng-click="setQueryCustomize()" ng-show="!query_options.customize">customized</a>
                 <span ng-show="query_options.customize">customized</span>
               </div>
               <div class="main-more-options" style="display: inline-block; float: right" ng-show="!query_word_expanded">
@@ -56,9 +57,20 @@
                 <a ng-click="expand_query_word()">remove word details</a>
               </div>
             </div>
-            
           </div>
-          <div class="result-row expanded" style="margin: 1em 0em 2em;" ng-show="query_word_expanded == true">
+
+          <div class="main-final" ng-show="!invalid && !query_word_expanded">
+              <span class="query-word-input" ng-show="!busy && !query_options.customize">{{results.list.length}}{{number_qualifier()}} rhyming word<span ng-show="results.list.length !== 1">s</span></span>
+              <a href="" smooth-scroll target="results" offset="100" class="query-word-input" ng-show="!busy && query_options.customize">{{results.list.length}}{{number_qualifier()}} matching word<span ng-show="results.list.length !== 1">s</span></a>
+            </div>
+          </div>
+          <div ng-show="invalid" class="main-final">
+            <span class="query-word-input">
+              Sorry, that word can't be found
+            </span>
+          </div>
+
+          <div class="result-row expanded" style="margin: 1em 0em 2em;" ng-show="(query_word_expanded == true) && !invalid">
             <div class="close-button" style="font-size: 2em;" ng-click="expand_query_word()">✕</div>
             <div class="result-word-name">{{full_word.spelling}}</div>
             <div class="result-word-pronunciation" ng-show="query_word_expanded">
@@ -68,16 +80,11 @@
               ({{lexeme.word_class}}) {{lexeme.gloss}}
             </div>
           </div>
-          <div class="main-options-area expanded" style="margin: 1em 0em 2em;" ng-show="query_options.customize && !query_word_expanded" ng-include="'customize.html'"></div>
+          <div class="main-options-area expanded" style="margin: 1em 0em 2em;" ng-show="query_options.customize && !query_word_expanded && !invalid" ng-include="'customize.html'"></div>
         </div>
-        <div class="main-final" ng-show="!query_word_expanded">
-          <span ng-show="!busy && !query_options.customize" class="query-word-input">{{number_qualifier()}}{{results.list.length}} rhyming word<span ng-show="results.list.length > 1">s</span>:</span>
-          <span ng-show="!busy && query_options.customize" class="query-word-input">{{number_qualifier()}}{{results.list.length}} matching word<span ng-show="results.list.length > 1">s</span>:</span>
-        </div>
-      </div>
     </section>
 
-    <section class="results-list" ng-show="!query_word_expanded" ng-include="'results.html'"></section>
+    <section id="results" class="results-list" ng-show="!query_word_expanded && !invalid" ng-include="'results.html'"></section>
   </div>
 </body>
 </html>
