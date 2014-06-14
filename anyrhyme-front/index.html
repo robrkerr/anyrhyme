@@ -43,7 +43,7 @@
                 <autocomplete initial="initial_word" placeholder="" click-activation="true" data="autocomplete_words" on-type="autocompleteType" on-select="autocompleteSelect" on-submit="autocompleteSubmit"></autocomplete>
               </form>
             </div>
-            <div id="customize-scrollpoint" class="main-options-select-area">
+            <div class="main-options-select-area">
               <div class="main-more-options" style="display: inline-block; float: left" ng-show="!query_word_expanded">
                 <a ng-click="setQueryBasic()" ng-show="query_options.customize">basic</a>
                 <span ng-show="!query_options.customize">basic</span> /
@@ -59,9 +59,9 @@
             </div>
           </div>
 
-          <div class="main-final" ng-show="!invalid && !query_word_expanded">
+          <div id="customize-scrollpoint" class="main-final" ng-show="!invalid && !query_word_expanded">
               <span class="query-word-input" ng-show="!busy && !query_options.customize">{{results.list.length}}{{number_qualifier()}} rhyming word<span ng-show="results.list.length !== 1">s</span></span>
-              <a href="" smooth-scroll target="results" offset="100" class="query-word-input" ng-show="!busy && query_options.customize">{{results.list.length}}{{number_qualifier()}} matching word<span ng-show="results.list.length !== 1">s</span></a>
+              <span href="" smooth-scroll target="results" offset="0" style="cursor: pointer; font-weight: 500;" class="query-word-input" ng-show="!busy && query_options.customize">{{results.list.length}}{{number_qualifier()}} matching word<span ng-show="results.list.length !== 1">s</span></span>
             </div>
           </div>
           <div ng-show="invalid" class="main-final">
