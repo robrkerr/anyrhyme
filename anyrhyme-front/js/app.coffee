@@ -1,6 +1,6 @@
 'use strict'
 
-app = angular.module 'anyRhymeApp', ['autocomplete','ngTouch']
+app = angular.module 'anyRhymeApp', ['autocomplete','ngTouch','angularSmoothscroll']
 
 app.constant "anywhere_url", "http://anywhere.anyrhyme.com/"
 
@@ -14,6 +14,7 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 	$scope.autocompleteSelect = (word) ->
 		ga('send','event','autocomplete','select',word.spelling)
 		# ga('send','event','autocomplete','select',word.spelling + ": " + word.pronunciation)
+		$scope.invalid = false
 		$scope.full_word = word
 		$scope.full_word.syllable_objects = $scope.full_word.syllables.map (s) -> 
 			Query.convert_syllable(s)
@@ -28,13 +29,15 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 			$scope.results.list = []
 			$scope.full_word = undefined
 			$http({method: 'GET', url: search_url, cache: true}).then (response) ->
-				if ($scope.word == response.data[0].spelling)
+				if response.data[0] && ($scope.word == response.data[0].spelling)
+					$scope.invalid = false
 					$scope.full_word = response.data[0]
 					$scope.full_word.syllable_objects = $scope.full_word.syllables.map (s) -> 
 						Query.convert_syllable(s)
 					$scope.preset_rhyme()
 					$scope.runQuery()
 				else
+					$scope.invalid = true
 					$scope.busy = false
 	$scope.runQuery = () -> 
 		if $scope.full_word
@@ -57,8 +60,9 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 		options = $scope.query_options
 		if (options.match_num_syllables > options.filter_num_syllables)
 			options.filter_num_syllables = options.match_num_syllables
-		if (options.match_num_syllables > $scope.full_word.syllables.length)
-			options.match_num_syllables = $scope.full_word.syllables.length
+		if $scope.full_word
+			if (options.match_num_syllables > $scope.full_word.syllables.length)
+				options.match_num_syllables = $scope.full_word.syllables.length
 	$scope.expanded = (result) ->
 		result.expanded == true
 	$scope.not_expanded = (result) ->
@@ -183,7 +187,7 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 	$scope.more_results = () ->
 		!$scope.results.exhausted
 	$scope.number_qualifier = () ->
-		if $scope.more_results() then "at least " else ""
+		if $scope.more_results() then "+" else ""
 	$scope.filter_lengths = () ->
 		all_lengths = [1,2,3,4,5,6,7,8,9,10,11,12]
 		n = $scope.query_options.match_num_syllables-1
@@ -197,8 +201,8 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 	$scope.query_options = Query.initialise_options()
 	$scope.match_syllable_selected = undefined
 	$scope.autocomplete_words = []
-	$scope.initial_word = "alligator"
+	$scope.initial_word = "banana"
 	$scope.busy = false
 	$scope.expanding = false
-	$scope.query_options.customize = true
+	# $scope.query_options.customize = true
 	ga('send','pageview');
