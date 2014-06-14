@@ -3,7 +3,7 @@
 <head>
   <title>anyRhyme</title>
   <meta name="description" content="">
-  <meta name="viewport" content="width=device-width">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
   <meta name="breakpoint" content="mobile" media="(max-width: 599px)" />
   <meta name="breakpoint" content="tablet" media="(min-width: 600px) and (max-width: 1023px)" />
   <meta name="breakpoint" content="desktop" media="(min-width: 1024px) and (max-width: 1279px)" />
@@ -14,7 +14,6 @@
 <body ng-app="anyRhymeApp" ng-controller="BodyController">
   <script src="js/angular.js"></script>
   <script src="js/angular-touch.js"></script>
-  <script src="js/jquery-1.11.0.js"></script>
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -24,25 +23,7 @@
   </script>
   <script type="text/javascript" src="js/app.js"></script>
   <script type="text/javascript" src="js/autocomplete.js"></script>
-  <header class="site-header">
-    <div class="header-box">
-      <a ng-click="toggle_explanation()" style="float: left">What is this?</a>
-      <span class="header-arrow" ng-if="explanation == false">▼</span>
-      <span class="header-arrow" ng-if="explanation == true">▲</span>
-      <!-- <span style="float: right">anyrhyme.com &copy; 2014</span> -->
-    </div>
-    <div ng-if="explanation == true" class="explanation-box">
-      <div class="explanation-subbox">
-        <em>anyRhyme</em> is a rhyming dictionary... but also a lot more! You can find portmanteaus (e.g. <a href="http://en.wikipedia.org/wiki/Sheeple">sheeple</a>), rhymes of differing strength, and explore words that are share similar sounds.
-      </div>
-      <div class="explanation-subbox">
-        This opensource app is powered by the <em>anyWhere, anyRhyme</em> API (<a class="url-link" href="http://anywhere.anyrhyme.com">anywhere.anyrhyme.com</a>), which you can use to make cool things, such as a silly misquote generator (<a href="http://misquoted.anyrhyme.com">misquoted.anyrhyme.com</a>). It uses word phoneme data from <a href="http://www.speech.cs.cmu.edu/cgi-bin/cmudict">Carnegie Mellon University</a> and lexemes (word definitions) from <a href="http://wordnet.princeton.edu/">Princeton University's WordNet</a>.
-      </div>
-      <div class="explanation-subbox">
-        My name is Rob Kerr. Check out my github repository for this <a href="https://github.com/robrkerr/anyrhyme">project</a>. 
-      </div>
-    </div>
-  </header>
+  <header class="site-header" ng-include="'header.html'"></header>
 
   <div class="outer-container">
     <section class="main-banner">
@@ -50,170 +31,53 @@
         <h1>anyRhyme</h1>
       </div>
       <div class="main-banner-tagline">
-        <div class="main-lead-in">
+        <!-- <div class="main-lead-in">
           <span class="query-word-input">Type in a word: </span>
-        </div>
+        </div> -->
         <div class="main-options-container">
           <div class="main-options-area-input">
-            <div ng-click="do_not_expand_query_word($event)">
-              <autocomplete initial="initial_word" placeholder="" click-activation="true" data="autocomplete_words" on-type="autocompleteType" on-select="autocompleteSelect" on-submit="autocompleteSubmit"></autocomplete>
+            <div>
+            <!-- <div ng-click="do_not_expand_query_word($event)"> -->
+              <form>
+                <autocomplete initial="initial_word" placeholder="" click-activation="true" data="autocomplete_words" on-type="autocompleteType" on-select="autocompleteSelect" on-submit="autocompleteSubmit"></autocomplete>
+              </form>
             </div>
             <div class="main-options-select-area">
-              <div class="main-more-options" style="display: inline-block; float: left">
-                options:
-                <a ng-click="setQueryOptionsLevel(0)" ng-if="query_options.level != 0">none</a>
-                <span ng-if="query_options.level == 0">none</span> /
-                <a ng-click="setQueryOptionsLevel(1)" ng-if="query_options.level != 1">some</a>
-                <span ng-if="query_options.level == 1">some</span> /
-                <a ng-click="setQueryOptionsLevel(2)" ng-if="query_options.level != 2">all</a>
-                <span ng-if="query_options.level == 2">all</span>
+              <div class="main-more-options" style="display: inline-block; float: left" ng-show="!query_word_expanded">
+                <a ng-click="setQueryBasic()" ng-show="query_options.customize">basic</a>
+                <span ng-show="!query_options.customize">basic</span> /
+                <a ng-click="setQueryCustomize()" ng-show="!query_options.customize">customized</a>
+                <span ng-show="query_options.customize">customized</span>
               </div>
-              <div class="main-more-options" style="display: inline-block; float: right">
+              <div class="main-more-options" style="display: inline-block; float: right" ng-show="!query_word_expanded">
                 <a ng-click="expand_query_word()">word details</a>
               </div>
+              <div class="main-more-options" style="display: inline-block; float: right" ng-show="query_word_expanded">
+                <a ng-click="expand_query_word()">remove word details</a>
+              </div>
             </div>
-            <div class="result-row expanded" style="margin: 2em 0em 2em;" ng-if="query_word_expanded == true">
-              <div class="result-word-name">{{full_word.spelling}}</div>
-              <div class="result-word-pronunciation" ng-if="expanded(result)">
-                {{full_word.pronunciation}}
-              </div>
-              <div class="result-word-lexeme" ng-repeat="lexeme in full_word.lexemes">
-                ({{lexeme.word_class}}) {{lexeme.gloss}}
-              </div>
+            
+          </div>
+          <div class="result-row expanded" style="margin: 1em 0em 2em;" ng-show="query_word_expanded == true">
+            <div class="close-button" style="font-size: 2em;" ng-click="expand_query_word()">✕</div>
+            <div class="result-word-name">{{full_word.spelling}}</div>
+            <div class="result-word-pronunciation" ng-show="query_word_expanded">
+              {{full_word.pronunciation}}
+            </div>
+            <div class="result-word-lexeme" ng-repeat="lexeme in full_word.lexemes">
+              ({{lexeme.word_class}}) {{lexeme.gloss}}
             </div>
           </div>
-          <!-- <div class="result-row expanded" style="margin: 0em 0em 0.8em; padding: 1em 5em;" ng-repeat="syllable in selected_match_syllable()"> -->
-          <div class="main-options-area expanded" ng-if="query_options.level > 0">
-            <div class="main-option-box" style="margin: 0.8em 0em 0em;" ng-if="query_options.level == 1">
-              Match type: 
-              <select name="select" ng-model="query_options.match_type" ng-change="runQuery()" style="font-size: 1em">
-                <option value="rhyme">Rhyme</option> 
-                <option value="port1">Portmanteau from</option>
-                <option value="port2">Portmanteau onto</option>
-              </select>
-            </div>
-            <div class="main-option-box" ng-if="(query_options.level == 1) && rhyming_option()">
-              <input type="checkbox" style="width: 2.8em; height: 2.8em" ng-change="runQuery()" ng-model="query_options.match_length"></input>
-              Only words of same length
-            </div>
-            <div class="main-option-box" style="margin: 0.8em 0em 0em;" ng-if="query_options.level == 2">
-              Find words whose 
-              <select name="select" ng-model="query_options.match_end" style="font-size: 1em" ng-change="runQuery()">
-                <option value="final">final</option> 
-                <option value="first">first</option>
-              </select>
-              <select name="select" ng-model="query_options.match_num_syllables" ng-change="runQuery()" style="font-size: 1em">
-                <option value="1">1</option> 
-                <option value="2">2</option>
-                <option value="3">3</option>
-              </select>
-              syllable(s) match:
-            </div>
-            <div class="main-option-box" ng-if="query_options.level == 2" style="padding: 1em 0em 0.5em;">
-              <span class="main-option-diagram-syllable{{match_syllable_class(4)}}" ng-if="show_end_syllable('leading')" ng-click="select_match_syllable(4)">
-                <span class="main-option-diagram-segment-{{query_options.leading_syllable_to_match.onset.match_type}}">{{query_options.leading_syllable_to_match.onset.label}}-</span><span class="main-option-diagram-segment-{{query_options.leading_syllable_to_match.nucleus.match_type}}">{{query_options.leading_syllable_to_match.nucleus.label}}</span><span class="main-option-diagram-segment-{{query_options.leading_syllable_to_match.coda.match_type}}">-{{query_options.leading_syllable_to_match.coda.label}}</span>
-              </span>
-              <span class="main-option-diagram-segment-match" ng-if="show_ellipsis(1)">
-                ...
-              </span>
-              <span class="main-option-diagram-syllable{{match_syllable_class($index+1)}}" ng-repeat="syllable in list_of_syllables_to_match()" ng-click="select_match_syllable($index+1)">
-                <span class="main-option-diagram-segment-{{syllable.onset.match_type}}">{{syllable.onset.label}}-</span><span class="main-option-diagram-segment-{{syllable.nucleus.match_type}}">{{syllable.nucleus.label}}{{syllable.stress}}</span><span class="main-option-diagram-segment-{{syllable.coda.match_type}}">-{{syllable.coda.label}}</span>
-              </span>
-              <span class="main-option-diagram-segment-match" ng-if="show_ellipsis(2)">
-                ...
-              </span>
-              <span class="main-option-diagram-syllable{{match_syllable_class(5)}}" ng-if="show_end_syllable('trailing')" ng-click="select_match_syllable(5)">
-                <span class="main-option-diagram-segment-{{query_options.leading_syllable_to_match.onset.match_type}}">{{query_options.leading_syllable_to_match.onset.label}}-</span><span class="main-option-diagram-segment-{{query_options.leading_syllable_to_match.nucleus.match_type}}">{{query_options.leading_syllable_to_match.nucleus.label}}</span><span class="main-option-diagram-segment-{{query_options.leading_syllable_to_match.coda.match_type}}">-{{query_options.leading_syllable_to_match.coda.label}}</span>
-              </span>
-            </div>
-            <div class="main-option-box" ng-if="query_options.level == 2">
-              <div class="result-row expanded_inside" style="margin: 0em 3em 0.8em; padding: 1em 2em;" ng-repeat="syllable in selected_match_syllable()">
-                <div class="main-option-segment-box">
-                  <span class="main-option-segment-description">Onset</span>
-                  <select name="select"style="font-size: 1em" ng-model="syllable.onset.match_type" ng-change="runQuery()">
-                    <option value="match">is</option> 
-                    <option value="antimatch">isn't</option>
-                  </select>
-                  <input type="text" class="main-option-segment-input" ng-model="syllable.onset.label" ng-change="runQuery()">
-                </div>
-                <div class="main-option-segment-box">
-                  <span class="main-option-segment-description">Nucleus</span>
-                  <select name="select"style="font-size: 1em" ng-model="syllable.nucleus.match_type" ng-change="runQuery()">
-                    <option value="match">is</option> 
-                    <option value="antimatch">isn't</option>
-                  </select>
-                  <input type="text" class="main-option-segment-input" ng-model="syllable.nucleus.label" ng-change="runQuery()">
-                </div>
-                <div class="main-option-segment-box">
-                  <span class="main-option-segment-description">Coda</span>
-                  <select name="select"style="font-size: 1em" ng-model="syllable.coda.match_type" ng-change="runQuery()">
-                    <option value="match">is</option> 
-                    <option value="antimatch">isn't</option>
-                  </select>
-                  <input type="text" class="main-option-segment-input" ng-model="syllable.coda.label" ng-change="runQuery()">
-                </div>
-                <div class="main-option-segment-box">
-                  <select name="select" style="font-size: 1em" ng-model="syllable.stress" ng-change="runQuery()">
-                    <option value="1">Primary</option> 
-                    <option value="2">Secondary</option>
-                    <option value="3">Some</option>
-                    <option value="0">No</option>
-                    <option value="">Any</option>
-                  </select>
-                  <span class="main-option-segment-description">stress</span>
-                </div>    
-              </div>
-            </div>
-            <div class="main-option-box" ng-if="query_options.level == 2" style="padding: 0em 8em 1em;">
-              <span style="font-size: 0.8em">
-                Set as a <a ng-click="preset_rhyme()">rhyme</a>, <a ng-click="preset_portmanteau1()">portmanteau</a> (from this word), or <a ng-click="preset_portmanteau2()">portmanteau</a> (onto this word) of the above word
-              </span>
-            </div>
-            <div class="main-option-box" ng-if="query_options.level == 2">
-              Words with 
-              <select name="select" ng-model="query_options.filter_num_syllables_type" ng-change="runQuery()" style="font-size: 1em">
-                <option value="at-least">at least</option> 
-                <option value="exactly">exactly</option>
-              </select>
-              <select name="select" ng-model="query_options.filter_num_syllables" ng-change="runQuery()" style="font-size: 1em">
-                <option ng-repeat="num in filter_lengths()" value="{{num}}">{{num}}</option>
-              </select>
-              syllable(s)
-            </div>
-            <div class="main-option-box" ng-if="query_options.level > 0">
-              <input type="checkbox" style="width: 2.8em; height: 2.8em" ng-change="runQuery()" ng-model="query_options.must_contain_lexemes"></input>
-              Only words with definitions 
-            </div>
-          </div>
+          <div class="main-options-area expanded" style="margin: 1em 0em 2em;" ng-show="query_options.customize && !query_word_expanded" ng-include="'customize.html'"></div>
         </div>
-        <div class="main-final">
-          <span ng-if="!busy" class="query-word-input">...and find {{number_qualifier()}} {{results.list.length}} rhyming words:</span>
+        <div class="main-final" ng-show="!query_word_expanded">
+          <span ng-show="!busy && !query_options.customize" class="query-word-input">...{{number_qualifier()}}{{results.list.length}} rhyming word<span ng-show="results.list.length > 1">s</span>:</span>
+          <span ng-show="!busy && query_options.customize" class="query-word-input">...{{number_qualifier()}}{{results.list.length}} matching word<span ng-show="results.list.length > 1">s</span>:</span>
         </div>
       </div>
     </section>
 
-    <section class="results-list">
-      <div ng-if="busy" class="loading-spinner"></div>
-      <div ng-if="!busy">
-        <div ng-repeat="result in results.list" ng-click="expand(result)">
-          <div class="result-row {{expanded_tag(result)}}">
-            <div class="result-word-name">{{result.spelling}}</div>
-            <div class="result-word-pronunciation" ng-if="expanded(result)">
-              {{result.pronunciation}}
-            </div>
-            <div class="result-word-expanded" ng-if="expanded(result)">
-              <div class="result-word-lexeme" ng-repeat="lexeme in result.lexemes">
-                ({{lexeme.word_class}}) {{lexeme.gloss}}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div ng-if="more_results()" class="result-row-{{even_tag(results.list.length)}}">
-          <a ng-if="!expanding" class="more-results-link" ng-click="loadMore()">More</a>
-          <div ng-if="expanding" class="loading-spinner spinner-{{even_tag(results.list.length)}}"></div>
-        </div>
-      </div>
-    </section>
+    <section class="results-list" ng-show="!query_word_expanded" ng-include="'results.html'"></section>
   </div>
 </body>
 </html>

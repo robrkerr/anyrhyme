@@ -1,0 +1,17 @@
+<div class="header-box">
+  <a ng-click="toggle_explanation()" style="float: left">What is this?</a>
+  <span class="header-arrow" ng-show="explanation == false">▼</span>
+  <span class="header-arrow" ng-show="explanation == true">▲</span>
+  <!-- <span style="float: right">anyrhyme.com &copy; 2014</span> -->
+</div>
+<div ng-show="explanation == true" class="explanation-box">
+  <div class="explanation-subbox">
+    <em>anyRhyme</em> is a rhyming dictionary... but also a lot more! You can find portmanteaus (e.g. <a href="http://en.wikipedia.org/wiki/Sheeple">sheeple</a>), rhymes of differing strength, and explore words that are share similar sounds.
+  </div>
+  <div class="explanation-subbox">
+    This opensource app is powered by the <em>anyWhere, anyRhyme</em> API (<a class="url-link" href="http://anywhere.anyrhyme.com">anywhere.anyrhyme.com</a>), which you can use to make cool things, such as a silly misquote generator (<a href="http://misquoted.anyrhyme.com">misquoted.anyrhyme.com</a>). It uses word phoneme data from <a href="http://www.speech.cs.cmu.edu/cgi-bin/cmudict">Carnegie Mellon University</a> and lexemes (word definitions) from <a href="http://wordnet.princeton.edu/">Princeton University's WordNet</a>.
+  </div>
+  <div class="explanation-subbox">
+    My name is Rob Kerr. Check out my github repository for this <a href="https://github.com/robrkerr/anyrhyme">project</a>. 
+  </div>
+</div>

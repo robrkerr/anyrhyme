@@ -2,7 +2,7 @@
 
 var app = angular.module('autocomplete', []);
 
-app.directive('autocomplete', function(){
+app.directive('autocomplete', function($timeout) {
   var index = -1;
 
   return {
@@ -80,7 +80,8 @@ app.directive('autocomplete', function(){
       $scope.preSelectOff = this.preSelectOff;
 
       // selecting a suggestion with RIGHT ARROW or ENTER
-      $scope.select = function(suggestion){
+      $scope.select = function(suggestion) {
+        $scope.time_to_blur = true;
         if(suggestion){
           $scope.searchParam = suggestion.spelling;
           $scope.searchFilter = suggestion.spelling;
@@ -94,21 +95,46 @@ app.directive('autocomplete', function(){
 
       // submitting text with RIGHT ARROW or ENTER
       $scope.submit = function() {
+        $scope.time_to_blur = true;
         $scope.onSubmit($scope.searchParam);
         watching = false;
         $scope.completing = false;
         setTimeout(function(){watching = true;},1000);
         $scope.setIndex(-1);
-        document.activeElement.blur();
-      }
+      };
+
+      $scope.clear_input = function() {
+        $scope.searchParam = "";
+        $scope.searchFilter = "";
+        $scope.suggestions = [];
+        $scope.input_cleared = true;
+      };
+      $scope.return_focus = function() {
+        $scope.time_to_focus = true;
+      };
+
+      $scope.input_focused = function() {
+        $scope.input_focus = true;
+        $scope.time_to_focus = false;
+      };
+      $scope.input_blurred = function() {
+        if (!$scope.input_cleared) {
+          $scope.input_focus = false;
+        } else {
+          $scope.input_cleared = false;
+        }
+        $scope.time_to_blur = false;
+      };
 
       $scope.searchParam = $scope.initial;
       $scope.onType($scope.searchParam);
       $scope.submit();
-
+      $scope.input_cleared = false;
+      $scope.time_to_focus = false;
+      $scope.time_to_blur = false;
+      $scope.input_focus = false;
     },
     link: function(scope, element, attrs){
-
 
       scope.placeholder=attrs["placeholder"];
       if(scope.placeholder===null||scope.placeholder===undefined)
@@ -196,7 +222,7 @@ app.directive('autocomplete', function(){
               scope.submit();
             }
             
-            scope.setIndex(-1);     
+            scope.setIndex(-1);  
             scope.$apply();
 
             break;
@@ -216,7 +242,8 @@ app.directive('autocomplete', function(){
       };
     },
     template: '<div class="autocomplete">'+
-                '<input type="text" ng-model="searchParam" placeholder="{{placeholder}}" />' +
+                '<div class="clear-button" ng-show="input_focus" ng-mousedown="clear_input()" ng-click="return_focus()">✕</div>'+
+                '<input type="text" autocapitalize="off" autocorrect="off" ng-model="searchParam" placeholder="{{placeholder}}" ng-focus="input_focused()" ng-blur="input_blurred()" focus-if="time_to_focus" blur-if="time_to_blur"/>' +
                 '<ul ng-show="completing">' +
                   '<li suggestion ng-repeat="suggestion in suggestions | filter:{spelling:searchFilter} | orderBy:\'toString()\'" '+
                   'index="{{$index}}" ng-class="{active: '+
@@ -244,4 +271,36 @@ app.directive('suggestion', function(){
       });
     }
   }
+});
+
+app.directive('focusIf', function($timeout) {
+  return {
+    link: function($scope, $element, $attr) {
+      $scope.$watch($attr.focusIf, function(value) {
+        if (value) { 
+          $timeout(function() {
+            if ($scope.$eval($attr.focusIf)) {
+              $element[0].focus(); 
+            }
+          }, 0, false);
+        }
+      });
+    }
+  };
+});
+
+app.directive('blurIf', function($timeout) {
+  return {
+    link: function($scope, $element, $attr) {
+      $scope.$watch($attr.blurIf, function(value) {
+        if (value) { 
+          $timeout(function() {
+            if ($scope.$eval($attr.blurIf)) {
+              $element[0].blur();
+            }
+          }, 0, false);
+        }
+      });
+    }
+  };
 });

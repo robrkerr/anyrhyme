@@ -23,6 +23,9 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
   $scope.autocompleteSelect = function(word) {
     ga('send', 'event', 'autocomplete', 'select', word.spelling);
     $scope.full_word = word;
+    $scope.full_word.syllable_objects = $scope.full_word.syllables.map(function(s) {
+      return Query.convert_syllable(s);
+    });
     $scope.preset_rhyme();
     return $scope.runQuery();
   };
@@ -42,6 +45,9 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
       }).then(function(response) {
         if ($scope.word === response.data[0].spelling) {
           $scope.full_word = response.data[0];
+          $scope.full_word.syllable_objects = $scope.full_word.syllables.map(function(s) {
+            return Query.convert_syllable(s);
+          });
           $scope.preset_rhyme();
           return $scope.runQuery();
         } else {
@@ -77,7 +83,10 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
     var options;
     options = $scope.query_options;
     if (options.match_num_syllables > options.filter_num_syllables) {
-      return options.filter_num_syllables = options.match_num_syllables;
+      options.filter_num_syllables = options.match_num_syllables;
+    }
+    if (options.match_num_syllables > $scope.full_word.syllables.length) {
+      return options.match_num_syllables = $scope.full_word.syllables.length;
     }
   };
   $scope.expanded = function(result) {
@@ -106,8 +115,13 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
   $scope.rhyming_option = function() {
     return $scope.query_options.match_type === "rhyme";
   };
-  $scope.setQueryOptionsLevel = function(value) {
-    $scope.query_options.level = value;
+  $scope.setQueryBasic = function() {
+    $scope.query_options.customize = false;
+    $scope.ensureFilterSyllablesIsCorrect();
+    return $scope.runQuery();
+  };
+  $scope.setQueryCustomize = function() {
+    $scope.query_options.customize = true;
     $scope.ensureFilterSyllablesIsCorrect();
     return $scope.runQuery();
   };
@@ -118,14 +132,86 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
       return '';
     }
   };
-  $scope.list_of_syllables_to_match = function() {
-    return $scope.query_options.syllables_to_match.slice(3 - $scope.query_options.match_num_syllables, 3);
+  $scope.list_of_syllables_in_word = function() {
+    var n;
+    if ($scope.full_word) {
+      n = $scope.full_word.syllable_objects.length;
+      if ($scope.query_options.word_end === "first") {
+        if (n >= 3) {
+          return $scope.full_word.syllable_objects.slice(0, 3);
+        } else {
+          return $scope.full_word.syllable_objects.slice(0, n);
+        }
+      } else {
+        if (n >= 3) {
+          return $scope.full_word.syllable_objects.slice(n - 3, n);
+        } else {
+          return $scope.full_word.syllable_objects.slice(0, n);
+        }
+      }
+    }
   };
-  $scope.show_ellipsis = function(i) {
+  $scope.list_of_syllables_to_match = function() {
+    if ($scope.query_options.word_end === "first") {
+      return $scope.query_options.syllables_to_match.slice(0, $scope.query_options.match_num_syllables);
+    } else {
+      return $scope.query_options.syllables_to_match.slice(3 - $scope.query_options.match_num_syllables, 3);
+    }
+  };
+  $scope.list_of_syllables_to_not_match_first = function() {
+    var n, _i, _ref, _results;
+    if ($scope.full_word) {
+      if ($scope.query_options.word_end === "first") {
+        n = $scope.full_word.syllable_objects.length;
+        if (n > 3) {
+          n = 3;
+        }
+        return (function() {
+          _results = [];
+          for (var _i = 0, _ref = n - $scope.query_options.match_num_syllables; 0 <= _ref ? _i < _ref : _i > _ref; 0 <= _ref ? _i++ : _i--){ _results.push(_i); }
+          return _results;
+        }).apply(this);
+      } else {
+        return [];
+      }
+    }
+  };
+  $scope.list_of_syllables_to_not_match_final = function() {
+    var n, _i, _ref, _results;
+    if ($scope.full_word) {
+      if ($scope.query_options.word_end === "first") {
+        return [];
+      } else {
+        n = $scope.full_word.syllable_objects.length;
+        if (n > 3) {
+          n = 3;
+        }
+        return (function() {
+          _results = [];
+          for (var _i = 0, _ref = n - $scope.query_options.match_num_syllables; 0 <= _ref ? _i < _ref : _i > _ref; 0 <= _ref ? _i++ : _i--){ _results.push(_i); }
+          return _results;
+        }).apply(this);
+      }
+    }
+  };
+  $scope.show_word_ellipsis = function(i) {
+    var n;
+    if ($scope.full_word) {
+      n = $scope.full_word.syllable_objects.length;
+      if ($scope.query_options.word_end === "final") {
+        return (i === 1) && (n > 3);
+      } else {
+        return (i === 2) && (n > 3);
+      }
+    } else {
+      return false;
+    }
+  };
+  $scope.show_match_ellipsis = function(i) {
     var at_least, more_syllables, qo;
     qo = $scope.query_options;
     at_least = qo.filter_num_syllables_type === "at-least";
-    more_syllables = qo.filter_num_syllables > qo.match_num_syllables + 1;
+    more_syllables = qo.filter_num_syllables > parseInt(qo.match_num_syllables) + 1;
     if (qo.match_end === "final") {
       return (i === 1) && (at_least || more_syllables);
     } else {
@@ -160,9 +246,12 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
       return $scope.match_syllable_selected = i;
     }
   };
+  $scope.deselect_match_syllable = function() {
+    return $scope.match_syllable_selected = void 0;
+  };
   $scope.match_syllable_class = function(i) {
     if ($scope.match_syllable_selected === i) {
-      return "-selected";
+      return "selected";
     } else {
       return "";
     }
@@ -190,7 +279,7 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
   };
   $scope.number_qualifier = function() {
     if ($scope.more_results()) {
-      return "at least";
+      return "at least ";
     } else {
       return "";
     }
@@ -210,9 +299,10 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
   $scope.query_options = Query.initialise_options();
   $scope.match_syllable_selected = void 0;
   $scope.autocomplete_words = [];
-  $scope.initial_word = "bird";
+  $scope.initial_word = "alligator";
   $scope.busy = false;
   $scope.expanding = false;
+  $scope.query_options.customize = true;
   return ga('send', 'pageview');
 });
 
@@ -222,108 +312,49 @@ var app;
 app = angular.module('anyRhymeApp');
 
 app.factory("Query", function($http, $q, anywhere_url) {
-  var blank_syllable, clear_syllables_to_match, create_query, execute_query, expand_query, expanded_parameters, initialise_options, last_stressed_syllable, matching_end_syllable, parse_response, preset_portmanteau1, preset_portmanteau2, preset_rhyme, query_parameters;
+  var blank_syllable, clear_syllables_to_match, convert_syllable, create_query, create_syllable_query, execute_query, expand_query, expanded_parameters, initialise_options, last_stressed_syllable, matching_end_syllable, parse_response, preset_portmanteau1, preset_portmanteau2, preset_rhyme, query_parameters;
   create_query = function(word, original_options) {
-    var coda, direction, end_str, i, nucleus, num, num_type, onset, options, s, syllables_str, _i, _j, _ref, _ref1;
-    if (original_options.level === 2) {
+    var direction, end_str, i, inds, num, num_type, options, s, syllables_str, _i, _j, _k, _len, _ref, _ref1, _results, _results1;
+    if (original_options.customize) {
       options = original_options;
-    } else if ((original_options.level === 1) && (original_options.match_type === "port1")) {
-      options = preset_portmanteau1(word, original_options);
-    } else if ((original_options.level === 1) && (original_options.match_type === "port2")) {
-      options = preset_portmanteau2(word, original_options);
     } else {
       options = preset_rhyme(word, original_options);
     }
     syllables_str = "";
-    if (options.match_end === "final") {
-      for (i = _i = _ref = 3 - options.match_num_syllables; _ref <= 3 ? _i < 3 : _i > 3; i = _ref <= 3 ? ++_i : --_i) {
-        s = options.syllables_to_match[i];
-        if (s.onset.match_type === "match") {
-          onset = s.onset.label;
-        } else {
-          onset = "~" + s.onset.label;
-        }
-        if (s.nucleus.match_type === "match") {
-          nucleus = s.nucleus.label;
-        } else {
-          nucleus = "~" + s.nucleus.label;
-        }
-        if (s.coda.match_type === "match") {
-          coda = s.coda.label;
-        } else {
-          coda = "~" + s.coda.label;
-        }
-        syllables_str = syllables_str + "/" + onset + "," + nucleus + s.stress + "," + coda;
-      }
+    if (options.word_end === "final") {
+      inds = (function() {
+        _results = [];
+        for (var _i = _ref = 3 - options.match_num_syllables; _ref <= 3 ? _i < 3 : _i > 3; _ref <= 3 ? _i++ : _i--){ _results.push(_i); }
+        return _results;
+      }).apply(this);
+    } else {
+      inds = (function() {
+        _results1 = [];
+        for (var _j = 0, _ref1 = options.match_num_syllables; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; 0 <= _ref1 ? _j++ : _j--){ _results1.push(_j); }
+        return _results1;
+      }).apply(this);
+    }
+    for (_k = 0, _len = inds.length; _k < _len; _k++) {
+      i = inds[_k];
+      s = options.syllables_to_match[i];
+      syllables_str = syllables_str + "/" + create_syllable_query(s);
+    }
+    if (matching_end_syllable("leading", options) || matching_end_syllable("trailing", options)) {
       if (matching_end_syllable("leading", options)) {
         s = options.leading_syllable_to_match;
-        if (s.onset.match_type === "match") {
-          onset = s.onset.label;
-        } else {
-          onset = "~" + s.onset.label;
-        }
-        if (s.nucleus.match_type === "match") {
-          nucleus = s.nucleus.label;
-        } else {
-          nucleus = "~" + s.nucleus.label;
-        }
-        if (s.coda.match_type === "match") {
-          coda = s.coda.label;
-        } else {
-          coda = "~" + s.coda.label;
-        }
-        end_str = "/" + onset + "," + nucleus + s.stress + "," + coda + "/and";
       } else {
-        end_str = "";
+        s = options.trailing_syllable_to_match;
       }
+      end_str = "/" + create_syllable_query(s) + "/and";
+    } else {
+      end_str = "";
+    }
+    if (options.match_end === "final") {
       direction = "beginning";
     } else {
-      for (i = _j = 0, _ref1 = options.match_num_syllables; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; i = 0 <= _ref1 ? ++_j : --_j) {
-        s = options.syllables_to_match[2 - i];
-        if (s.onset.match_type === "match") {
-          onset = s.onset.label;
-        } else {
-          onset = "~" + s.onset.label;
-        }
-        if (s.nucleus.match_type === "match") {
-          nucleus = s.nucleus.label;
-        } else {
-          nucleus = "~" + s.nucleus.label;
-        }
-        if (s.coda.match_type === "match") {
-          coda = s.coda.label;
-        } else {
-          coda = "~" + s.coda.label;
-        }
-        syllables_str = syllables_str + "/" + onset + "," + nucleus + s.stress + "," + coda;
-      }
-      if (matching_end_syllable("trailing", options)) {
-        s = options.trailing_syllable_to_match;
-        if (s.onset.match_type === "match") {
-          onset = s.onset.label;
-        } else {
-          onset = "~" + s.onset.label;
-        }
-        if (s.nucleus.match_type === "match") {
-          nucleus = s.nucleus.label;
-        } else {
-          nucleus = "~" + s.nucleus.label;
-        }
-        if (s.coda.match_type === "match") {
-          coda = s.coda.label;
-        } else {
-          coda = "~" + s.coda.label;
-        }
-        end_str = "/" + onset + "," + nucleus + s.stress + "," + coda + "/and";
-      } else {
-        end_str = "";
-      }
       direction = "ending";
     }
-    if ((options.level === 1) && (options.match_length === true) && (options.match_type === "rhyme")) {
-      num_type = "exactly";
-      num = word.syllables.length - options.match_num_syllables;
-    } else if (options.level === 2) {
+    if (options.customize) {
       num_type = options.filter_num_syllables_type;
       num = options.filter_num_syllables - options.match_num_syllables;
       if (matching_end_syllable("trailing", options)) {
@@ -337,15 +368,34 @@ app.factory("Query", function($http, $q, anywhere_url) {
     }
     return "match/" + direction + "/with" + end_str + "/" + num_type + "/" + num + "/syllables/and" + syllables_str + ".json";
   };
+  create_syllable_query = function(s) {
+    var coda, nucleus, onset;
+    if (s.onset.match_type === "match") {
+      onset = s.onset.label;
+    } else {
+      onset = "~" + s.onset.label;
+    }
+    if (s.nucleus.match_type === "match") {
+      nucleus = s.nucleus.label;
+    } else {
+      nucleus = "~" + s.nucleus.label;
+    }
+    if (s.coda.match_type === "match") {
+      coda = s.coda.label;
+    } else {
+      coda = "~" + s.coda.label;
+    }
+    return onset + "," + nucleus + s.stress + "," + coda;
+  };
   query_parameters = function(options) {
-    if ((options.level > 0) && (options.must_contain_lexemes === false)) {
+    if (options.customize && (options.must_contain_lexemes === false)) {
       return "";
     } else {
       return "?defined=true";
     }
   };
   expanded_parameters = function(options, offset) {
-    if ((options.level > 0) && (options.must_contain_lexemes === false)) {
+    if (options.customize && (options.must_contain_lexemes === false)) {
       return "?offset=" + offset;
     } else {
       return "?defined=true&offset=" + offset;
@@ -390,30 +440,59 @@ app.factory("Query", function($http, $q, anywhere_url) {
   initialise_options = function() {
     var options;
     options = {};
-    options.level = 0;
-    options.match_length = false;
+    options.customize = false;
     options.must_contain_lexemes = true;
-    options.match_type = "rhyme";
     options.filter_num_syllables_type = "at-least";
     options.filter_num_syllables = 1;
     options.match_end = "final";
+    options.word_end = "final";
     options.match_num_syllables = 1;
     clear_syllables_to_match(options);
     options.leading_syllable_to_match = blank_syllable();
     options.trailing_syllable_to_match = blank_syllable();
     return options;
   };
+  convert_syllable = function(s) {
+    var coda_label, onset_label;
+    if (s.onset.length === 0) {
+      onset_label = "_";
+    } else {
+      onset_label = s.onset.join("-");
+    }
+    if (s.coda.length === 0) {
+      coda_label = "_";
+    } else {
+      coda_label = s.coda.join("-");
+    }
+    return {
+      onset: {
+        label: onset_label
+      },
+      nucleus: {
+        label: s.nucleus[0]
+      },
+      coda: {
+        label: coda_label
+      },
+      stress: s.stress
+    };
+  };
   preset_rhyme = function(word, options) {
-    var coda_label, i, new_options, num, onset_label, onset_match_type, s, stress_to_match, syllable_to_match, _i;
+    var i, match_num, new_options, num, onset_match_type, s, stress_to_match, syllable_to_match, _i;
     new_options = angular.copy(options);
     clear_syllables_to_match(new_options);
-    num = word.syllables.length - last_stressed_syllable(word);
-    if (num > 3) {
+    if (word.syllables.length < 3) {
+      num = word.syllables.length;
+    } else {
       num = 3;
+    }
+    match_num = word.syllables.length - last_stressed_syllable(word);
+    if (match_num > 3) {
+      match_num = 3;
     }
     for (i = _i = 0; 0 <= num ? _i < num : _i > num; i = 0 <= num ? ++_i : --_i) {
       s = word.syllables[word.syllables.length - 1 - i];
-      if ((i === (num - 1)) || (i === 2)) {
+      if (i === (match_num - 1)) {
         onset_match_type = 'antimatch';
       } else {
         onset_match_type = 'match';
@@ -423,6 +502,31 @@ app.factory("Query", function($http, $q, anywhere_url) {
       } else {
         stress_to_match = '0';
       }
+      syllable_to_match = convert_syllable(s);
+      syllable_to_match.onset.match_type = onset_match_type;
+      syllable_to_match.nucleus.match_type = 'match';
+      syllable_to_match.coda.match_type = 'match';
+      syllable_to_match.stress = stress_to_match;
+      new_options.syllables_to_match[2 - i] = syllable_to_match;
+    }
+    new_options.match_num_syllables = match_num;
+    new_options.match_end = "final";
+    new_options.word_end = "final";
+    new_options.filter_num_syllables_type = "at-least";
+    new_options.filter_num_syllables = 1;
+    return new_options;
+  };
+  preset_portmanteau1 = function(word, options) {
+    var coda_label, i, new_options, num, onset_label, s, syllable_to_match, _i;
+    new_options = angular.copy(options);
+    clear_syllables_to_match(new_options);
+    if (word.syllables.length < 3) {
+      num = word.syllables.length;
+    } else {
+      num = 3;
+    }
+    for (i = _i = 0; 0 <= num ? _i < num : _i > num; i = 0 <= num ? ++_i : --_i) {
+      s = word.syllables[word.syllables.length - 1 - i];
       if (s.onset.length === 0) {
         onset_label = "_";
       } else {
@@ -435,7 +539,7 @@ app.factory("Query", function($http, $q, anywhere_url) {
       }
       syllable_to_match = {
         onset: {
-          match_type: onset_match_type,
+          match_type: 'match',
           label: onset_label
         },
         nucleus: {
@@ -446,87 +550,58 @@ app.factory("Query", function($http, $q, anywhere_url) {
           match_type: 'match',
           label: coda_label
         },
-        stress: stress_to_match
+        stress: ''
       };
       new_options.syllables_to_match[2 - i] = syllable_to_match;
     }
-    new_options.match_num_syllables = num;
-    new_options.match_end = "final";
-    new_options.filter_num_syllables_type = "at-least";
-    new_options.filter_num_syllables = 1;
-    console.log(new_options);
-    return new_options;
-  };
-  preset_portmanteau1 = function(word, options) {
-    var coda_label, new_options, onset_label, s, syllable_to_match;
-    new_options = angular.copy(options);
-    clear_syllables_to_match(new_options);
-    s = word.syllables[word.syllables.length - 1];
-    if (s.onset.length === 0) {
-      onset_label = "_";
-    } else {
-      onset_label = s.onset.join("-");
-    }
-    if (s.coda.length === 0) {
-      coda_label = "_";
-    } else {
-      coda_label = s.coda.join("-");
-    }
-    syllable_to_match = {
-      onset: {
-        match_type: 'match',
-        label: onset_label
-      },
-      nucleus: {
-        match_type: 'match',
-        label: s.nucleus[0]
-      },
-      coda: {
-        match_type: 'match',
-        label: coda_label
-      },
-      stress: ''
-    };
-    new_options.syllables_to_match[2] = syllable_to_match;
     new_options.match_num_syllables = 1;
     new_options.match_end = "first";
+    new_options.word_end = "final";
     new_options.filter_num_syllables_type = "at-least";
     new_options.filter_num_syllables = 2;
     return new_options;
   };
   preset_portmanteau2 = function(word, options) {
-    var coda_label, new_options, onset_label, s, syllable_to_match;
+    var coda_label, i, new_options, num, onset_label, s, syllable_to_match, _i;
     new_options = angular.copy(options);
     clear_syllables_to_match(new_options);
-    s = word.syllables[0];
-    if (s.onset.length === 0) {
-      onset_label = "_";
+    if (word.syllables.length < 3) {
+      num = word.syllables.length;
     } else {
-      onset_label = s.onset.join("-");
+      num = 3;
     }
-    if (s.coda.length === 0) {
-      coda_label = "_";
-    } else {
-      coda_label = s.coda.join("-");
+    for (i = _i = 0; 0 <= num ? _i < num : _i > num; i = 0 <= num ? ++_i : --_i) {
+      s = word.syllables[i];
+      if (s.onset.length === 0) {
+        onset_label = "_";
+      } else {
+        onset_label = s.onset.join("-");
+      }
+      if (s.coda.length === 0) {
+        coda_label = "_";
+      } else {
+        coda_label = s.coda.join("-");
+      }
+      syllable_to_match = {
+        onset: {
+          match_type: 'match',
+          label: onset_label
+        },
+        nucleus: {
+          match_type: 'match',
+          label: s.nucleus[0]
+        },
+        coda: {
+          match_type: 'match',
+          label: coda_label
+        },
+        stress: ''
+      };
+      new_options.syllables_to_match[i] = syllable_to_match;
     }
-    syllable_to_match = {
-      onset: {
-        match_type: 'match',
-        label: onset_label
-      },
-      nucleus: {
-        match_type: 'match',
-        label: s.nucleus[0]
-      },
-      coda: {
-        match_type: 'match',
-        label: coda_label
-      },
-      stress: ''
-    };
-    new_options.syllables_to_match[2] = syllable_to_match;
     new_options.match_num_syllables = 1;
     new_options.match_end = "final";
+    new_options.word_end = "first";
     new_options.filter_num_syllables_type = "at-least";
     new_options.filter_num_syllables = 2;
     return new_options;
@@ -599,6 +674,7 @@ app.factory("Query", function($http, $q, anywhere_url) {
     clear_syllables_to_match: clear_syllables_to_match,
     preset_rhyme: preset_rhyme,
     preset_portmanteau1: preset_portmanteau1,
-    preset_portmanteau2: preset_portmanteau2
+    preset_portmanteau2: preset_portmanteau2,
+    convert_syllable: convert_syllable
   };
 });
