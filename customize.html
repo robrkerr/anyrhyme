@@ -130,5 +130,8 @@
 </div>
 
 <div class="main-option-box" style="padding: 1em 0 0.5em">
-	<label style="cursor: pointer;"><input type="checkbox" style="width: 2.8em; height: 2.8em" ng-change="runQuery()" ng-model="query_options.must_contain_lexemes">Only words with definitions</input></label>
+	<div class="checkbox">
+		<input type="checkbox" id="checkboxInput" ng-change="runQuery()" ng-model="query_options.must_contain_lexemes"/>
+  	<label for="checkboxInput">Only words with definitions</span></label>
+	</div>
 </div>

@@ -275,3 +275,51 @@ input, select {
   height: 9.5em;
   margin-top: 5em; 
 }
+
+
+.checkbox {
+  input[type=checkbox] {
+    visibility: hidden;
+  }
+}
+
+.checkbox label {
+  cursor: pointer;
+  position: relative;
+  padding-left: 2.0em;
+  padding-top: 0.2em;
+}
+
+.checkbox label::before {
+  content: '';
+  position: absolute;
+  width: 1.45em;
+  height: 1.45em;
+  top: 0;
+  left: 0;
+  background-color: $light-gray8;
+  border: solid 1px $medium-gray1;
+}
+
+.checkbox label::after {
+  opacity: 0;
+  content: '';
+  position: absolute;
+  width: 0.9em;
+  height: 0.28em;
+  background: transparent;
+  top: 0.32em;
+  left: 0.115em;
+  border: solid 0.4em $dark-gray3;
+  border-top: none;
+  border-right: none;
+  -webkit-transform: rotate(-50deg);
+  -moz-transform: rotate(-50deg);
+  -o-transform: rotate(-50deg);
+  -ms-transform: rotate(-50deg);
+  transform: rotate(-50deg);
+}
+
+.checkbox input[type=checkbox]:checked + label:after {
+  opacity: 1;
+}

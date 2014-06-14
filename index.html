@@ -71,8 +71,8 @@
           <div class="main-options-area expanded" style="margin: 1em 0em 2em;" ng-show="query_options.customize && !query_word_expanded" ng-include="'customize.html'"></div>
         </div>
         <div class="main-final" ng-show="!query_word_expanded">
-          <span ng-show="!busy && !query_options.customize" class="query-word-input">...{{number_qualifier()}}{{results.list.length}} rhyming word<span ng-show="results.list.length > 1">s</span>:</span>
-          <span ng-show="!busy && query_options.customize" class="query-word-input">...{{number_qualifier()}}{{results.list.length}} matching word<span ng-show="results.list.length > 1">s</span>:</span>
+          <span ng-show="!busy && !query_options.customize" class="query-word-input">{{number_qualifier()}}{{results.list.length}} rhyming word<span ng-show="results.list.length > 1">s</span>:</span>
+          <span ng-show="!busy && query_options.customize" class="query-word-input">{{number_qualifier()}}{{results.list.length}} matching word<span ng-show="results.list.length > 1">s</span>:</span>
         </div>
       </div>
     </section>
