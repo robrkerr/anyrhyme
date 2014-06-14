@@ -1,3 +1,8 @@
+input, select {
+  border: 1px solid rgba(0,0,0,0.3);
+  border-radius: 4px;
+}
+
 .main-banner {
   text-align: center;
 }
@@ -7,7 +12,7 @@
 }
 
 .main-banner-headline {
-  background: $almost-white;
+  background: $light-gray5;
   overflow: hidden;
   padding-bottom: 0.4em;
 
@@ -21,7 +26,7 @@
 
 .main-banner-tagline {
   padding: 1em 0em;
-  background-color: $almost-white;
+  background-color: $light-gray5;
 
   input {
     background-color: white;
@@ -41,18 +46,18 @@
 
 .query-word-input-arrows {
   font-size: 2.5em; 
-  color: $gray;
+  color: $medium-gray1;
   display: inline-block;
   padding-left: 0.5em;
 }
 
 .main-more-options {
-  font-size: 1.6em; 
+  font-size: 1.8em; 
   font-style: italic;
 }
 
 .main-options-area-input {
-  background-color: $almost-white;
+  background-color: $light-gray5;
   padding: 1em 0em;
 }
 
@@ -61,16 +66,27 @@
 }
 
 .main-options-select-area {
-  max-width: 540px; 
-  padding: 1em 2em 2em;
-  margin: 0em auto;
+  max-width: 500px; 
+  width: 95%;
+  padding: 1em 0.5em 2em;
+  margin: 0em auto 1em;
   font-size: 1em;
 }
 
 .main-options-container {
-  background-color: $almost-white;
+  background-color: $light-gray5;
   padding: 0em;
   position: relative;
+}
+
+.close-button {
+  position: absolute;
+  right: 0.3em;
+  top: 0.4em;
+  width: 1.5em;
+  height: 1.5em;
+  line-height: 1.6em;
+  cursor: pointer;
 }
 
 .main-lead-in {
@@ -84,51 +100,58 @@
 .main-option-box {
   font-size: 1.8em;
   padding: 0.3em;
+
   select {
     font-family: inherit;
+    padding: 0.1em 0.5em 0.1em 0.1em;
   }
 }
 
 .main-option-segment-description {
   display: inline-block; 
   text-align: left; 
-  width: 4em;
+  width: 3.7em;
 }
 
 .main-option-segment-input {
   width: 40%; 
-  // max-width: 8em; 
+  max-width: 7em; 
   font-size: 1em;
   padding: 0.2em;
 }
 
-.main-option-diagram-syllable {
+.main-option-diagram-word-syllable {
   display: inline-block; 
-  background-color: $almost-white;
-  padding: 0.7em 0.6em 0.6em;
+  background-color: $light-gray8;
+  padding: 0.8em 0.6em 0.8em;
   margin: 0 0.1em;
-  border: solid 1px $gray;
+  border: solid 1px $medium-gray1;
   font-family: 'Avenir Next Condensed', Avenir, 'sans-serif';
 }
 
-.main-option-diagram-syllable-selected {
+.main-option-diagram-syllable {
   display: inline-block; 
-  background-color: white;
-  padding: 0.7em 0.6em 0.6em;
+  background-color: $light-gray5;
+  padding: 0.8em 0.6em 0.8em;
   margin: 0 0.1em;
-  border: solid 1px $gray;
+  border: solid 1px $medium-gray1;
   font-family: 'Avenir Next Condensed', Avenir, 'sans-serif';
+}
+
+.main-option-diagram-syllable.selected {
+  background-color: $light-gray1;
 }
 
 .main-option-diagram-syllable:hover {
   cursor: pointer;
 }
 
-.main-option-diagram-syllable-selected:hover {
-  cursor: pointer;
+.main-option-diagram-segment {
+  padding: 0;
 }
 
 .main-option-diagram-segment-match {
+  color: green;
   padding: 0;
 }
 
@@ -137,9 +160,14 @@
   padding: 0;
 }
 
+.main-option-diagram-ellipsis {
+  display: inline-block; 
+  padding: 0;
+}
+
 .main-option-box-syllable-details {
   padding: 0.5em;
-  background-color: $almost-white;
+  background-color: $light-gray5;
   width: 16.5em;
   margin: 0.5em auto;
 }
@@ -154,7 +182,7 @@
 
 .query-word-expander-arrow {
   font-size: 2.5em; 
-  color: $almost-white;
+  color: $light-gray5;
   position: absolute;
   top: 0.15em;
   right: 0.4em;
@@ -167,30 +195,46 @@
   padding: 0.4em 2em;
 }
 
+.syllable-table {
+  display: inline-block; 
+  font-size: 2em;
+  padding: 0.5em 0em; 
+  white-space: nowrap;
+}
+
+.syllable-table td {
+  padding: 0.3em 0.15em; 
+  text-align: center;
+
+  div {
+    width: 100%;
+  }
+}
+ 
 .results-list {
   text-align: center;
   margin-bottom: 10em; 
 }
 
 .result-row {
-  background-color: $almost-white;
+  background-color: $light-gray5;
   padding: 2em 1.5em;
   position: relative;
   cursor: pointer;
 }
 
 .expanded {
-  border-top: solid 1px $gray;
-  border-bottom: solid 1px $gray;
+  border-top: solid 1px $medium-gray1;
+  border-bottom: solid 1px $medium-gray1;
   margin-top: -1px; 
-  background-color: $gray2;
+  background-color: $light-gray3;
 }
 
 .expanded_inside {
-  border-top: solid 1px $gray;
-  border-bottom: solid 1px $gray;
+  border-top: solid 1px $medium-gray1;
+  border-bottom: solid 1px $medium-gray1;
   margin-top: -1px; 
-  background-color: $gray1;
+  background-color: $light-gray1;
 }
 
 .result-word-name {
@@ -219,4 +263,15 @@
   font-size: 2.5em;
   width: 100%;
   color: black; 
+}
+
+.more-results {
+  background-color: $light-gray3;
+  padding: 3em 0;
+  position: relative;
+  cursor: pointer;
+  border-top: solid 1px $medium-gray1;
+  border-bottom: solid 1px $medium-gray1;
+  height: 9.5em;
+  margin-top: 5em; 
 }

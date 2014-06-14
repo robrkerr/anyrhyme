@@ -1,14 +1,15 @@
 * {
-  box-sizing:           border-box;
-  padding:              0px;
-  margin:               0px;
+  box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
   -webkit-tap-highlight-color: transparent;
 }
 
 body {
   font-family: 'Avenir Next', Avenir, 'sans-serif';
   font-size: 16px;
-  background: $almost-white;
+  background: $light-gray5;
+  color: $dark-gray1;
 
   .breakpoint-mobile & {
     font: normal 8px Helvetica;

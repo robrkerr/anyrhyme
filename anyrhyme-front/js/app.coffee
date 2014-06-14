@@ -3,8 +3,6 @@
 app = angular.module 'anyRhymeApp', ['autocomplete','ngTouch']
 
 app.constant "anywhere_url", "http://anywhere.anyrhyme.com/"
-# app.constant "anywhere_url", "http://localhost:3000/"
-# app.constant "anywhere_url", "http://anyrhyme.herokuapp.com/"
 
 app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 	$scope.autocompleteType = (typed) ->
@@ -17,6 +15,8 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 		ga('send','event','autocomplete','select',word.spelling)
 		# ga('send','event','autocomplete','select',word.spelling + ": " + word.pronunciation)
 		$scope.full_word = word
+		$scope.full_word.syllable_objects = $scope.full_word.syllables.map (s) -> 
+			Query.convert_syllable(s)
 		$scope.preset_rhyme()
 		$scope.runQuery()
 	$scope.autocompleteSubmit = () ->
@@ -30,6 +30,8 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 			$http({method: 'GET', url: search_url, cache: true}).then (response) ->
 				if ($scope.word == response.data[0].spelling)
 					$scope.full_word = response.data[0]
+					$scope.full_word.syllable_objects = $scope.full_word.syllables.map (s) -> 
+						Query.convert_syllable(s)
 					$scope.preset_rhyme()
 					$scope.runQuery()
 				else
@@ -55,6 +57,8 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 		options = $scope.query_options
 		if (options.match_num_syllables > options.filter_num_syllables)
 			options.filter_num_syllables = options.match_num_syllables
+		if (options.match_num_syllables > $scope.full_word.syllables.length)
+			options.match_num_syllables = $scope.full_word.syllables.length
 	$scope.expanded = (result) ->
 		result.expanded == true
 	$scope.not_expanded = (result) ->
@@ -73,18 +77,65 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 		e.stopPropagation()
 	$scope.rhyming_option = () ->
 		$scope.query_options.match_type == "rhyme"
-	$scope.setQueryOptionsLevel = (value) ->
-		$scope.query_options.level = value
+	$scope.setQueryBasic = () ->
+		$scope.query_options.customize = false
+		$scope.ensureFilterSyllablesIsCorrect()
+		$scope.runQuery()
+	$scope.setQueryCustomize = () ->
+		$scope.query_options.customize = true
 		$scope.ensureFilterSyllablesIsCorrect()
 		$scope.runQuery()
 	$scope.expanded_tag = (result) ->
 		if ($scope.expanded(result)) then 'expanded' else ''
+	$scope.list_of_syllables_in_word = () ->
+		if $scope.full_word
+			n = $scope.full_word.syllable_objects.length
+			if $scope.query_options.word_end == "first"
+				if n >= 3
+					$scope.full_word.syllable_objects.slice(0,3)
+				else
+					$scope.full_word.syllable_objects.slice(0,n)
+			else
+				if n >= 3
+					$scope.full_word.syllable_objects.slice(n-3,n)
+				else
+					$scope.full_word.syllable_objects.slice(0,n)
 	$scope.list_of_syllables_to_match = () ->
-		$scope.query_options.syllables_to_match.slice(3-$scope.query_options.match_num_syllables,3)
-	$scope.show_ellipsis = (i) ->
+		if $scope.query_options.word_end == "first"
+			$scope.query_options.syllables_to_match.slice(0,$scope.query_options.match_num_syllables)
+		else
+			$scope.query_options.syllables_to_match.slice(3-$scope.query_options.match_num_syllables,3)
+	$scope.list_of_syllables_to_not_match_first = () ->
+		if $scope.full_word
+			if $scope.query_options.word_end == "first"
+				n = $scope.full_word.syllable_objects.length
+				if n > 3
+					n = 3
+				[0...n-$scope.query_options.match_num_syllables]
+			else
+				[]
+	$scope.list_of_syllables_to_not_match_final = () ->
+		if $scope.full_word
+			if $scope.query_options.word_end == "first"
+				[]
+			else
+				n = $scope.full_word.syllable_objects.length
+				if n > 3
+					n = 3
+				[0...n-$scope.query_options.match_num_syllables]
+	$scope.show_word_ellipsis = (i) ->
+		if $scope.full_word
+			n = $scope.full_word.syllable_objects.length
+			if ($scope.query_options.word_end == "final")
+				(i==1) && (n > 3)
+			else
+				(i==2) && (n > 3)
+		else
+			false
+	$scope.show_match_ellipsis = (i) ->
 		qo = $scope.query_options
 		at_least = qo.filter_num_syllables_type == "at-least"
-		more_syllables = qo.filter_num_syllables > qo.match_num_syllables + 1
+		more_syllables = qo.filter_num_syllables > parseInt(qo.match_num_syllables) + 1
 		if (qo.match_end == "final")
 			(i==1) && (at_least || more_syllables)
 		else
@@ -108,9 +159,11 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 			$scope.match_syllable_selected = undefined
 		else
 			$scope.match_syllable_selected = i
+	$scope.deselect_match_syllable = () ->
+		$scope.match_syllable_selected = undefined
 	$scope.match_syllable_class = (i) ->
 		if ($scope.match_syllable_selected == i)
-			"-selected"
+			"selected"
 		else 
 			""
 	$scope.selected_match_syllable = () ->
@@ -130,7 +183,7 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 	$scope.more_results = () ->
 		!$scope.results.exhausted
 	$scope.number_qualifier = () ->
-		if $scope.more_results() then "at least" else ""
+		if $scope.more_results() then "at least " else ""
 	$scope.filter_lengths = () ->
 		all_lengths = [1,2,3,4,5,6,7,8,9,10,11,12]
 		n = $scope.query_options.match_num_syllables-1
@@ -144,7 +197,8 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 	$scope.query_options = Query.initialise_options()
 	$scope.match_syllable_selected = undefined
 	$scope.autocomplete_words = []
-	$scope.initial_word = "bird"
+	$scope.initial_word = "alligator"
 	$scope.busy = false
 	$scope.expanding = false
+	$scope.query_options.customize = true
 	ga('send','pageview');

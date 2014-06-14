@@ -1,0 +1,20 @@
+<div ng-show="busy" class="loading-spinner"></div>
+<div ng-show="!busy">
+  <div ng-repeat="result in results.list" ng-click="expand(result)">
+    <div class="result-row {{expanded_tag(result)}}">
+      <div class="result-word-name">{{result.spelling}}</div>
+      <div class="result-word-pronunciation" ng-show="expanded(result)">
+        {{result.pronunciation}}
+      </div>
+      <div class="result-word-expanded" ng-show="expanded(result)">
+        <div class="result-word-lexeme" ng-repeat="lexeme in result.lexemes">
+          ({{lexeme.word_class}}) {{lexeme.gloss}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-show="more_results()" class="more-results">
+    <a ng-show="!expanding" class="more-results-link" ng-click="loadMore()">More</a>
+    <div ng-show="expanding" class="loading-spinner" style="margin-top: -0.85em;"></div>
+  </div>
+</div>
