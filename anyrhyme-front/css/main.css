@@ -463,6 +463,56 @@ input, select {
   margin-top: 5em;
 }
 
+/* line 281, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+.checkbox input[type=checkbox] {
+  visibility: hidden;
+}
+
+/* line 286, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+.checkbox label {
+  cursor: pointer;
+  position: relative;
+  padding-left: 2.0em;
+  padding-top: 0.2em;
+}
+
+/* line 293, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+.checkbox label::before {
+  content: '';
+  position: absolute;
+  width: 1.45em;
+  height: 1.45em;
+  top: 0;
+  left: 0;
+  background-color: #ebebeb;
+  border: solid 1px #b2b2b2;
+}
+
+/* line 304, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+.checkbox label::after {
+  opacity: 0;
+  content: '';
+  position: absolute;
+  width: 0.9em;
+  height: 0.28em;
+  background: transparent;
+  top: 0.32em;
+  left: 0.115em;
+  border: solid 0.4em #464646;
+  border-top: none;
+  border-right: none;
+  -webkit-transform: rotate(-50deg);
+  -moz-transform: rotate(-50deg);
+  -o-transform: rotate(-50deg);
+  -ms-transform: rotate(-50deg);
+  transform: rotate(-50deg);
+}
+
+/* line 323, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+.checkbox input[type=checkbox]:checked + label:after {
+  opacity: 1;
+}
+
 @-webkit-keyframes rotate-forever {
   /* line 9, main.scss */
   0% {
