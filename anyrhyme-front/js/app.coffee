@@ -1,10 +1,10 @@
 'use strict'
 
-app = angular.module 'anyRhymeApp', ['autocomplete','ngTouch','angularSmoothscroll']
+app = angular.module 'anyRhymeApp', ['autocomplete','ngTouch','duScroll']
 
 app.constant "anywhere_url", "http://anywhere.anyrhyme.com/"
 
-app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
+app.controller "BodyController", ($scope,$document,$timeout,$http,$filter,Query,anywhere_url) ->
 	$scope.autocompleteType = (typed) ->
 		$scope.word = $filter('lowercase')(typed)
 		if $scope.word
@@ -19,7 +19,9 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 		$scope.full_word.syllable_objects = $scope.full_word.syllables.map (s) -> 
 			Query.convert_syllable(s)
 		$scope.preset_rhyme()
-		$scope.runQuery()
+		$scope.deselect_match_syllable()
+		customizeScroll()
+		runQuery()
 	$scope.autocompleteSubmit = () ->
 		if ($scope.word != "")
 			word = $filter('lowercase')($scope.word)
@@ -30,19 +32,30 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 			$scope.full_word = undefined
 			$http({method: 'GET', url: search_url, cache: true}).then (response) ->
 				if response.data[0] && ($scope.word == response.data[0].spelling)
+					if $scope.query_options.customize
+						$scope.deselect_match_syllable()
+						customizeScroll()
 					$scope.invalid = false
 					$scope.full_word = response.data[0]
 					$scope.full_word.syllable_objects = $scope.full_word.syllables.map (s) -> 
 						Query.convert_syllable(s)
 					$scope.preset_rhyme()
-					$scope.runQuery()
+					runQuery()
 				else
 					$scope.invalid = true
 					$scope.busy = false
-	$scope.runQuery = () -> 
+	customizeScroll = () ->
+		element = angular.element(document.getElementById('customize-scrollpoint'))
+		$document.scrollToElement(element, 20, 200)
+	$scope.refresh = () -> 
+		$scope.deselect_match_syllable()
+		runQuery()
+	$scope.refresh_without_syllable_close = () -> 	
+		runQuery()
+	runQuery = () -> 
 		if $scope.full_word
 			$scope.busy = true
-			$scope.ensureFilterSyllablesIsCorrect()
+			$scope.ensureParametersAreCorrect()
 			Query.execute($scope.full_word, $scope.query_options).then (results) ->
 				$scope.results = results
 				$scope.busy = false
@@ -56,13 +69,14 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 				$scope.expanding = false
 		else
 			$scope.expanding = false
-	$scope.ensureFilterSyllablesIsCorrect = () ->
+	$scope.ensureParametersAreCorrect = () ->
 		options = $scope.query_options
 		if (options.match_num_syllables > options.filter_num_syllables)
 			options.filter_num_syllables = options.match_num_syllables
 		if $scope.full_word
 			if (options.match_num_syllables > $scope.full_word.syllables.length)
 				options.match_num_syllables = $scope.full_word.syllables.length
+			Query.tidy_syllables(options)
 	$scope.expanded = (result) ->
 		result.expanded == true
 	$scope.not_expanded = (result) ->
@@ -83,12 +97,13 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 		$scope.query_options.match_type == "rhyme"
 	$scope.setQueryBasic = () ->
 		$scope.query_options.customize = false
-		$scope.ensureFilterSyllablesIsCorrect()
-		$scope.runQuery()
+		$scope.ensureParametersAreCorrect()
+		runQuery()
 	$scope.setQueryCustomize = () ->
+		$timeout(customizeScroll,0,true)
 		$scope.query_options.customize = true
-		$scope.ensureFilterSyllablesIsCorrect()
-		$scope.runQuery()
+		$scope.ensureParametersAreCorrect()
+		runQuery()
 	$scope.expanded_tag = (result) ->
 		if ($scope.expanded(result)) then 'expanded' else ''
 	$scope.list_of_syllables_in_word = () ->
@@ -147,17 +162,20 @@ app.controller "BodyController", ($scope,$http,$filter,Query,anywhere_url) ->
 	$scope.show_end_syllable = (type) ->
 		Query.matching_end_syllable(type,$scope.query_options)
 	$scope.preset_rhyme = () ->
+		$scope.deselect_match_syllable()
 		if $scope.full_word
 			$scope.query_options = Query.preset_rhyme($scope.full_word,$scope.query_options)
-			$scope.runQuery()
+			runQuery()
 	$scope.preset_portmanteau1 = () ->
+		$scope.deselect_match_syllable()
 		if $scope.full_word
 			$scope.query_options = Query.preset_portmanteau1($scope.full_word,$scope.query_options)
-			$scope.runQuery()
+			runQuery()
 	$scope.preset_portmanteau2 = () ->
+		$scope.deselect_match_syllable()
 		if $scope.full_word
 			$scope.query_options = Query.preset_portmanteau2($scope.full_word,$scope.query_options)
-			$scope.runQuery()
+			runQuery()
 	$scope.select_match_syllable = (i) ->
 		if ($scope.match_syllable_selected == i)
 			$scope.match_syllable_selected = undefined

@@ -85,6 +85,24 @@ app.factory "Query", ($http,$q,anywhere_url) ->
 			coda: {match_type: 'match', label: '*'},
 			stress: ''
 		}
+	tidy_syllable = (s) ->
+		if s.onset.label == ''
+			s.onset.label = '*'
+		if s.nucleus.label == ''
+			s.nucleus.label = '*'
+		if s.coda.label == ''
+			s.coda.label = '*'
+		if s.onset.label == '*'
+			s.onset.match_type = 'match'
+		if s.nucleus.label == '*'
+			s.nucleus.match_type = 'match'
+		if s.coda.label == '*'
+			s.coda.match_type = 'match'
+	tidy_syllables = (options) ->
+		for s in options.syllables_to_match
+			tidy_syllable(s)
+		tidy_syllable(options.leading_syllable_to_match)
+		tidy_syllable(options.trailing_syllable_to_match)
 	initialise_options = () ->
 		options = {}
 		options.customize = false
@@ -251,5 +269,6 @@ app.factory "Query", ($http,$q,anywhere_url) ->
 		preset_rhyme: preset_rhyme,
 		preset_portmanteau1: preset_portmanteau1,
 		preset_portmanteau2: preset_portmanteau2,
-		convert_syllable: convert_syllable
+		convert_syllable: convert_syllable,
+		tidy_syllables: tidy_syllables
 	}

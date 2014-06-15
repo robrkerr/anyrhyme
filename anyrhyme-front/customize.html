@@ -1,14 +1,14 @@
-<div class="main-option-box" style="padding: 1em 0em 0.2em; width: 16em; margin: 0 auto;">
+<div class="main-option-box" style="padding: 1em 0em 0.2em; width: 20em; margin: 0 auto;">
   <span>
-    Set as a <a ng-click="preset_rhyme()">rhyme</a>, <a ng-click="preset_portmanteau1()">portmanteau</a> (from this word), or <a ng-click="preset_portmanteau2()">portmanteau</a> (onto this word) of the above word
+    Set as a <a ng-click="preset_rhyme()">rhyme</a>, <a ng-click="preset_portmanteau1()">portmanteau</a> (from word), or <a ng-click="preset_portmanteau2()">portmanteau</a> (onto word)
   </span>
 </div>
 
 <div>
 	<table class="syllable-table">
 	  <tr>
-	  	</td>
 		  <td>
+      </td>
 	    <td>
 	    	<div class="main-option-diagram-ellipsis" ng-show="show_word_ellipsis(1)">
 		      ...
@@ -24,8 +24,8 @@
 		      ...
 		    </div>
 	    </td>
+      <td>
 	    </td>
-		  <td>
 	  </tr>
 	  <tr>
 	    <td>
@@ -61,36 +61,36 @@
 	</table>
 </div>
 
-<div class="main-option-box">
+<div class="main-option-box" style="padding-left: 0; padding-right: 0;">
 	<form>
-  <div class="result-row expanded_inside" style="margin: 0em 1em 0.8em; padding: 1em; cursor: default;" ng-repeat="syllable in selected_match_syllable()">
-  	<div class="close-button" ng-click="deselect_match_syllable()">✕</div>
+  <div class="result-row expanded inside" ng-repeat="syllable in selected_match_syllable()">
+  	<div class="close-button inside" ng-click="deselect_match_syllable()">✕</div>
     <div class="main-option-segment-box">
       <span class="main-option-segment-description">Onset</span>
-      <select name="select"style="font-size: 1em" ng-model="syllable.onset.match_type" ng-change="runQuery()">
+      <select name="select"style="font-size: 1em" ng-model="syllable.onset.match_type" ng-change="refresh_without_syllable_close()">
         <option value="match">is</option> 
         <option value="antimatch">isn't</option>
       </select>
-      <input type="text" class="main-option-segment-input" ng-model="syllable.onset.label" ng-change="runQuery()">
+      <input type="text" autocapitalize="off" autocorrect="off" class="main-option-segment-input" ng-model="syllable.onset.label" ng-blur="refresh_without_syllable_close()">
     </div>
     <div class="main-option-segment-box">
       <span class="main-option-segment-description">Nucleus</span>
-      <select name="select"style="font-size: 1em" ng-model="syllable.nucleus.match_type" ng-change="runQuery()">
+      <select name="select"style="font-size: 1em" ng-model="syllable.nucleus.match_type" ng-change="refresh_without_syllable_close()">
         <option value="match">is</option> 
         <option value="antimatch">isn't</option>
       </select>
-      <input type="text" class="main-option-segment-input" ng-model="syllable.nucleus.label" ng-change="runQuery()">
+      <input type="text" autocapitalize="off" autocorrect="off" class="main-option-segment-input" ng-model="syllable.nucleus.label" ng-blur="refresh_without_syllable_close()">
     </div>
     <div class="main-option-segment-box">
       <span class="main-option-segment-description">Coda</span>
-      <select name="select"style="font-size: 1em" ng-model="syllable.coda.match_type" ng-change="runQuery()">
+      <select name="select"style="font-size: 1em" ng-model="syllable.coda.match_type" ng-change="refresh_without_syllable_close()">
         <option value="match">is</option> 
         <option value="antimatch">isn't</option>
       </select>
-      <input type="text" class="main-option-segment-input" ng-model="syllable.coda.label" ng-change="runQuery()">
+      <input type="text" autocapitalize="off" autocorrect="off" class="main-option-segment-input" ng-model="syllable.coda.label" ng-blur="refresh_without_syllable_close()">
     </div>
     <div class="main-option-segment-box">
-      <select name="select" style="font-size: 1em" ng-model="syllable.stress" ng-change="runQuery()">
+      <select name="select" style="font-size: 1em" ng-model="syllable.stress" ng-change="refresh_without_syllable_close()">
         <option value="1">Primary</option> 
         <option value="2">Secondary</option>
         <option value="3">Some</option>
@@ -103,35 +103,30 @@
 	</form>
 </div>
 
-<div class="main-option-box">
-  Find words with 
-  <select name="select" ng-model="query_options.filter_num_syllables_type" ng-change="runQuery()" style="font-size: 1em">
-    <option value="at-least">at least</option> 
-    <option value="exactly">exactly</option>
-  </select>
-  <select name="select" ng-model="query_options.filter_num_syllables" ng-change="runQuery()" style="font-size: 1em">
-    <option ng-repeat="num in filter_lengths()" value="{{num}}">{{num}}</option>
-  </select>
-</div>
-<div class="main-option-box" style="margin: 0em 0em 0em;">
-  syllable<span ng-show="query_options.filter_num_syllables > 1">s</span> of which the 
-  <select name="select" ng-model="query_options.match_end" style="font-size: 1em" ng-change="runQuery()">
+<div class="main-option-box" style="padding: 0.2em">
+  Match the <select name="select" ng-model="query_options.match_end" style="font-size: 1em" ng-change="refresh()">
     <option value="final">final</option> 
     <option value="first">first</option>
   </select>
-  <select name="select" ng-model="query_options.match_num_syllables" ng-change="runQuery()" style="font-size: 1em">
+  <select name="select" ng-model="query_options.match_num_syllables" ng-change="refresh()" style="font-size: 1em">
     <option value="1">1</option> 
     <option ng-if="full_word.syllable_objects.length > 1" value="2">2</option>
     <option ng-if="full_word.syllable_objects.length > 2" value="3">3</option>
-  </select>
+  </select> syllable<span ng-show="query_options.match_num_syllables > 1">s</span>
 </div>
-<div class="main-option-box" style="margin: 0em 0em 0em;">
-  <span ng-show="query_options.match_num_syllables == 1">is</span><span ng-show="query_options.match_num_syllables > 1">are</span> matched
+<div class="main-option-box" style="padding: 0.2em;">
+  from a total of <select name="select" ng-model="query_options.filter_num_syllables_type" ng-change="refresh()" style="font-size: 1em">
+    <option value="at-least">at least</option> 
+    <option value="exactly">exactly</option>
+  </select>
+  <select name="select" ng-model="query_options.filter_num_syllables" ng-change="refresh()" style="font-size: 1em">
+    <option ng-repeat="num in filter_lengths()" value="{{num}}">{{num}}</option>
+  </select>
 </div>
 
 <div class="main-option-box" style="padding: 1em 0 0.5em">
 	<div class="checkbox">
-		<input type="checkbox" id="checkboxInput" ng-change="runQuery()" ng-model="query_options.must_contain_lexemes"/>
+		<input type="checkbox" id="checkboxInput" ng-change="refresh()" ng-model="query_options.must_contain_lexemes"/>
   	<label for="checkboxInput">Only words with definitions</span></label>
 	</div>
 </div>
