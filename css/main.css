@@ -302,7 +302,7 @@ input, select {
 .main-option-diagram-word-syllable {
   display: inline-block;
   background-color: #ebebeb;
-  padding: 0.8em 0.6em 0.8em;
+  padding: 0.6em;
   margin: 0 0.1em;
   border: solid 1px #b2b2b2;
   font-family: 'Avenir Next Condensed', Avenir, 'sans-serif';
@@ -312,7 +312,7 @@ input, select {
 .main-option-diagram-syllable {
   display: inline-block;
   background-color: whitesmoke;
-  padding: 0.8em 0.6em 0.8em;
+  padding: 0.6em;
   margin: 0 0.1em;
   border: solid 1px #b2b2b2;
   font-family: 'Avenir Next Condensed', Avenir, 'sans-serif';
