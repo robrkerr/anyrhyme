@@ -28,7 +28,7 @@
 
   <div class="outer-container">
     <section class="main-banner">
-      <div class="main-banner-headline">
+      <div class="main-banner-headline heading">
         <h1>anyRhyme</h1>
       </div>
       <div class="main-banner-tagline">
@@ -62,7 +62,7 @@
           <div class="result-row expanded" style="margin: 1em 0em 2em;" ng-show="(query_word_expanded == true) && !invalid">
             <div class="close-button" style="font-size: 2em;" ng-click="expand_query_word()">✕</div>
             <div class="result-word-name">{{full_word.spelling}}</div>
-            <div class="result-word-pronunciation" ng-show="query_word_expanded">
+            <div class="result-word pronunciation" ng-show="query_word_expanded">
               {{full_word.pronunciation}}
             </div>
             <div class="result-word-lexeme" ng-repeat="lexeme in full_word.lexemes">

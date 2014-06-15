@@ -15,7 +15,7 @@
 		    </div>
 		  </td>
 	    <td ng-repeat="syllable in list_of_syllables_in_word()">
-	    	<div class="main-option-diagram-word-syllable">
+	    	<div class="main-option-diagram-word-syllable pronunciation">
 		      <span class="main-option-diagram-segment">{{syllable.onset.label}}-</span><span class="main-option-diagram-segment">{{syllable.nucleus.label}}{{syllable.stress}}</span><span class="main-option-diagram-segment">-{{syllable.coda.label}}</span>
 		    </div>
 	    </td>
@@ -29,7 +29,7 @@
 	  </tr>
 	  <tr>
 	    <td>
-	    	<div class="main-option-diagram-syllable {{match_syllable_class(4)}}" ng-show="show_end_syllable('leading')" ng-click="select_match_syllable(4)">
+	    	<div class="main-option-diagram-syllable pronunciation {{match_syllable_class(4)}}" ng-show="show_end_syllable('leading')" ng-click="select_match_syllable(4)">
 		      <span class="main-option-diagram-segment-{{query_options.leading_syllable_to_match.onset.match_type}}">{{query_options.leading_syllable_to_match.onset.label}}-</span><span class="main-option-diagram-segment-{{query_options.leading_syllable_to_match.nucleus.match_type}}">{{query_options.leading_syllable_to_match.nucleus.label}}</span><span class="main-option-diagram-segment-{{query_options.leading_syllable_to_match.coda.match_type}}">-{{query_options.leading_syllable_to_match.coda.label}}</span>
 		    </div>
 		  </td>
@@ -41,7 +41,7 @@
 	    <td ng-repeat="syllable in list_of_syllables_to_not_match_final()">
 	    </td>
 	    <td ng-repeat="syllable in list_of_syllables_to_match()">
-				<div class="main-option-diagram-syllable {{match_syllable_class($index+1)}}" ng-click="select_match_syllable($index+1)">
+				<div class="main-option-diagram-syllable pronunciation {{match_syllable_class($index+1)}}" ng-click="select_match_syllable($index+1)">
 		      <span class="main-option-diagram-segment-{{syllable.onset.match_type}}">{{syllable.onset.label}}-</span><span class="main-option-diagram-segment-{{syllable.nucleus.match_type}}">{{syllable.nucleus.label}}{{syllable.stress}}</span><span class="main-option-diagram-segment-{{syllable.coda.match_type}}">-{{syllable.coda.label}}</span>
 		    </div>
 	    </td>
@@ -53,7 +53,7 @@
 		    </div>
 		  </td>
 		  <td>
-		    <div class="main-option-diagram-syllable {{match_syllable_class(5)}}" ng-show="show_end_syllable('trailing')" ng-click="select_match_syllable(5)">
+		    <div class="main-option-diagram-syllable pronunciation {{match_syllable_class(5)}}" ng-show="show_end_syllable('trailing')" ng-click="select_match_syllable(5)">
 		      <span class="main-option-diagram-segment-{{query_options.leading_syllable_to_match.onset.match_type}}">{{query_options.leading_syllable_to_match.onset.label}}-</span><span class="main-option-diagram-segment-{{query_options.leading_syllable_to_match.nucleus.match_type}}">{{query_options.leading_syllable_to_match.nucleus.label}}</span><span class="main-option-diagram-segment-{{query_options.leading_syllable_to_match.coda.match_type}}">-{{query_options.leading_syllable_to_match.coda.label}}</span>
 		    </div>
 	    </td>

@@ -6,17 +6,26 @@
 }
 
 body {
-  font-family: 'Avenir Next', Avenir, 'sans-serif';
+  font-family: 'Avenir Next', Avenir, Helvetica, 'Calibri', Arial, 'sans-serif';
   font-size: 10px;
   background: $light-gray5;
   color: $dark-gray1;
 
   .breakpoint-mobile & {
-    font: normal 8px Helvetica;
+    font-size: 8px
   }
   .breakpoint-tablet & {
-    font: normal 10px Helvetica;
+    font-size: 10px;
   }
+
+  .pronunciation {
+    font-family: 'Avenir Next Condensed', 'Arial Narrow', 'sans-serif';
+  }
+
+  .heading {
+    font-family: 'Avenir Next Condensed', Avenir, Helvetica, 'Calibri', Arial, 'sans-serif';
+  }
+
 }
 
 .outer-container {
