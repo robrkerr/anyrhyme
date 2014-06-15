@@ -483,22 +483,19 @@ input, select {
 
 /* line 281, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .more-results {
-  background-color: #f9f9f9;
   padding: 3em 0;
   position: relative;
   cursor: pointer;
-  border-top: solid 1px #afafaf;
-  border-bottom: solid 1px #afafaf;
   height: 9.5em;
   margin-top: 5em;
 }
 
-/* line 293, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 290, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .checkbox input[type=checkbox] {
   visibility: hidden;
 }
 
-/* line 298, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 295, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .checkbox label {
   cursor: pointer;
   position: relative;
@@ -506,7 +503,7 @@ input, select {
   padding-top: 0.2em;
 }
 
-/* line 305, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 302, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .checkbox label::before {
   content: '';
   position: absolute;
@@ -518,7 +515,7 @@ input, select {
   border: solid 1px #afafaf;
 }
 
-/* line 316, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 313, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .checkbox label::after {
   opacity: 0;
   content: '';
@@ -538,7 +535,7 @@ input, select {
   transform: rotate(-50deg);
 }
 
-/* line 335, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 332, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .checkbox input[type=checkbox]:checked + label:after {
   opacity: 1;
 }
