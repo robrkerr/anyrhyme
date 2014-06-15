@@ -63,7 +63,7 @@ input, select {
 }
 
 .main-options-area {
-  padding: 0em 0.5em 1em;
+  padding: 0 0 1em;
 }
 
 .main-options-select-area {
@@ -90,6 +90,17 @@ input, select {
   cursor: pointer;
 }
 
+.close-button.inside {
+  position: absolute;
+  right: 0em;
+  top: 0em;
+  width: 1.6em;
+  height: 1.8em;
+  line-height: 1.8em;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
 .main-lead-in {
   padding: 0em 0em 1em;
 }
@@ -106,6 +117,8 @@ input, select {
   select {
     font-family: inherit;
     padding: 0.1em 0.5em 0.1em 0.1em;
+    height: 1.6em;
+    font-size: 1em;
   }
 }
 
@@ -205,7 +218,7 @@ input, select {
 }
 
 .syllable-table td {
-  padding: 0.3em 0.15em; 
+  padding: 0.15em; 
   text-align: center;
 
   div {
@@ -233,11 +246,12 @@ input, select {
   background-color: $light-gray3;
 }
 
-.expanded_inside {
-  border-top: solid 1px $medium-gray1;
-  border-bottom: solid 1px $medium-gray1;
-  margin-top: -1px; 
+.expanded.inside {
+  max-width: 600px;
   background-color: $light-gray1;
+  margin: 0 auto 0.8em; 
+  padding: 1em; 
+  cursor: default;
 }
 
 .result-word-name {
@@ -278,7 +292,6 @@ input, select {
   height: 9.5em;
   margin-top: 5em; 
 }
-
 
 .checkbox {
   input[type=checkbox] {

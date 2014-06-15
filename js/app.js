@@ -1,11 +1,12 @@
 'use strict';
 var app;
 
-app = angular.module('anyRhymeApp', ['autocomplete', 'ngTouch', 'angularSmoothscroll']);
+app = angular.module('anyRhymeApp', ['autocomplete', 'ngTouch', 'duScroll']);
 
 app.constant("anywhere_url", "http://anywhere.anyrhyme.com/");
 
-app.controller("BodyController", function($scope, $http, $filter, Query, anywhere_url) {
+app.controller("BodyController", function($scope, $document, $timeout, $http, $filter, Query, anywhere_url) {
+  var customizeScroll, runQuery;
   $scope.autocompleteType = function(typed) {
     var search_url;
     $scope.word = $filter('lowercase')(typed);
@@ -28,7 +29,9 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
       return Query.convert_syllable(s);
     });
     $scope.preset_rhyme();
-    return $scope.runQuery();
+    $scope.deselect_match_syllable();
+    customizeScroll();
+    return runQuery();
   };
   $scope.autocompleteSubmit = function() {
     var search_url, word;
@@ -45,13 +48,17 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
         cache: true
       }).then(function(response) {
         if (response.data[0] && ($scope.word === response.data[0].spelling)) {
+          if ($scope.query_options.customize) {
+            $scope.deselect_match_syllable();
+            customizeScroll();
+          }
           $scope.invalid = false;
           $scope.full_word = response.data[0];
           $scope.full_word.syllable_objects = $scope.full_word.syllables.map(function(s) {
             return Query.convert_syllable(s);
           });
           $scope.preset_rhyme();
-          return $scope.runQuery();
+          return runQuery();
         } else {
           $scope.invalid = true;
           return $scope.busy = false;
@@ -59,10 +66,22 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
       });
     }
   };
-  $scope.runQuery = function() {
+  customizeScroll = function() {
+    var element;
+    element = angular.element(document.getElementById('customize-scrollpoint'));
+    return $document.scrollToElement(element, 20, 200);
+  };
+  $scope.refresh = function() {
+    $scope.deselect_match_syllable();
+    return runQuery();
+  };
+  $scope.refresh_without_syllable_close = function() {
+    return runQuery();
+  };
+  runQuery = function() {
     if ($scope.full_word) {
       $scope.busy = true;
-      $scope.ensureFilterSyllablesIsCorrect();
+      $scope.ensureParametersAreCorrect();
       return Query.execute($scope.full_word, $scope.query_options).then(function(results) {
         $scope.results = results;
         return $scope.busy = false;
@@ -82,7 +101,7 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
       return $scope.expanding = false;
     }
   };
-  $scope.ensureFilterSyllablesIsCorrect = function() {
+  $scope.ensureParametersAreCorrect = function() {
     var options;
     options = $scope.query_options;
     if (options.match_num_syllables > options.filter_num_syllables) {
@@ -90,8 +109,9 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
     }
     if ($scope.full_word) {
       if (options.match_num_syllables > $scope.full_word.syllables.length) {
-        return options.match_num_syllables = $scope.full_word.syllables.length;
+        options.match_num_syllables = $scope.full_word.syllables.length;
       }
+      return Query.tidy_syllables(options);
     }
   };
   $scope.expanded = function(result) {
@@ -122,13 +142,14 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
   };
   $scope.setQueryBasic = function() {
     $scope.query_options.customize = false;
-    $scope.ensureFilterSyllablesIsCorrect();
-    return $scope.runQuery();
+    $scope.ensureParametersAreCorrect();
+    return runQuery();
   };
   $scope.setQueryCustomize = function() {
+    $timeout(customizeScroll, 0, true);
     $scope.query_options.customize = true;
-    $scope.ensureFilterSyllablesIsCorrect();
-    return $scope.runQuery();
+    $scope.ensureParametersAreCorrect();
+    return runQuery();
   };
   $scope.expanded_tag = function(result) {
     if ($scope.expanded(result)) {
@@ -227,21 +248,24 @@ app.controller("BodyController", function($scope, $http, $filter, Query, anywher
     return Query.matching_end_syllable(type, $scope.query_options);
   };
   $scope.preset_rhyme = function() {
+    $scope.deselect_match_syllable();
     if ($scope.full_word) {
       $scope.query_options = Query.preset_rhyme($scope.full_word, $scope.query_options);
-      return $scope.runQuery();
+      return runQuery();
     }
   };
   $scope.preset_portmanteau1 = function() {
+    $scope.deselect_match_syllable();
     if ($scope.full_word) {
       $scope.query_options = Query.preset_portmanteau1($scope.full_word, $scope.query_options);
-      return $scope.runQuery();
+      return runQuery();
     }
   };
   $scope.preset_portmanteau2 = function() {
+    $scope.deselect_match_syllable();
     if ($scope.full_word) {
       $scope.query_options = Query.preset_portmanteau2($scope.full_word, $scope.query_options);
-      return $scope.runQuery();
+      return runQuery();
     }
   };
   $scope.select_match_syllable = function(i) {
@@ -316,7 +340,7 @@ var app;
 app = angular.module('anyRhymeApp');
 
 app.factory("Query", function($http, $q, anywhere_url) {
-  var blank_syllable, clear_syllables_to_match, convert_syllable, create_query, create_syllable_query, execute_query, expand_query, expanded_parameters, initialise_options, last_stressed_syllable, matching_end_syllable, parse_response, preset_portmanteau1, preset_portmanteau2, preset_rhyme, query_parameters;
+  var blank_syllable, clear_syllables_to_match, convert_syllable, create_query, create_syllable_query, execute_query, expand_query, expanded_parameters, initialise_options, last_stressed_syllable, matching_end_syllable, parse_response, preset_portmanteau1, preset_portmanteau2, preset_rhyme, query_parameters, tidy_syllable, tidy_syllables;
   create_query = function(word, original_options) {
     var direction, end_str, i, inds, num, num_type, options, s, syllables_str, _i, _j, _k, _len, _ref, _ref1, _results, _results1;
     if (original_options.customize) {
@@ -440,6 +464,36 @@ app.factory("Query", function($http, $q, anywhere_url) {
       },
       stress: ''
     };
+  };
+  tidy_syllable = function(s) {
+    if (s.onset.label === '') {
+      s.onset.label = '*';
+    }
+    if (s.nucleus.label === '') {
+      s.nucleus.label = '*';
+    }
+    if (s.coda.label === '') {
+      s.coda.label = '*';
+    }
+    if (s.onset.label === '*') {
+      s.onset.match_type = 'match';
+    }
+    if (s.nucleus.label === '*') {
+      s.nucleus.match_type = 'match';
+    }
+    if (s.coda.label === '*') {
+      return s.coda.match_type = 'match';
+    }
+  };
+  tidy_syllables = function(options) {
+    var s, _i, _len, _ref;
+    _ref = options.syllables_to_match;
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      s = _ref[_i];
+      tidy_syllable(s);
+    }
+    tidy_syllable(options.leading_syllable_to_match);
+    return tidy_syllable(options.trailing_syllable_to_match);
   };
   initialise_options = function() {
     var options;
@@ -679,6 +733,7 @@ app.factory("Query", function($http, $q, anywhere_url) {
     preset_rhyme: preset_rhyme,
     preset_portmanteau1: preset_portmanteau1,
     preset_portmanteau2: preset_portmanteau2,
-    convert_syllable: convert_syllable
+    convert_syllable: convert_syllable,
+    tidy_syllables: tidy_syllables
   };
 });
