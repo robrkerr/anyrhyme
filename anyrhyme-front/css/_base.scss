@@ -5,11 +5,16 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+html {
+  overflow: -moz-scrollbars-vertical; 
+  overflow-y: scroll;
+}
+
 body {
   font-family: 'Avenir Next', Avenir, Helvetica, 'Calibri', Arial, 'sans-serif';
   font-size: 10px;
   background: $light-gray5;
-  color: $dark-gray1;
+  color: $dark-gray3;
 
   .breakpoint-mobile & {
     font-size: 8px
@@ -44,3 +49,4 @@ a {
 a:hover {
   cursor: pointer;
 }
+

@@ -245,7 +245,7 @@ app.directive('autocomplete', function($timeout) {
                 '<div class="clear-button" ng-show="input_focus" ng-mousedown="clear_input()" ng-click="return_focus()">✕</div>'+
                 '<input type="text" autocapitalize="off" autocorrect="off" ng-model="searchParam" placeholder="{{placeholder}}" ng-focus="input_focused()" ng-blur="input_blurred()" focus-if="time_to_focus" blur-if="time_to_blur"/>' +
                 '<ul ng-show="completing">' +
-                  '<li suggestion ng-repeat="suggestion in suggestions | filter:{spelling:searchFilter} | orderBy:\'toString()\'" '+
+                  '<li class="pronunciation" suggestion ng-repeat="suggestion in suggestions | filter:{spelling:searchFilter} | orderBy:\'toString()\'" '+
                   'index="{{$index}}" ng-class="{active: '+
                   '($index == selectedIndex)}" ng-click="select(suggestion)">'+
                     '{{suggestion.spelling}} ({{suggestion.pronunciation}})'+
