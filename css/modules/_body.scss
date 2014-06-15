@@ -1,6 +1,5 @@
 input, select {
   border: 1px solid rgba(0,0,0,0.3);
-  // border-radius: 4px;
 }
 
 .main-banner {
@@ -18,7 +17,7 @@ input, select {
 
   h1 {
     font-size: 5em;
-    font-weight: 600;
+    font-weight: 700;
     padding: 0.7em;
     font-style: italic;
   }
@@ -105,8 +104,8 @@ input, select {
 }
 
 .main-final {
-  padding: 1em 0em 2.5em;
-  height: 6.5em;
+  padding: 1em 0em;
+  height: 3.5em;
 }
 
 .main-option-box {
@@ -140,11 +139,12 @@ input, select {
   padding: 0.6em;
   margin: 0 0.1em;
   border: solid 1px $medium-gray1;
+  color: $medium-gray3;
 }
 
 .main-option-diagram-syllable {
   display: inline-block; 
-  background-color: $light-gray5;
+  background-color: $light-gray8;
   padding: 0.6em;
   margin: 0 0.1em;
   border: solid 1px $medium-gray1;
@@ -320,9 +320,9 @@ input, select {
   width: 0.9em;
   height: 0.28em;
   background: transparent;
-  top: 0.32em;
-  left: 0.115em;
-  border: solid 0.4em $dark-gray3;
+  top: 6px;
+  left: 2px;
+  border: solid 0.4em $dark-gray1;
   border-top: none;
   border-right: none;
   -webkit-transform: rotate(-50deg);

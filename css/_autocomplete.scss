@@ -10,6 +10,7 @@
   font-size: 2.5em; 
   padding: 0.3em;  
   width: 100%;
+  color: $dark-gray3;
 }
 
 .clear-button {
@@ -28,10 +29,10 @@
   position: absolute;
   left: 0;
   width: 100%;
-  background-color: $dark-gray3;
-  border-left: 1px solid #888;
-  border-right: 1px solid #888;
-  border-bottom: 1px solid #888;
+  background-color: $dark-gray1;
+  border-left: 1px solid $medium-gray1;
+  border-right: 1px solid $medium-gray1;
+  border-bottom: 1px solid $medium-gray1;
   z-index: 1;
 }
 
@@ -42,11 +43,11 @@
   font-size: 2em; 
   line-height: 1.5em;
   padding: 0.5em; 
-  background-color: #fff;
-  font-family: 'Avenir Next Condensed', Avenir, 'sans-serif';
+  background-color: white;
+  color: $dark-gray3;
 }
 
 .autocomplete li.active {
   width: 100%;
-  background-color: #4bf;
+  background-color: $autocomplete-blue;
 }

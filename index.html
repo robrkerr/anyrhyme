@@ -69,11 +69,11 @@
               ({{lexeme.word_class}}) {{lexeme.gloss}}
             </div>
           </div>
-          <div id="customize-scrollpoint" class="main-options-area expanded" style="margin: 1em 0em 2em;" ng-show="query_options.customize && !query_word_expanded && !invalid" ng-include="'customize.html'"></div>
+          <div id="customize-scrollpoint" class="main-options-area expanded" style="margin: 1em 0em 3em;" ng-show="query_options.customize && !query_word_expanded && !invalid" ng-include="'customize.html'"></div>
 
           <div class="main-final" ng-show="!invalid && !query_word_expanded">
-              <span class="query-word-input" ng-show="!busy && !query_options.customize">{{results.list.length}}{{number_qualifier()}} rhyming word<span ng-show="results.list.length !== 1">s</span></span>
-              <span class="query-word-input" ng-show="!busy && query_options.customize">{{results.list.length}}{{number_qualifier()}} matching word<span ng-show="results.list.length !== 1">s</span></span>
+              <span class="query-word-input" ng-show="!busy && !query_options.customize">{{results.list.length}}{{number_qualifier()}} rhyming word<span ng-show="results.list.length !== 1">s</span>:</span>
+              <span class="query-word-input" ng-show="!busy && query_options.customize">{{results.list.length}}{{number_qualifier()}} matching word<span ng-show="results.list.length !== 1">s</span>:</span>
             </div>
           </div>
           <div ng-show="invalid" class="main-final">
