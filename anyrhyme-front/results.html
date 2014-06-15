@@ -3,7 +3,7 @@
   <div ng-repeat="result in results.list" ng-click="expand(result)">
     <div class="result-row {{expanded_tag(result)}}">
       <div class="result-word-name">{{result.spelling}}</div>
-      <div class="result-word-pronunciation" ng-show="expanded(result)">
+      <div class="result-word pronunciation" ng-show="expanded(result)">
         {{result.pronunciation}}
       </div>
       <div class="result-word-expanded" ng-show="expanded(result)">

@@ -20,7 +20,7 @@ input, select {
     font-size: 5em;
     font-weight: 600;
     padding: 0.7em;
-    font-family: 'Avenir Next Condensed', Avenir, 'sans-serif';
+    font-style: italic;
   }
 }
 
@@ -40,7 +40,6 @@ input, select {
 
 .query-word-input-pronunciation {
   font-size: 2em; 
-  font-family: 'Avenir Next Condensed', Avenir, 'sans-serif';
   padding: 0.6em 0em;
 }
 
@@ -141,7 +140,6 @@ input, select {
   padding: 0.6em;
   margin: 0 0.1em;
   border: solid 1px $medium-gray1;
-  font-family: 'Avenir Next Condensed', Avenir, 'sans-serif';
 }
 
 .main-option-diagram-syllable {
@@ -150,7 +148,6 @@ input, select {
   padding: 0.6em;
   margin: 0 0.1em;
   border: solid 1px $medium-gray1;
-  font-family: 'Avenir Next Condensed', Avenir, 'sans-serif';
 }
 
 .main-option-diagram-syllable.selected {
@@ -260,9 +257,8 @@ input, select {
   font-weight: 500;
 }
 
-.result-word-pronunciation {
+.result-word.pronunciation {
   font-size: 2em; 
-  font-family: 'Avenir Next Condensed', Avenir, 'sans-serif';
   padding: 0.6em 0em;
 }
 
