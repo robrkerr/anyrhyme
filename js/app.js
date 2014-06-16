@@ -66,6 +66,48 @@ app.controller("BodyController", function($scope, $document, $timeout, $http, $f
       });
     }
   };
+  $scope.autocompleteOnsetType = function(typed) {
+    var search_url, text;
+    text = $filter('lowercase')(typed);
+    if (text) {
+      search_url = anywhere_url + "search/" + text + ".json?type=onset&limit=5";
+      return $http({
+        method: 'GET',
+        url: search_url,
+        cache: true
+      }).then(function(response) {
+        return $scope.autocomplete_onsets = response.data;
+      });
+    }
+  };
+  $scope.autocompleteNucleusType = function(typed) {
+    var search_url, text;
+    text = $filter('lowercase')(typed);
+    if (text) {
+      search_url = anywhere_url + "search/" + text + ".json?type=nucleus&limit=5";
+      return $http({
+        method: 'GET',
+        url: search_url,
+        cache: true
+      }).then(function(response) {
+        return $scope.autocomplete_nuclei = response.data;
+      });
+    }
+  };
+  $scope.autocompleteCodaType = function(typed) {
+    var search_url, text;
+    text = $filter('lowercase')(typed);
+    if (text) {
+      search_url = anywhere_url + "search/" + text + ".json?type=coda&limit=5";
+      return $http({
+        method: 'GET',
+        url: search_url,
+        cache: true
+      }).then(function(response) {
+        return $scope.autocomplete_codas = response.data;
+      });
+    }
+  };
   customizeScroll = function() {
     var element;
     element = angular.element(document.getElementById('customize-scrollpoint'));
@@ -275,6 +317,29 @@ app.controller("BodyController", function($scope, $document, $timeout, $http, $f
       return $scope.match_syllable_selected = i;
     }
   };
+  $scope.set_segment_blank = function(i) {
+    var seg, syllable;
+    syllable = $scope.selected_match_syllable()[0];
+    if (i === 0) {
+      seg = syllable.onset;
+    } else if (i === 2) {
+      seg = syllable.coda;
+    }
+    return seg.label = "_";
+  };
+  $scope.set_segment_wild = function(i) {
+    var seg, syllable;
+    syllable = $scope.selected_match_syllable()[0];
+    if (i === 0) {
+      seg = syllable.onset;
+    } else if (i === 1) {
+      seg = syllable.nucleus;
+    } else if (i === 2) {
+      seg = syllable.coda;
+    }
+    seg.label = "*";
+    return seg.match_type = "match";
+  };
   $scope.deselect_match_syllable = function() {
     return $scope.match_syllable_selected = void 0;
   };
@@ -328,6 +393,9 @@ app.controller("BodyController", function($scope, $document, $timeout, $http, $f
   $scope.query_options = Query.initialise_options();
   $scope.match_syllable_selected = void 0;
   $scope.autocomplete_words = [];
+  $scope.autocomplete_onsets = [];
+  $scope.autocomplete_nuclei = [];
+  $scope.autocomplete_codas = [];
   $scope.initial_word = "banana";
   $scope.busy = false;
   $scope.expanding = false;

@@ -44,6 +44,24 @@ app.controller "BodyController", ($scope,$document,$timeout,$http,$filter,Query,
 				else
 					$scope.invalid = true
 					$scope.busy = false
+	$scope.autocompleteOnsetType = (typed) ->
+		text = $filter('lowercase')(typed)
+		if text
+			search_url = anywhere_url + "search/" + text + ".json?type=onset&limit=5" 
+			$http({method: 'GET', url: search_url, cache: true}).then (response) ->
+				$scope.autocomplete_onsets = response.data
+	$scope.autocompleteNucleusType = (typed) ->
+		text = $filter('lowercase')(typed)
+		if text
+			search_url = anywhere_url + "search/" + text + ".json?type=nucleus&limit=5" 
+			$http({method: 'GET', url: search_url, cache: true}).then (response) ->
+				$scope.autocomplete_nuclei = response.data
+	$scope.autocompleteCodaType = (typed) ->
+		text = $filter('lowercase')(typed)
+		if text
+			search_url = anywhere_url + "search/" + text + ".json?type=coda&limit=5" 
+			$http({method: 'GET', url: search_url, cache: true}).then (response) ->
+				$scope.autocomplete_codas = response.data
 	customizeScroll = () ->
 		element = angular.element(document.getElementById('customize-scrollpoint'))
 		$document.scrollToElement(element, 20, 200)
@@ -181,6 +199,23 @@ app.controller "BodyController", ($scope,$document,$timeout,$http,$filter,Query,
 			$scope.match_syllable_selected = undefined
 		else
 			$scope.match_syllable_selected = i
+	$scope.set_segment_blank = (i) ->
+		syllable = $scope.selected_match_syllable()[0]
+		if i == 0
+			seg = syllable.onset
+		else if i == 2
+			seg = syllable.coda
+		seg.label = "_"
+	$scope.set_segment_wild = (i) ->
+		syllable = $scope.selected_match_syllable()[0]
+		if i == 0
+			seg = syllable.onset
+		else if i == 1
+			seg = syllable.nucleus
+		else if i == 2
+			seg = syllable.coda
+		seg.label = "*"
+		seg.match_type = "match"
 	$scope.deselect_match_syllable = () ->
 		$scope.match_syllable_selected = undefined
 	$scope.match_syllable_class = (i) ->
@@ -219,6 +254,9 @@ app.controller "BodyController", ($scope,$document,$timeout,$http,$filter,Query,
 	$scope.query_options = Query.initialise_options()
 	$scope.match_syllable_selected = undefined
 	$scope.autocomplete_words = []
+	$scope.autocomplete_onsets = []
+	$scope.autocomplete_nuclei = []
+	$scope.autocomplete_codas = []
 	$scope.initial_word = "banana"
 	$scope.busy = false
 	$scope.expanding = false

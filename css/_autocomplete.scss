@@ -51,3 +51,45 @@
   width: 100%;
   background-color: $autocomplete-blue;
 }
+
+.autocomplete.segment {
+  display: inline-block;
+  position: relative;
+  width: 40%; 
+  max-width: 6em; 
+  margin: 0 auto;
+  padding: 0;
+}
+
+.autocomplete.segment input {
+  width: 100%; 
+  font-size: 1em;
+  padding: 0.2em;
+}
+
+.autocomplete.segment ul {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  background-color: $dark-gray1;
+  border-left: 1px solid $medium-gray1;
+  border-right: 1px solid $medium-gray1;
+  border-bottom: 1px solid $medium-gray1;
+  z-index: 1;
+}
+
+.autocomplete.segment li {
+  text-align: left;
+  list-style: none;
+  width: 100%;
+  font-size: 1em; 
+  line-height: 1.5em;
+  padding: 0.2em; 
+  background-color: white;
+  color: $dark-gray3;
+}
+
+.autocomplete.segment li.active {
+  width: 100%;
+  background-color: $autocomplete-blue;
+}

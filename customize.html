@@ -61,7 +61,7 @@
 	</table>
 </div>
 
-<div class="main-option-box" style="padding-left: 0; padding-right: 0;">
+<div class="main-option-box" ng-show="selected_match_syllable().length > 0" style="padding-left: 0; padding-right: 0; margin: 0.4em 0 0.3em;">
 	<form>
   <div class="result-row expanded inside" ng-repeat="syllable in selected_match_syllable()">
   	<div class="close-button inside" ng-click="deselect_match_syllable()">✕</div>
@@ -71,7 +71,9 @@
         <option value="match">is</option> 
         <option value="antimatch">isn't</option>
       </select>
-      <input type="text" autocapitalize="off" autocorrect="off" class="main-option-segment-input" ng-model="syllable.onset.label" ng-blur="refresh_without_syllable_close()">
+      <autocompletesegment model="syllable.onset" placeholder="" click-activation="true" data="autocomplete_onsets" on-type="autocompleteOnsetType" on-blur="refresh_without_syllable_close"></autocompletesegment>
+      <div class="preset-segment" ng-click="set_segment_wild(0)">*</div>
+      <div class="preset-segment" style="margin-right: 0.4em" ng-click="set_segment_blank(0)">_</div>
     </div>
     <div class="main-option-segment-box">
       <span class="main-option-segment-description">Nucleus</span>
@@ -79,7 +81,9 @@
         <option value="match">is</option> 
         <option value="antimatch">isn't</option>
       </select>
-      <input type="text" autocapitalize="off" autocorrect="off" class="main-option-segment-input" ng-model="syllable.nucleus.label" ng-blur="refresh_without_syllable_close()">
+      <autocompletesegment model="syllable.nucleus" placeholder="" click-activation="true" data="autocomplete_nuclei" on-type="autocompleteNucleusType" on-blur="refresh_without_syllable_close"></autocompletesegment>
+      <div class="preset-segment" ng-click="set_segment_wild(1)">*</div>
+      <div class="preset-segment-null" style="margin-right: 0.4em">_</div>
     </div>
     <div class="main-option-segment-box">
       <span class="main-option-segment-description">Coda</span>
@@ -87,7 +91,9 @@
         <option value="match">is</option> 
         <option value="antimatch">isn't</option>
       </select>
-      <input type="text" autocapitalize="off" autocorrect="off" class="main-option-segment-input" ng-model="syllable.coda.label" ng-blur="refresh_without_syllable_close()">
+      <autocompletesegment model="syllable.coda" placeholder="" click-activation="true" data="autocomplete_codas" on-type="autocompleteCodaType" on-blur="refresh_without_syllable_close"></autocompletesegment>
+      <div class="preset-segment" ng-click="set_segment_wild(2)">*</div>
+      <div class="preset-segment" style="margin-right: 0.4em" ng-click="set_segment_blank(2)">_</div>
     </div>
     <div class="main-option-segment-box">
       <select name="select" style="font-size: 1em" ng-model="syllable.stress" ng-change="refresh_without_syllable_close()">

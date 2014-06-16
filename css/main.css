@@ -113,6 +113,53 @@ a:hover {
   background-color: #44bbff;
 }
 
+/* line 55, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/_autocomplete.scss */
+.autocomplete.segment {
+  display: inline-block;
+  position: relative;
+  width: 40%;
+  max-width: 6em;
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* line 64, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/_autocomplete.scss */
+.autocomplete.segment input {
+  width: 100%;
+  font-size: 1em;
+  padding: 0.2em;
+}
+
+/* line 70, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/_autocomplete.scss */
+.autocomplete.segment ul {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  background-color: #464646;
+  border-left: 1px solid #afafaf;
+  border-right: 1px solid #afafaf;
+  border-bottom: 1px solid #afafaf;
+  z-index: 1;
+}
+
+/* line 81, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/_autocomplete.scss */
+.autocomplete.segment li {
+  text-align: left;
+  list-style: none;
+  width: 100%;
+  font-size: 1em;
+  line-height: 1.5em;
+  padding: 0.2em;
+  background-color: white;
+  color: #3c3c3c;
+}
+
+/* line 92, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/_autocomplete.scss */
+.autocomplete.segment li.active {
+  width: 100%;
+  background-color: #44bbff;
+}
+
 /* line 1, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_header.scss */
 .site-header {
   background-color: #464646;
@@ -160,25 +207,26 @@ a:hover {
 /* line 1, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 input, select {
   border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 0;
 }
 
-/* line 5, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 6, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .main-banner {
   text-align: center;
 }
 
-/* line 9, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 10, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .main-banner a {
   color: black;
 }
 
-/* line 13, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 14, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .main-banner-headline {
   background: whitesmoke;
   overflow: hidden;
   padding-bottom: 0.4em;
 }
-/* line 18, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 19, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .main-banner-headline h1 {
   font-size: 5em;
   font-weight: 700;
@@ -186,29 +234,29 @@ input, select {
   font-style: italic;
 }
 
-/* line 26, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 27, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .main-banner-tagline {
   padding: 1em 0em;
   background-color: whitesmoke;
 }
-/* line 30, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 31, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .main-banner-tagline input {
   background-color: white;
   font-family: inherit;
 }
 
-/* line 36, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 37, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .query-word-input {
   font-size: 2.5em;
 }
 
-/* line 40, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 41, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .query-word-input-pronunciation {
   font-size: 2em;
   padding: 0.6em 0em;
 }
 
-/* line 45, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 46, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .query-word-input-arrows {
   font-size: 2.5em;
   color: #afafaf;
@@ -216,25 +264,25 @@ input, select {
   padding-left: 0.5em;
 }
 
-/* line 52, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 53, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .main-more-options {
   font-size: 1.8em;
   font-style: italic;
 }
 
-/* line 57, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 58, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .main-options-area-input {
   background-color: whitesmoke;
   padding: 1em 0em;
   margin-bottom: 3em;
 }
 
-/* line 63, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 64, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .main-options-area {
   padding: 0 0 1em;
 }
 
-/* line 67, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 68, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .main-options-select-area {
   max-width: 500px;
   width: 95%;
@@ -243,14 +291,14 @@ input, select {
   font-size: 1em;
 }
 
-/* line 75, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 76, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .main-options-container {
   background-color: whitesmoke;
   padding: 0em;
   position: relative;
 }
 
-/* line 81, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 82, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .close-button {
   position: absolute;
   right: 0.3em;
@@ -261,7 +309,7 @@ input, select {
   cursor: pointer;
 }
 
-/* line 91, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 92, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .close-button.inside {
   position: absolute;
   right: 0em;
@@ -273,23 +321,23 @@ input, select {
   cursor: pointer;
 }
 
-/* line 102, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 103, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .main-lead-in {
   padding: 0em 0em 1em;
 }
 
-/* line 106, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 107, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .main-final {
   padding: 1em 0em;
   height: 3.5em;
 }
 
-/* line 111, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 112, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .main-option-box {
   font-size: 1.8em;
   padding: 0.3em;
 }
-/* line 115, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 116, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .main-option-box select {
   font-family: inherit;
   padding: 0.1em 0.5em 0.1em 0.1em;
@@ -297,22 +345,14 @@ input, select {
   font-size: 1em;
 }
 
-/* line 123, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 124, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .main-option-segment-description {
   display: inline-block;
   text-align: left;
   width: 3.7em;
 }
 
-/* line 129, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
-.main-option-segment-input {
-  width: 40%;
-  max-width: 7em;
-  font-size: 1em;
-  padding: 0.2em;
-}
-
-/* line 136, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 130, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .main-option-diagram-word-syllable {
   display: inline-block;
   background-color: #ebebeb;
@@ -322,7 +362,7 @@ input, select {
   color: #7d7d7d;
 }
 
-/* line 145, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 139, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .main-option-diagram-syllable {
   display: inline-block;
   background-color: #ebebeb;
@@ -331,40 +371,40 @@ input, select {
   border: solid 1px #afafaf;
 }
 
-/* line 153, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 147, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .main-option-diagram-syllable.selected {
   background-color: #fdfdfd;
 }
 
-/* line 157, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 151, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .main-option-diagram-syllable:hover {
   cursor: pointer;
 }
 
-/* line 161, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 155, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .main-option-diagram-segment {
   padding: 0;
 }
 
-/* line 165, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 159, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .main-option-diagram-segment-match {
   color: green;
   padding: 0;
 }
 
-/* line 170, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 164, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .main-option-diagram-segment-antimatch {
   color: red;
   padding: 0;
 }
 
-/* line 175, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 169, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .main-option-diagram-ellipsis {
   display: inline-block;
   padding: 0;
 }
 
-/* line 180, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 174, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .main-option-box-syllable-details {
   padding: 0.5em;
   background-color: whitesmoke;
@@ -372,17 +412,17 @@ input, select {
   margin: 0.5em auto;
 }
 
-/* line 187, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 181, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .main-option-segment-box {
   padding: 0.3em;
 }
 
-/* line 191, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 185, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .query-word-area {
   padding: 1em 0.5em;
 }
 
-/* line 195, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 189, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .query-word-expander-arrow {
   font-size: 2.5em;
   color: whitesmoke;
@@ -392,14 +432,14 @@ input, select {
   padding: 0.6em;
 }
 
-/* line 204, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 198, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .query-word-lexeme {
   text-align: left;
   font-size: 1.5em;
   padding: 0.4em 2em;
 }
 
-/* line 210, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 204, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .syllable-table {
   display: inline-block;
   font-size: 2em;
@@ -407,24 +447,24 @@ input, select {
   white-space: nowrap;
 }
 
-/* line 217, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 211, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .syllable-table td {
   padding: 0.15em;
   text-align: center;
 }
-/* line 221, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 215, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .syllable-table td div {
   width: 100%;
 }
 
-/* line 226, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 220, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .results-list {
   text-align: center;
   margin-bottom: 10em;
   padding-top: 2em;
 }
 
-/* line 232, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 226, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .result-row {
   background-color: whitesmoke;
   padding: 2em 1.5em;
@@ -432,7 +472,7 @@ input, select {
   cursor: pointer;
 }
 
-/* line 239, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 233, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .expanded {
   border-top: solid 1px #afafaf;
   border-bottom: solid 1px #afafaf;
@@ -440,48 +480,48 @@ input, select {
   background-color: #f9f9f9;
 }
 
-/* line 246, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 240, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .expanded.inside {
   max-width: 600px;
   background-color: #fdfdfd;
   margin: 0 auto 0.8em;
-  padding: 1em;
+  padding: 1.5em 1em;
   cursor: default;
 }
 
-/* line 254, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 248, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .result-word-name {
   font-size: 2.5em;
   width: 100%;
   font-weight: 500;
 }
 
-/* line 260, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 254, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .result-word.pronunciation {
   font-size: 2em;
   padding: 0.6em 0em;
 }
 
-/* line 265, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 259, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .result-word-expanded {
   padding: 1em 2em 0.5em;
 }
 
-/* line 269, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 263, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .result-word-lexeme {
   text-align: left;
   font-size: 1.5em;
   padding: 0.4em 0em;
 }
 
-/* line 275, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 269, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .more-results-link {
   font-size: 2.5em;
   width: 100%;
   color: black;
 }
 
-/* line 281, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 275, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .more-results {
   padding: 3em 0;
   position: relative;
@@ -490,12 +530,12 @@ input, select {
   margin-top: 5em;
 }
 
-/* line 290, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 284, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .checkbox input[type=checkbox] {
   visibility: hidden;
 }
 
-/* line 295, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 289, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .checkbox label {
   cursor: pointer;
   position: relative;
@@ -503,7 +543,7 @@ input, select {
   padding-top: 0.2em;
 }
 
-/* line 302, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 296, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .checkbox label::before {
   content: '';
   position: absolute;
@@ -515,7 +555,7 @@ input, select {
   border: solid 1px #afafaf;
 }
 
-/* line 313, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 307, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .checkbox label::after {
   opacity: 0;
   content: '';
@@ -535,9 +575,31 @@ input, select {
   transform: rotate(-50deg);
 }
 
-/* line 332, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+/* line 326, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
 .checkbox input[type=checkbox]:checked + label:after {
   opacity: 1;
+}
+
+/* line 330, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+.preset-segment {
+  display: inline-block;
+  width: 1.86em;
+  height: 1.86em;
+  margin-left: 0.2em;
+  background-color: #ebebeb;
+  border: solid 1px #afafaf;
+  line-height: 1.75em;
+  cursor: pointer;
+}
+
+/* line 341, ../../../../../../Users/robertkerr/Documents/GitHub/anyrhyme/anyrhyme-front/css/modules/_body.scss */
+.preset-segment-null {
+  display: inline-block;
+  width: 1.86em;
+  height: 1.86em;
+  margin-left: 0.2em;
+  line-height: 1.75em;
+  color: #fdfdfd;
 }
 
 @-webkit-keyframes rotate-forever {
