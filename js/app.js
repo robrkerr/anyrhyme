@@ -325,7 +325,8 @@ app.controller("BodyController", function($scope, $document, $timeout, $http, $f
     } else if (i === 2) {
       seg = syllable.coda;
     }
-    return seg.label = "_";
+    seg.label = "_";
+    return runQuery();
   };
   $scope.set_segment_wild = function(i) {
     var seg, syllable;
@@ -338,7 +339,8 @@ app.controller("BodyController", function($scope, $document, $timeout, $http, $f
       seg = syllable.coda;
     }
     seg.label = "*";
-    return seg.match_type = "match";
+    seg.match_type = "match";
+    return runQuery();
   };
   $scope.deselect_match_syllable = function() {
     return $scope.match_syllable_selected = void 0;

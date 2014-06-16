@@ -206,6 +206,7 @@ app.controller "BodyController", ($scope,$document,$timeout,$http,$filter,Query,
 		else if i == 2
 			seg = syllable.coda
 		seg.label = "_"
+		runQuery()
 	$scope.set_segment_wild = (i) ->
 		syllable = $scope.selected_match_syllable()[0]
 		if i == 0
@@ -216,6 +217,7 @@ app.controller "BodyController", ($scope,$document,$timeout,$http,$filter,Query,
 			seg = syllable.coda
 		seg.label = "*"
 		seg.match_type = "match"
+		runQuery()
 	$scope.deselect_match_syllable = () ->
 		$scope.match_syllable_selected = undefined
 	$scope.match_syllable_class = (i) ->
