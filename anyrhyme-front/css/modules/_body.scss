@@ -1,5 +1,6 @@
 input, select {
   border: 1px solid rgba(0,0,0,0.3);
+  border-radius: 0;
 }
 
 .main-banner {
@@ -126,13 +127,6 @@ input, select {
   width: 3.7em;
 }
 
-.main-option-segment-input {
-  width: 40%; 
-  max-width: 7em; 
-  font-size: 1em;
-  padding: 0.2em;
-}
-
 .main-option-diagram-word-syllable {
   display: inline-block; 
   background-color: $light-gray8;
@@ -247,7 +241,7 @@ input, select {
   max-width: 600px;
   background-color: $light-gray1;
   margin: 0 auto 0.8em; 
-  padding: 1em; 
+  padding: 1.5em 1em; 
   cursor: default;
 }
 
@@ -331,4 +325,24 @@ input, select {
 
 .checkbox input[type=checkbox]:checked + label:after {
   opacity: 1;
+}
+
+.preset-segment {
+  display: inline-block;
+  width: 1.86em;
+  height: 1.86em;
+  margin-left: 0.2em;
+  background-color: $light-gray8;
+  border: solid 1px $medium-gray1;
+  line-height: 1.75em; 
+  cursor: pointer;
+}
+
+.preset-segment-null {
+  display: inline-block;
+  width: 1.86em;
+  height: 1.86em;
+  margin-left: 0.2em;
+  line-height: 1.75em; 
+  color: $light-gray1;
 }
