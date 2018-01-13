@@ -24,6 +24,8 @@ GEM
       tzinfo (~> 0.3.29)
     activerecord-import (0.21.0)
       activerecord (>= 3.2)
+    activerecord-postgresql-adapter (0.0.1)
+      pg
     activeresource (3.2.13)
       activemodel (= 3.2.13)
       activesupport (= 3.2.13)
@@ -205,6 +207,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-import
+  activerecord-postgresql-adapter
   capistrano
   capistrano-bundler
   capistrano-rails
