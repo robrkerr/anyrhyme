@@ -1,5 +1,5 @@
 # Change these
-server '127.0.0.1', port: 8080, roles: [:web, :app, :db], primary: true
+server '54.158.85.199', port: 22, roles: [:web, :app, :db], primary: true
 
 set :repo_url,        'git@github.com:robrkerr/anyrhyme.git'
 set :application,     'anyrhyme'
