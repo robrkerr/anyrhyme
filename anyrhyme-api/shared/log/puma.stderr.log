@@ -1,0 +1,17 @@
+=== puma startup: 2018-01-07 10:00:20 +0000 ===
+        SECURITY WARNING: No secret option provided to Rack::Session::Cookie.
+        This poses a security threat. It is strongly recommended that you
+        provide a secret to prevent exploits that may be possible from crafted
+        cookies. This will not be supported in future versions of Rack, and
+        future versions will even invalidate your existing user cookies.
+
+        Called from: /home/ec2-user/.gem/ruby/2.0/gems/actionpack-3.1.0/lib/action_dispatch/middleware/session/abstract_store.rb:28:in `initialize'.
+=== puma startup: 2018-01-07 10:01:21 +0000 ===
+=== puma startup: 2018-01-07 10:02:40 +0000 ===
+        SECURITY WARNING: No secret option provided to Rack::Session::Cookie.
+        This poses a security threat. It is strongly recommended that you
+        provide a secret to prevent exploits that may be possible from crafted
+        cookies. This will not be supported in future versions of Rack, and
+        future versions will even invalidate your existing user cookies.
+
+        Called from: /home/ec2-user/.gem/ruby/2.0/gems/actionpack-3.1.0/lib/action_dispatch/middleware/session/abstract_store.rb:28:in `initialize'.

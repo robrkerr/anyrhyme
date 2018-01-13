@@ -27,8 +27,9 @@ production:
   adapter: postgresql
   database: giftrapped
   pool: 5
-  url: <%= ENV['DATABASE_URL'] %>
+  # url: <%= ENV['DATABASE_URL'] %>
   host: <%= ENV['AWS_DB_HOST'] %>
+  port: 5432
   username: <%= ENV['AWS_DB_USERNAME'] %>
   password: <%= ENV['AWS_DB_PASSWORD'] %>
 

@@ -1,0 +1,25 @@
+---
+pid: 3278
+config: !ruby/object:Puma::Configuration
+  options:
+    :min_threads: 1
+    :max_threads: 6
+    :quiet: false
+    :debug: false
+    :binds:
+    - unix:///home/ec2-user/anyrhyme/anyrhyme-api/shared/sockets/puma.sock
+    :workers: 1
+    :daemon: false
+    :worker_directory: /home/ec2-user/anyrhyme/anyrhyme-api
+    :config_file: /home/ec2-user/anyrhyme/anyrhyme-api/config/puma.rb
+    :mode: :http
+    :worker_timeout: 60
+    :environment: production
+    :redirect_stdout: /home/ec2-user/anyrhyme/anyrhyme-api/shared/log/puma.stdout.log
+    :redirect_stderr: /home/ec2-user/anyrhyme/anyrhyme-api/shared/log/puma.stderr.log
+    :redirect_append: true
+    :pidfile: /home/ec2-user/anyrhyme/anyrhyme-api/shared/pids/puma.pid
+    :state: /home/ec2-user/anyrhyme/anyrhyme-api/shared/pids/puma.state
+    :control_url: unix:///tmp/puma-status-1515319360150-3278
+    :control_url_temp: /tmp/puma-status-1515319360150-3278
+    :control_auth_token: ca38aabdfbe1963abfdf7e229c22ea
