@@ -10,13 +10,12 @@ class WordMatcher
 		if (offset==false) || (offset < 0)
 			offset = 0
 		end
-		syllable_table = defined ? "defined_syllables" : "syllables"
 		Word.find_by_sql(<<-SQL)
 			SELECT words.* 
 			FROM words
 			INNER JOIN
 				( SELECT spelling_word_id 
-					FROM #{syllable_table} 
+					FROM syllables 
 					WHERE #{where_string} 
 					GROUP BY spelling_word_id 
 					HAVING count(1) = #{number_to_match} 
@@ -25,6 +24,7 @@ class WordMatcher
 					OFFSET #{offset}
 				) AS matches
 			  ON matches.spelling_word_id = words.spelling_word_id
+                        #{defined ? "WHERE words.lexeme_string <> '[]'" : ""}
 		SQL
 	end
 

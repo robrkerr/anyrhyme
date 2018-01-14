@@ -28,7 +28,7 @@ production:
   database: giftrapped
   pool: 5
   # url: <%= ENV['DATABASE_URL'] %>
-  host: <%= ENV['AWS_DB_HOST'] %>
+  host: 127.0.0.1
   port: 5432
   username: <%= ENV['AWS_DB_USERNAME'] %>
   password: <%= ENV['AWS_DB_PASSWORD'] %>

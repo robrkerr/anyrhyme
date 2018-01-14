@@ -1,14 +1,15 @@
 source 'http://rubygems.org'
 # source 'http://rubygems.railscamp.org'
 
-gem 'rails', '3.2.13'
+gem 'rails', '~> 3.2.13'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
-gem 'pg'
+gem 'pg', '~> 0.20.0'
 gem 'activerecord-import'
 # gem 'activerecord-postgres-array'
+# gem 'activerecord-postgresql-adapter'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -31,13 +32,13 @@ gem 'puma'
 gem 'newrelic_rpm'
 
 # Deploy with Capistrano
-group :development do
-    gem 'capistrano',         require: false
-    gem 'capistrano-rvm',     require: false
-    gem 'capistrano-rails',   require: false
-    gem 'capistrano-bundler', require: false
-    gem 'capistrano3-puma',   require: false
-end
+#group :development do
+#    gem 'capistrano',         require: false
+#    gem 'capistrano-rvm',     require: false
+#    gem 'capistrano-rails',   require: false
+#    gem 'capistrano-bundler', require: false
+#    gem 'capistrano3-puma',   require: false
+#end
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
@@ -47,7 +48,7 @@ end
 # end
 
 group :test, :development do
-  gem 'rspec-rails', '~> 2.5'
+  gem 'rspec-rails'#, '~> 2.5'
 end
 
 group :test do

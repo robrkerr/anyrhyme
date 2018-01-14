@@ -4,3 +4,8 @@ log/*.log
 tmp/
 .sass-cache/
 /data/word_batch*
+.env
+/shared/log
+/shared/sockets
+/shared/pids
+/public/assets
